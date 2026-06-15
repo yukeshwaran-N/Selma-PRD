@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selma — Full Platform Flow v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F5F0;
+  --ink:#1B2A2F;
+  --teal:#2F6B5E;
+  --teal-soft:#E3EFE9;
+  --amber:#D98B3F;
+  --amber-soft:#FBE9D4;
+  --rose:#C25B4A;
+  --rose-soft:#F8E4DF;
+  --line:#D8D3C7;
+  --card:#FFFFFF;
+  --muted:#6E7C7A;
+  --purple:#5B3FA0;
+  --purple-soft:#EDE8FA;
+  --cancel:#8B2020;
+  --cancel-soft:#FCE8E8;
+  --overtime:#C27A20;
+  --overtime-soft:#FDF0DC;
+  --contract:#1A5E6E;
+  --contract-soft:#DFF0F4;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:'Source Serif 4',Georgia,serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.55;
+}
+.ui{font-family:'Space Grotesk',sans-serif;}
+
+
+
+/* ── HERO ───────────────────────────────────── */
+header.hero{
+  padding:64px 24px 48px;
+  max-width:1140px;
+  margin:0 auto;
+  border-bottom:1px solid var(--line);
+}
+.eyebrow{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--teal);
+  font-weight:700;
+  margin-bottom:14px;
+}
+h1{
+  font-size:clamp(34px,5.5vw,62px);
+  margin:0 0 16px;
+  font-weight:700;
+  letter-spacing:-0.015em;
+  max-width:16ch;
+  line-height:1.1;
+}
+.lede{
+  font-size:18px;
+  color:var(--muted);
+  max-width:52ch;
+  margin:0 0 28px;
+}
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+}
+.legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 12px;
+  border-radius:999px;
+  background:var(--card);
+  border:1px solid var(--line);
+  font-weight:500;
+}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot.hospital{background:#3B6FA0;}
+.dot.home{background:var(--teal);}
+.dot.nurse{background:var(--amber);}
+.dot.selma{background:var(--rose);}
+
+/* ── VERSION BADGE ───────────────────────────── */
+.version-strip{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding:12px 24px;
+  max-width:1140px;
+  margin:0 auto;
+  border-bottom:1px solid var(--line);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+}
+.vbadge{
+  padding:4px 10px;border-radius:5px;font-weight:600;font-size:11px;
+}
+.vbadge.new{background:var(--amber-soft);color:#7a4a10;}
+.vbadge.cancel{background:var(--cancel-soft);color:var(--cancel);}
+.vbadge.overtime{background:var(--overtime-soft);color:var(--overtime);}
+.vbadge.contract{background:var(--contract-soft);color:var(--contract);}
+.version-strip span{color:var(--muted);}
+
+/* ── NAV ─────────────────────────────────────── */
+nav.phasebar{
+  max-width:1140px;
+  margin:0 auto;
+  padding:14px 24px;
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  position:sticky;
+  top:0;
+  background:var(--paper);
+  z-index:50;
+  border-bottom:1px solid var(--line);
+}
+nav.phasebar a{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+  font-weight:600;
+  color:var(--muted);
+  text-decoration:none;
+  padding:7px 13px;
+  border-radius:999px;
+  border:1px solid transparent;
+  white-space:nowrap;
+  transition:all .15s ease;
+}
+nav.phasebar a:hover,nav.phasebar a.active{
+  color:var(--ink);
+  border-color:var(--line);
+  background:var(--card);
+}
+nav.phasebar a.active{color:var(--ink);font-weight:700;}
+
+/* ── MAIN LAYOUT ─────────────────────────────── */
+main{max-width:1140px;margin:0 auto;padding:0 24px 100px;}
+
+section.phase{
+  padding:56px 0;
+  border-bottom:1px solid var(--line);
+  scroll-margin-top:72px;
+}
+section.phase:last-child{border-bottom:none;}
+
+.phase-head{
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+.phase-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--teal);
+  border:1.5px solid var(--teal);
+  border-radius:999px;
+  padding:3px 11px;
+  flex-shrink:0;
+}
+.phase-title{
+  font-size:clamp(22px,3vw,32px);
+  font-weight:700;
+  margin:0;
+  letter-spacing:-0.01em;
+}
+.phase-sub{
+  color:var(--muted);
+  max-width:66ch;
+  margin:6px 0 26px;
+  font-size:16.5px;
+}
+
+/* ── SECTION BADGES INSIDE PHASE ─────────────── */
+.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px;}
+.ptag{
+  font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;
+  padding:3px 9px;border-radius:5px;letter-spacing:.04em;text-transform:uppercase;
+}
+.ptag-new{background:var(--amber-soft);color:#7a4a10;}
+.ptag-cancel{background:var(--cancel-soft);color:var(--cancel);}
+.ptag-overtime{background:var(--overtime-soft);color:var(--overtime);}
+.ptag-contract{background:var(--contract-soft);color:var(--contract);}
+
+/* ── LANES ───────────────────────────────────── */
+.lanes{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+@media(max-width:980px){.lanes{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.lanes{grid-template-columns:1fr;}}
+
+.lane{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.lane-head{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:11px 16px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.lane.hospital .lane-head{background:#3B6FA0;}
+.lane.home .lane-head{background:var(--teal);}
+.lane.nurse .lane-head{background:var(--amber);}
+.lane.selma .lane-head{background:var(--rose);}
+
+.lane-body{
+  padding:14px 16px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  flex:1;
+}
+.step{
+  border-left:3px solid var(--line);
+  padding-left:12px;
+}
+.lane.hospital .step{border-color:#c5daea;}
+.lane.home .step{border-color:var(--teal-soft);}
+.lane.nurse .step{border-color:var(--amber-soft);}
+.lane.selma .step{border-color:var(--rose-soft);}
+
+.step h4{
+  margin:0 0 3px;
+  font-size:15px;
+  font-weight:700;
+  font-family:'Space Grotesk',sans-serif;
+  line-height:1.3;
+}
+.step p{
+  margin:0;
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.step.empty h4{color:#A8B0AC;font-weight:600;}
+.step.empty p{color:#B8C0BC;}
+.step.empty{border-color:var(--line);}
+
+/* ── INLINE FLAGS ────────────────────────────── */
+.flag{
+  display:inline-block;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:2px 8px;
+  border-radius:5px;
+  margin-bottom:5px;
+}
+.flag.rule{background:var(--rose-soft);color:#8a3324;}
+.flag.cancel{background:var(--cancel-soft);color:var(--cancel);}
+.flag.overtime{background:var(--overtime-soft);color:var(--overtime);}
+.flag.contract{background:var(--contract-soft);color:var(--contract);}
+.flag.new{background:var(--amber-soft);color:#7a4a10;}
+
+/* ── CANCELLATION CALLOUT ────────────────────── */
+.cancel-box{
+  background:var(--cancel-soft);
+  border:1px solid #e8b8b8;
+  border-left:4px solid var(--cancel);
+  border-radius:10px;
+  padding:14px 18px;
+  margin-bottom:14px;
+  font-size:14px;
+}
+.cancel-box strong{
+  display:block;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--cancel);
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.cancel-box ul{margin:0;padding:0 0 0 16px;color:#6b3030;}
+.cancel-box ul li{margin-bottom:4px;}
+
+/* ── OVERTIME CALLOUT ────────────────────────── */
+.overtime-box{
+  background:var(--overtime-soft);
+  border:1px solid #e8d0a0;
+  border-left:4px solid var(--overtime);
+  border-radius:10px;
+  padding:14px 18px;
+  margin-bottom:14px;
+  font-size:14px;
+}
+.overtime-box strong{
+  display:block;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--overtime);
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.overtime-box ul{margin:0;padding:0 0 0 16px;color:#6b4a10;}
+.overtime-box ul li{margin-bottom:4px;}
+
+/* ── CONTRACT BOX ────────────────────────────── */
+.contract-box{
+  background:var(--contract-soft);
+  border:1px solid #a8d8e0;
+  border-left:4px solid var(--contract);
+  border-radius:10px;
+  padding:14px 18px;
+  margin-bottom:20px;
+  font-size:14px;
+}
+.contract-box strong{
+  display:block;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--contract);
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.contract-box p{margin:0;color:#1a4050;line-height:1.55;}
+
+/* ── PAYFLOW ─────────────────────────────────── */
+.payflow{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:8px 0 32px;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  font-size:15px;
+}
+.payflow .node{
+  padding:10px 18px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--card);
+}
+.payflow .node.selma{border-color:var(--rose);color:var(--rose);}
+.payflow .arrow{color:var(--muted);font-size:18px;}
+.payflow .label{
+  font-family:'Source Serif 4',serif;
+  font-weight:400;
+  font-size:13px;
+  color:var(--muted);
+  width:100%;
+  text-align:center;
+  margin-top:-4px;
+}
+
+/* ── QUESTIONS SECTION ───────────────────────── */
+.questions-section{
+  background:var(--ink);
+  color:#F0EDE8;
+  border-radius:16px;
+  padding:40px;
+  margin-top:20px;
+}
+.questions-section h2{
+  font-size:clamp(22px,3vw,30px);
+  font-weight:700;
+  margin:0 0 8px;
+  color:#fff;
+  letter-spacing:-0.01em;
+}
+.questions-section .qs-sub{
+  font-size:15px;
+  color:#9AAAA8;
+  margin:0 0 32px;
+  max-width:58ch;
+}
+.q-group{margin-bottom:32px;}
+.q-group-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#9AAAA8;
+  margin-bottom:14px;
+  padding-bottom:8px;
+  border-bottom:1px solid #2E3E42;
+}
+.q-card{
+  background:#243035;
+  border:1px solid #2E3E42;
+  border-radius:10px;
+  padding:16px 18px;
+  margin-bottom:10px;
+  display:flex;
+  gap:14px;
+}
+.q-card:last-child{margin-bottom:0;}
+.q-id{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  color:#9AAAA8;
+  flex-shrink:0;
+  min-width:48px;
+  padding-top:2px;
+}
+.q-body{}
+.q-text{
+  font-size:14.5px;
+  line-height:1.6;
+  color:#E8E4DE;
+  margin:0 0 8px;
+}
+.q-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.q-pri{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;
+  font-weight:700;
+  padding:2px 7px;
+  border-radius:4px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.q-pri.high{background:#4a1a1a;color:#F09090;}
+.q-pri.med{background:#3a3010;color:#E0C060;}
+.q-tag{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;
+  padding:2px 7px;
+  border-radius:4px;
+  background:#2E3E42;
+  color:#9AAAA8;
+  font-weight:500;
+}
+.q-tag.new{background:#3a2a10;color:#C8900A;}
+.q-answer-line{
+  border-top:1px solid #2E3E42;
+  margin-top:12px;
+  padding-top:10px;
+  font-size:12px;
+  color:#9AAAA8;
+  font-family:'Space Grotesk',sans-serif;
+}
+.q-answer-blank{
+  display:inline-block;
+  width:100%;
+  border-bottom:1px dashed #3a4e52;
+  height:18px;
+  margin-top:4px;
+}
+
+/* ── FOOTER ──────────────────────────────────── */
+footer{
+  max-width:1140px;
+  margin:0 auto;
+  padding:36px 24px 60px;
+  color:var(--muted);
+  font-size:13.5px;
+  border-top:1px solid var(--line);
+  font-family:'Space Grotesk',sans-serif;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+footer strong{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<button id="lang-toggle" onclick="toggleLanguage()" class="ui" style="position:fixed; top:24px; right:24px; z-index:9999; padding:6px 12px; background:#2F6B5E; color:#fff; border:none; border-radius:4px; font-weight:bold; cursor:pointer; font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,0.15); transition:all 0.2s;">🇩🇪 DE</button>
+
+<script>
+const translations = {"Can see assigned shifts. \"Check In\" button generates their QR on demand. Navigation links to hospitals are live.": "Kann zugewiesene Schichten sehen. Die Schaltfläche „Einchecken“ generiert ihren QR bei Bedarf. Navigationslinks zu Krankenhäusern sind live.", "Phase 10": "Phase 10", "Any hospital-approved overtime is included in billable total.": "Alle vom Krankenhaus genehmigten Überstunden sind im abrechnungsfähigen Gesamtbetrag enthalten.", "Closer and better-rated homes rank higher.": "Näher gelegene und besser bewertete Häuser haben einen höheren Rang.", "Per nurse, before any assignment can be confirmed.": "Pro Krankenschwester, bevor ein Auftrag bestätigt werden kann.", "No action required otherwise": "Ansonsten ist keine Aktion erforderlich", "How overtime is handled": "Wie mit Überstunden umgegangen wird", "Rank by proximity + rating": "Rang nach Nähe + Bewertung", "Log posting timestamp": "Zeitstempel der Protokollveröffentlichung", "Tracks the time-limited window for the chosen home.": "Verfolgt das zeitlich begrenzte Fenster für das ausgewählte Zuhause.", "Email from Selma with a unique setup link — sent only after contract is countersigned.": "E-Mail von Selma mit einem eindeutigen Einrichtungslink – wird erst nach Gegenzeichnung des Vertrags gesendet.", "Business registration (Handelsregistereintrag) and public liability insurance certificate.": "Gewerbeanmeldung (Handelsregistereintrag) und Bescheinigung über die Haftpflichtversicherung.", "Which QR scanning direction is preferred? ": "Welche QR-Scanrichtung wird bevorzugt?", "8 · Check-out": "8 · Auschecken", "Awaiting Selma approval": "Warten auf die Genehmigung von Selma", "Prepared by ": "Hergestellt von", "Hospital agrees to the rate structure and payment terms. Signs the DPA as a data recipient. Returns signed contract to Selma.": "Das Krankenhaus stimmt der Tarifstruktur und den Zahlungsbedingungen zu. Unterschreibt die DPA als Datenempfänger. Gibt den unterschriebenen Vertrag an Selma zurück.", "If a nurse individually withdraws from an assigned shift without enough notice, what is the nursing home's obligation? Must they replace the nurse, notify the hospital within a set time window, or is there a standard fallback process? Who decides what \"enough notice\" means?": "Welche Verpflichtung hat das Pflegeheim, wenn sich eine Pflegekraft einzeln und ohne rechtzeitige Vorankündigung aus einer zugewiesenen Schicht zurückzieht? Müssen sie die Krankenschwester ersetzen, das Krankenhaus innerhalb eines festgelegten Zeitfensters benachrichtigen, oder gibt es einen Standard-Fallback-Prozess? Wer entscheidet, was „ausreichende Vorankündigung“ bedeutet?", "System checks nurse eligibility": "Das System prüft die Eignung einer Krankenschwester", "Overtime & extra time handling": "Bearbeitung von Überstunden und Überstunden", "If the recorded hours are wrong, the home flags it to Selma within 48 hours.": "Wenn die erfassten Stunden falsch sind, meldet das Heim dies Selma innerhalb von 48 Stunden.", "\"New shift assigned — St. Mary's Hospital, 14 Jun, 07:00–15:00\"": "„Neue Schicht zugewiesen – St. Mary's Hospital, 14. Juni, 07:00–15:00“", "QR decoded by hospital portal": "QR vom Krankenhausportal entschlüsselt", "Funds held before disbursing to homes.": "Vor der Auszahlung an Haushalte gehaltene Mittel.", "\"The hospital has ended this shift early. Please check out now.\" Check-out button becomes active immediately.": "„Das Krankenhaus hat diese Schicht vorzeitig beendet. Bitte schauen Sie jetzt vorbei.“ Der Checkout-Button wird sofort aktiv.", "Ward, shift type (day / night / weekend), start and end datetime, headcount required, specialisation, urgency flag.": "Station, Schichttyp (Tag/Nacht/Wochenende), Start- und Enddatum, erforderliche Personalzahl, Spezialisierung, Dringlichkeitskennzeichen.", "Selma countersigns": "Selma unterschreibt", "Account locked — cannot post jobs until Selma has verified and approved the documents.": "Konto gesperrt – Stellen können erst veröffentlicht werden, wenn Selma die Dokumente überprüft und genehmigt hat.", "Nurse contacts their nursing home admin directly — not through the app. Home is responsible for finding a replacement.": "Die Pflegekraft nimmt direkt Kontakt mit der Verwaltung ihres Pflegeheims auf – nicht über die App. Für die Ersatzbeschaffung ist Home verantwortlich.", "Portal shows each nurse as \"Active\" with a running timer for their shift.": "Das Portal zeigt jede Krankenschwester als „Aktiv“ mit einem laufenden Timer für ihre Schicht an.", "\"Your shift starts in 2 hours. Don't forget to check in on arrival.\"": "„Ihre Schicht beginnt in 2 Stunden. Vergessen Sie nicht, bei Ihrer Ankunft einzuchecken.“", "As required by GDPR Article 28. Selma acts as data processor; hospitals and nursing homes are data controllers.": "Gemäß DSGVO Artikel 28. Selma fungiert als Datenverarbeiter; Krankenhäuser und Pflegeheime sind Datenverantwortliche.", "Initial enquiry to Selma": "Erste Anfrage an Selma", "Each nurse checked against the 11-hour rest rule and double-booking before they can be assigned.": "Jede Krankenschwester überprüfte die 11-Stunden-Ruhezeitregel und die Doppelbuchung, bevor sie zugewiesen werden konnte.", "QR flow": "QR-Fluss", "9 · Payment": "9 · Zahlung", "Questions marked NEW were raised after the alignment meeting based on this flow. All HIGH-priority answers are needed before database design begins.": "Auf der Grundlage dieses Ablaufs wurden nach der Ausrichtungsbesprechung mit „NEU“ gekennzeichnete Fragen gestellt. Alle Antworten mit HOHER Priorität sind erforderlich, bevor mit dem Datenbankentwurf begonnen wird.", "Matching logic": "Matching-Logik", "Phase 9": "Phase 9", "Over 6 hrs → deduct 30 min": "Über 6 Stunden → 30 Minuten abziehen", "If hospital withdraws before going live": "Wenn sich das Krankenhaus vor Inbetriebnahme zurückzieht", "Shift history as payslip reference": "Schichthistorie als Lohnabrechnungsreferenz", "Nursing home admin decides who goes.": "Die Verwaltung des Pflegeheims entscheidet, wer geht.", "Blocks: Nurse withdrawal flow": "Blöcke: Entzugsfluss der Krankenschwester", "1–5 stars across: Punctuality, Clinical skill, Communication, and Professionalism — within 48 hours of shift end.": "1–5 Sterne: Pünktlichkeit, klinische Kompetenz, Kommunikation und Professionalität – innerhalb von 48 Stunden nach Schichtende.", "Nursing home portal shows the active deployment status and elapsed time.": "Das Pflegeheimportal zeigt den aktiven Einsatzstatus und die verstrichene Zeit an.", "Blocks: Early termination billing": "Sperren: Abrechnung bei vorzeitiger Beendigung", "1 · Contract": "1 · Vertrag", "Immutable record of when the job went live.": "Unveränderliche Aufzeichnung darüber, wann der Job live ging.", "Sets up nursing home portal login and contact preferences.": "Richtet Anmelde- und Kontakteinstellungen für das Pflegeheimportal ein.", "Shift summary shown": "Schichtzusammenfassung angezeigt", "Only Selma admin sees all ratings from both directions.": "Nur der Selma-Administrator sieht alle Bewertungen aus beiden Richtungen.", "Phase 3": "Phase 3", "If hospital defaults on payment": "Bei Zahlungsverzug des Krankenhauses", "Correct nurse · Correct shift · Correct hospital · Within valid time window · Not already checked in.": "Richtige Krankenschwester · Richtige Schicht · Richtiges Krankenhaus · Innerhalb des gültigen Zeitfensters · Noch nicht eingecheckt.", "Phase 5": "Phase 5", "Raise a complaint to Selma within 48 hours if there was a serious problem with the deployment.": "Reichen Sie innerhalb von 48 Stunden eine Beschwerde bei Selma ein, wenn bei der Bereitstellung ein ernstes Problem aufgetreten ist.", "Hospital cancels &lt;24 hrs before shift:": "Krankenhaus sagt <24 Stunden vor Schichtbeginn ab:", "Nursing home": "Pflegeheim", "Only homes with nurses matching the required qualification.": "Nur Heime mit Pflegekräften, die der erforderlichen Qualifikation entsprechen.", "Send 24-hr and 2-hr reminders": "Senden Sie 24-Stunden- und 2-Stunden-Erinnerungen", "Individual nurse GDPR consent is obtained at onboarding (Phase 2), not at contract stage.": "Die DSGVO-Einwilligung einzelner Pflegekräfte wird beim Onboarding (Phase 2) eingeholt, nicht in der Vertragsphase.", "Pulls in every completed, immutable shift from the billing period.": "Zieht jede abgeschlossene, unveränderliche Schicht aus dem Abrechnungszeitraum ein.", "Track shift duration in real time": "Verfolgen Sie die Schichtdauer in Echtzeit", "Betriebserlaubnis, AÜG licence (with expiry date), liability insurance.": "Betriebserlaubnis, AÜG-Lizenz (mit Ablaufdatum), Haftpflichtversicherung.", "Selma admin is alerted. Hospital is offered the next available home. Penalty is deducted from the home's next payout.": "Der Selma-Administrator ist alarmiert. Dem Krankenhaus wird das nächste verfügbare Zuhause angeboten. Die Strafe wird von der nächsten Auszahlung des Heims abgezogen.", "Sent only after contract countersigning.": "Versand erfolgt erst nach Vertragsgegenzeichnung.", "Legal — Germany": "Rechtlich – Deutschland", "Trigger overtime prompt at shift end": "Lösen Sie am Ende der Schicht eine Überstundenaufforderung aus", "Penalty amounts are derived from the contract terms on file. Applied automatically to the relevant billing cycle.": "Die Höhe der Vertragsstrafe ergibt sich aus den vorliegenden Vertragsbedingungen. Wird automatisch auf den jeweiligen Abrechnungszeitraum angewendet.", "Post published": "Beitrag veröffentlicht", "Rates the nursing home": "Bewertet das Pflegeheim", "Nurse sees completed shifts in history but no rating data is shown anywhere in the app.": "Die Krankenschwester sieht abgeschlossene Schichten im Verlauf, aber es werden nirgendwo in der App Bewertungsdaten angezeigt.", "Account approved — platform live": "Konto genehmigt – Plattform live", "Overtime hours added if approved": "Bei Genehmigung werden Überstunden hinzugefügt", "Open Qs": "Öffnen Sie Qs", "Selma sends individual feedback outside the app — via email or a separate feedback form.": "Selma sendet individuelles Feedback außerhalb der App – per E-Mail oder über ein separates Feedback-Formular.", "If the home must cancel at this stage, Selma admin is immediately notified and the maximum penalty is applied.": "Wenn das Heim zu diesem Zeitpunkt stornieren muss, wird der Selma-Administrator sofort benachrichtigt und die Höchststrafe verhängt.", "App shows a checkout QR code (same mechanism as check-in). Nurse shows it to hospital reception who scans it to confirm departure — or the hospital admin confirms checkout directly from the portal.": "Die App zeigt einen Checkout-QR-Code an (gleicher Mechanismus wie beim Check-in). Die Krankenschwester zeigt es der Rezeption des Krankenhauses, die es scannt, um die Abreise zu bestätigen – oder die Krankenhausverwaltung bestätigt den Checkout direkt über das Portal.", "Contract setup with Selma": "Vertragsaufbau mit Selma", "Raise a dispute within 48 hours": "Erheben Sie innerhalb von 48 Stunden einen Streitfall", "ArbZG-mandated break deduction.": "ArbZG-vorgeschriebener Pausenabzug.", "Monitor for late cancellations": "Auf verspätete Stornierungen achten", "Contract signed — now everyone gets their platform accounts. Selma verifies documents, approves accounts, and nurses are registered by their nursing home before getting their own app access.": "Vertrag unterzeichnet – jetzt bekommt jeder seinen Plattform-Account. Selma überprüft Dokumente, genehmigt Konten und Pflegekräfte werden von ihrem Pflegeheim registriert, bevor sie ihren eigenen App-Zugriff erhalten.", "Hospital posts a job": "Krankenhaus veröffentlicht einen Job", "What happens if a hospital or nursing home wants to terminate their contract mid-deployment — i.e. while nurses are actively working shifts? Is there a minimum notice period, and who is responsible for fulfilling open shifts during the exit window?": "Was passiert, wenn ein Krankenhaus oder Pflegeheim seinen Vertrag mitten im Einsatz – also während die Pflegekräfte aktiv im Schichtdienst arbeiten – kündigen möchte? Gibt es eine Mindestkündigungsfrist und wer ist für die Besetzung offener Schichten während des Ausstiegsfensters verantwortlich?", "Cannot see how they were rated": "Die Bewertung kann nicht angezeigt werden", "Notify all parties": "Benachrichtigen Sie alle Parteien", "Hospital": "Krankenhaus", "Manual punch-in fallback": "Manueller Punch-In-Fallback", "QR architecture": "QR-Architektur", "Billable = raw + overtime − deduction": "Abrechenbar = Roh + Überstunden − Abzug", "Three actors. Nine phases. One shift. This walkthrough traces every step from Selma's first contract with a hospital or nursing home, through onboarding, job posting, matching, check-in, check-out, and payment — including every cancellation and overtime scenario.": "Drei Schauspieler. Neun Phasen. Eine Schicht. Diese exemplarische Vorgehensweise verfolgt jeden Schritt von Selmas erstem Vertrag mit einem Krankenhaus oder Pflegeheim über das Onboarding, die Stellenausschreibung, die Zuordnung, den Check-in, den Check-out und die Bezahlung – einschließlich aller Stornierungs- und Überstundenszenarien.", "Nurse": "Krankenschwester", "Sees hospital name, ward, shift time, and a \"Get directions\" button that opens the device's native maps app.": "Sieht den Namen des Krankenhauses, die Station, die Schichtzeit und eine Schaltfläche „Wegbeschreibung“, die die native Karten-App des Geräts öffnet.", "Covers all assigned nurses for this shift.": "Deckt alle für diese Schicht zugewiesenen Krankenschwestern ab.", "Bank transfer to Selma's account — no direct financial contact with nursing homes.": "Überweisung auf Selmas Konto – kein direkter finanzieller Kontakt mit Pflegeheimen.", "Does Selma issue a separate Data Processing Agreement (DPA) to each hospital and nursing home — or is it embedded within the main service contract? Who acts as Data Controller and who is the Processor under GDPR?": "Stellt Selma für jedes Krankenhaus und Pflegeheim eine separate Datenverarbeitungsvereinbarung (DPA) aus – oder ist diese in den Hauptdienstleistungsvertrag eingebettet? Wer fungiert als Datenverantwortlicher und wer ist der Auftragsverarbeiter im Sinne der DSGVO?", "Receive hospital payment": "Krankenhauszahlung erhalten", "Once a home has accepted, cancellation rules from Phase 4 apply.": "Sobald ein Haus angenommen hat, gelten die Stornierungsregeln aus Phase 4.", "Nursing home cancellation within 24 hours is treated as a serious breach — Selma admin is alerted and the home's matching ranking is temporarily reduced.": "Eine Stornierung des Pflegeheims innerhalb von 24 Stunden wird als schwerwiegender Verstoß gewertet – der Selma-Administrator wird alarmiert und der Matching-Rang des Heims wird vorübergehend herabgesetzt.", "What percentage or flat fee does Selma deduct as platform commission before paying the nursing home? Is this fixed across all homes or negotiated per contract?": "Welchen Prozentsatz bzw. welche Pauschalgebühr zieht Selma als Plattformprovision ab, bevor sie das Pflegeheim bezahlt? Ist dies für alle Häuser festgelegt oder wird es vertraglich ausgehandelt?", "Overtime scenario": "Überstundenszenario", "\"Reminder: shift at St. Mary's Hospital tomorrow at 07:00.\"": "„Erinnerung: Schicht im St. Mary's Hospital morgen um 07:00 Uhr.“", "Receives job offer": "Erhält ein Stellenangebot", "Selma platform — matching engine": "Selma-Plattform – passende Engine", "Accepts the job": "Nimmt den Job an", "Can raise a dispute": "Kann einen Streit anstoßen", "Issues DPA to both parties": "Erteilt DPA an beide Parteien", "Blocks: ArbZG + nurse UX": "Blöcke: ArbZG + Krankenschwester UX", " · info@prasklatechnology.com": "· info@prasklatechnology.com", "Cancellation penalties (from Phase 4 or 5) are deducted before the home receives their disbursement. Itemised in payout statement.": "Stornogebühren (aus Phase 4 oder 5) werden abgezogen, bevor das Heim die Auszahlung erhält. In der Auszahlungsabrechnung aufgeführt.", "Nurses notified via push immediately.": "Krankenschwestern werden sofort per Push benachrichtigt.", "Used if the nurse's phone is dead or broken. Admin enters the nurse's platform ID manually. Creates a flagged audit record — both hospital and nursing home must confirm this entry.": "Wird verwendet, wenn das Telefon der Krankenschwester tot oder kaputt ist. Der Administrator gibt die Plattform-ID der Krankenschwester manuell ein. Erstellt einen markierten Prüfdatensatz – sowohl das Krankenhaus als auch das Pflegeheim müssen diesen Eintrag bestätigen.", "Notified of overtime": "Überstunden benachrichtigt", "Status: Assigned. Hospital address and directions link visible.": "Status: Zugewiesen. Link zur Krankenhausadresse und Wegbeschreibung sichtbar.", "Read-only — no edits possible. Dispute window opens for 48 hours.": "Schreibgeschützt – keine Änderungen möglich. Das Streitfallfenster öffnet sich für 48 Stunden.", "Penalty deducted from payout": "Strafe von der Auszahlung abgezogen", "Low-rated homes deprioritised": "Niedrig bewertete Häuser werden priorisiert", "Sets commission rate, billing cycle, penalty thresholds, and notification preferences for this client before onboarding begins.": "Legt den Provisionssatz, den Abrechnungszeitraum, die Strafschwellen und die Benachrichtigungseinstellungen für diesen Kunden fest, bevor das Onboarding beginnt.", "Receives all ratings — both directions": "Erhält alle Bewertungen – beide Richtungen", "Every event timestamped and recorded for ArbZG compliance audit trail.": "Jedes Ereignis wird mit einem Zeitstempel versehen und für den ArbZG-Compliance-Audit-Trail aufgezeichnet.", "Phase 6": "Phase 6", "Creates each nurse profile: full name, unique platform ID, specialisation, phone number. Nurse receives invite link to set their own password.": "Erstellt jedes Pflegepersonalprofil: vollständiger Name, eindeutige Plattform-ID, Spezialisierung, Telefonnummer. Die Krankenschwester erhält einen Einladungslink, um ihr eigenes Passwort festzulegen.", "If shift ends early": "Wenn die Schicht früher endet", "Picks eligible nurses from the list — names confirmed to the hospital.": "Wählt geeignete Pflegekräfte aus der Liste aus – Namen werden dem Krankenhaus bestätigt.", "Dashboard flags upcoming renewals 30 and 60 days in advance. Account can be blocked if documents lapse.": "Das Dashboard markiert bevorstehende Verlängerungen 30 und 60 Tage im Voraus. Bei Verfall der Dokumente kann das Konto gesperrt werden.", "Job moves to next home": "Job zieht in die nächste Wohnung", "Shows QR to hospital reception": "Zeigt QR zur Krankenhausrezeption", "Rates the hospital": "Bewertet das Krankenhaus", "From contract to paycheck — the full picture": "Vom Vertrag bis zum Gehaltsscheck – das ganze Bild", " Home is liable for a breach penalty. Hospital is auto-offered the next available home in the list. Selma admin is alerted.": "Home haftet für eine Vertragsstrafe. Dem Krankenhaus wird automatisch das nächste verfügbare Zuhause in der Liste angeboten. Der Selma-Administrator ist alarmiert.", "Phase 7": "Phase 7", "5 · Pre-shift": "5 · Vorschicht", "Phase 2": "Phase 2", "Should the platform show a full cancellation history log to each party — i.e. can a hospital see how many times a nursing home has cancelled in the past 90 days? Or is this data visible only to Selma admin?": "Sollte die Plattform jeder Partei ein vollständiges Stornierungsprotokoll anzeigen – kann ein Krankenhaus also sehen, wie oft ein Pflegeheim in den letzten 90 Tagen storniert hat? Oder sind diese Daten nur für den Selma-Administrator sichtbar?", "Optional: request specific nurse": "Optional: Spezifische Krankenschwester anfordern", "The most critical moment of the whole flow. The nurse presents their Selma QR on their phone — hospital reception validates it. Every failure path — dead battery, wrong code, outside time window — has a defined resolution. The check-in timestamp is the foundation of the billing record.": "Der kritischste Moment des gesamten Flusses. Die Krankenschwester präsentiert ihr Selma QR auf ihrem Telefon – der Empfang im Krankenhaus bestätigt es. Für jeden Fehlerpfad – leere Batterie, falscher Code, außerhalb des Zeitfensters – gibt es eine definierte Lösung. Der Check-in-Zeitstempel ist die Grundlage des Abrechnungsdatensatzes.", "Generate HGB-compliant reports": "Erstellen Sie HGB-konforme Berichte", "Annual contract review": "Jährliche Vertragsüberprüfung", "Cancellation after acceptance": "Stornierung nach Annahme", "Record locked as immutable": "Datensatz als unveränderlich gesperrt", "7 · Active shift": "7 · Aktive Schicht", "Hospital contacts Selma expressing interest. Sales or ops team at Selma initiates the process.": "Das Krankenhaus kontaktiert Selma und bekundet Interesse. Das Vertriebs- oder Betriebsteam bei Selma leitet den Prozess ein.", "10 · Ratings": "10 · Bewertungen", "Verifies nursing home documents": "Überprüft Pflegeheimdokumente", "Pays nurses independently": "Bezahlt Pflegekräfte selbstständig", " Nursing home must replace the nurse immediately or notify the hospital within 2 hours. If unable to replace, home is liable for the shortfall.": "Das Pflegeheim muss die Pflegekraft sofort ersetzen oder das Krankenhaus innerhalb von 2 Stunden benachrichtigen. Kann kein Ersatz geleistet werden, haftet home für den Fehlbetrag.", "Scenario B:": "Szenario B:", "Disburse every 15 days or monthly": "Auszahlung alle 15 Tage oder monatlich", "\n:root{\n  --paper:#F7F5F0;\n  --ink:#1B2A2F;\n  --teal:#2F6B5E;\n  --teal-soft:#E3EFE9;\n  --amber:#D98B3F;\n  --amber-soft:#FBE9D4;\n  --rose:#C25B4A;\n  --rose-soft:#F8E4DF;\n  --line:#D8D3C7;\n  --card:#FFFFFF;\n  --muted:#6E7C7A;\n  --purple:#5B3FA0;\n  --purple-soft:#EDE8FA;\n  --cancel:#8B2020;\n  --cancel-soft:#FCE8E8;\n  --overtime:#C27A20;\n  --overtime-soft:#FDF0DC;\n  --contract:#1A5E6E;\n  --contract-soft:#DFF0F4;\n}\n*{box-sizing:border-box;}\nhtml{scroll-behavior:smooth;}\nbody{\n  margin:0;\n  font-family:'Source Serif 4',Georgia,serif;\n  background:var(--paper);\n  color:var(--ink);\n  line-height:1.55;\n}\n.ui{font-family:'Space Grotesk',sans-serif;}\n\n\n\n/* ── HERO ───────────────────────────────────── */\nheader.hero{\n  padding:64px 24px 48px;\n  max-width:1140px;\n  margin:0 auto;\n  border-bottom:1px solid var(--line);\n}\n.eyebrow{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  letter-spacing:0.18em;\n  text-transform:uppercase;\n  color:var(--teal);\n  font-weight:700;\n  margin-bottom:14px;\n}\nh1{\n  font-size:clamp(34px,5.5vw,62px);\n  margin:0 0 16px;\n  font-weight:700;\n  letter-spacing:-0.015em;\n  max-width:16ch;\n  line-height:1.1;\n}\n.lede{\n  font-size:18px;\n  color:var(--muted);\n  max-width:52ch;\n  margin:0 0 28px;\n}\n.legend{\n  display:flex;\n  flex-wrap:wrap;\n  gap:8px;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n}\n.legend span{\n  display:inline-flex;\n  align-items:center;\n  gap:6px;\n  padding:5px 12px;\n  border-radius:999px;\n  background:var(--card);\n  border:1px solid var(--line);\n  font-weight:500;\n}\n.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}\n.dot.hospital{background:#3B6FA0;}\n.dot.home{background:var(--teal);}\n.dot.nurse{background:var(--amber);}\n.dot.selma{background:var(--rose);}\n\n/* ── VERSION BADGE ───────────────────────────── */\n.version-strip{\n  display:flex;gap:8px;flex-wrap:wrap;\n  padding:12px 24px;\n  max-width:1140px;\n  margin:0 auto;\n  border-bottom:1px solid var(--line);\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n}\n.vbadge{\n  padding:4px 10px;border-radius:5px;font-weight:600;font-size:11px;\n}\n.vbadge.new{background:var(--amber-soft);color:#7a4a10;}\n.vbadge.cancel{background:var(--cancel-soft);color:var(--cancel);}\n.vbadge.overtime{background:var(--overtime-soft);color:var(--overtime);}\n.vbadge.contract{background:var(--contract-soft);color:var(--contract);}\n.version-strip span{color:var(--muted);}\n\n/* ── NAV ─────────────────────────────────────── */\nnav.phasebar{\n  max-width:1140px;\n  margin:0 auto;\n  padding:14px 24px;\n  display:flex;\n  gap:6px;\n  overflow-x:auto;\n  -webkit-overflow-scrolling:touch;\n  position:sticky;\n  top:0;\n  background:var(--paper);\n  z-index:50;\n  border-bottom:1px solid var(--line);\n}\nnav.phasebar a{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:600;\n  color:var(--muted);\n  text-decoration:none;\n  padding:7px 13px;\n  border-radius:999px;\n  border:1px solid transparent;\n  white-space:nowrap;\n  transition:all .15s ease;\n}\nnav.phasebar a:hover,nav.phasebar a.active{\n  color:var(--ink);\n  border-color:var(--line);\n  background:var(--card);\n}\nnav.phasebar a.active{color:var(--ink);font-weight:700;}\n\n/* ── MAIN LAYOUT ─────────────────────────────── */\nmain{max-width:1140px;margin:0 auto;padding:0 24px 100px;}\n\nsection.phase{\n  padding:56px 0;\n  border-bottom:1px solid var(--line);\n  scroll-margin-top:72px;\n}\nsection.phase:last-child{border-bottom:none;}\n\n.phase-head{\n  display:flex;\n  align-items:baseline;\n  gap:16px;\n  margin-bottom:6px;\n  flex-wrap:wrap;\n}\n.phase-num{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--teal);\n  border:1.5px solid var(--teal);\n  border-radius:999px;\n  padding:3px 11px;\n  flex-shrink:0;\n}\n.phase-title{\n  font-size:clamp(22px,3vw,32px);\n  font-weight:700;\n  margin:0;\n  letter-spacing:-0.01em;\n}\n.phase-sub{\n  color:var(--muted);\n  max-width:66ch;\n  margin:6px 0 26px;\n  font-size:16.5px;\n}\n\n/* ── SECTION BADGES INSIDE PHASE ─────────────── */\n.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px;}\n.ptag{\n  font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;\n  padding:3px 9px;border-radius:5px;letter-spacing:.04em;text-transform:uppercase;\n}\n.ptag-new{background:var(--amber-soft);color:#7a4a10;}\n.ptag-cancel{background:var(--cancel-soft);color:var(--cancel);}\n.ptag-overtime{background:var(--overtime-soft);color:var(--overtime);}\n.ptag-contract{background:var(--contract-soft);color:var(--contract);}\n\n/* ── LANES ───────────────────────────────────── */\n.lanes{\n  display:grid;\n  grid-template-columns:repeat(4,1fr);\n  gap:14px;\n}\n@media(max-width:980px){.lanes{grid-template-columns:repeat(2,1fr);}}\n@media(max-width:600px){.lanes{grid-template-columns:1fr;}}\n\n.lane{\n  background:var(--card);\n  border:1px solid var(--line);\n  border-radius:14px;\n  overflow:hidden;\n  display:flex;\n  flex-direction:column;\n}\n.lane-head{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:700;\n  letter-spacing:.06em;\n  text-transform:uppercase;\n  padding:11px 16px;\n  color:#fff;\n  display:flex;\n  align-items:center;\n  gap:7px;\n}\n.lane.hospital .lane-head{background:#3B6FA0;}\n.lane.home .lane-head{background:var(--teal);}\n.lane.nurse .lane-head{background:var(--amber);}\n.lane.selma .lane-head{background:var(--rose);}\n\n.lane-body{\n  padding:14px 16px 18px;\n  display:flex;\n  flex-direction:column;\n  gap:12px;\n  flex:1;\n}\n.step{\n  border-left:3px solid var(--line);\n  padding-left:12px;\n}\n.lane.hospital .step{border-color:#c5daea;}\n.lane.home .step{border-color:var(--teal-soft);}\n.lane.nurse .step{border-color:var(--amber-soft);}\n.lane.selma .step{border-color:var(--rose-soft);}\n\n.step h4{\n  margin:0 0 3px;\n  font-size:15px;\n  font-weight:700;\n  font-family:'Space Grotesk',sans-serif;\n  line-height:1.3;\n}\n.step p{\n  margin:0;\n  font-size:14px;\n  color:var(--muted);\n  line-height:1.5;\n}\n.step.empty h4{color:#A8B0AC;font-weight:600;}\n.step.empty p{color:#B8C0BC;}\n.step.empty{border-color:var(--line);}\n\n/* ── INLINE FLAGS ────────────────────────────── */\n.flag{\n  display:inline-block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:11px;\n  font-weight:700;\n  letter-spacing:.05em;\n  text-transform:uppercase;\n  padding:2px 8px;\n  border-radius:5px;\n  margin-bottom:5px;\n}\n.flag.rule{background:var(--rose-soft);color:#8a3324;}\n.flag.cancel{background:var(--cancel-soft);color:var(--cancel);}\n.flag.overtime{background:var(--overtime-soft);color:var(--overtime);}\n.flag.contract{background:var(--contract-soft);color:var(--contract);}\n.flag.new{background:var(--amber-soft);color:#7a4a10;}\n\n/* ── CANCELLATION CALLOUT ────────────────────── */\n.cancel-box{\n  background:var(--cancel-soft);\n  border:1px solid #e8b8b8;\n  border-left:4px solid var(--cancel);\n  border-radius:10px;\n  padding:14px 18px;\n  margin-bottom:14px;\n  font-size:14px;\n}\n.cancel-box strong{\n  display:block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--cancel);\n  margin-bottom:6px;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n}\n.cancel-box ul{margin:0;padding:0 0 0 16px;color:#6b3030;}\n.cancel-box ul li{margin-bottom:4px;}\n\n/* ── OVERTIME CALLOUT ────────────────────────── */\n.overtime-box{\n  background:var(--overtime-soft);\n  border:1px solid #e8d0a0;\n  border-left:4px solid var(--overtime);\n  border-radius:10px;\n  padding:14px 18px;\n  margin-bottom:14px;\n  font-size:14px;\n}\n.overtime-box strong{\n  display:block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--overtime);\n  margin-bottom:6px;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n}\n.overtime-box ul{margin:0;padding:0 0 0 16px;color:#6b4a10;}\n.overtime-box ul li{margin-bottom:4px;}\n\n/* ── CONTRACT BOX ────────────────────────────── */\n.contract-box{\n  background:var(--contract-soft);\n  border:1px solid #a8d8e0;\n  border-left:4px solid var(--contract);\n  border-radius:10px;\n  padding:14px 18px;\n  margin-bottom:20px;\n  font-size:14px;\n}\n.contract-box strong{\n  display:block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--contract);\n  margin-bottom:6px;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n}\n.contract-box p{margin:0;color:#1a4050;line-height:1.55;}\n\n/* ── PAYFLOW ─────────────────────────────────── */\n.payflow{\n  display:flex;\n  flex-wrap:wrap;\n  align-items:center;\n  justify-content:center;\n  gap:10px;\n  margin:8px 0 32px;\n  font-family:'Space Grotesk',sans-serif;\n  font-weight:700;\n  font-size:15px;\n}\n.payflow .node{\n  padding:10px 18px;\n  border-radius:10px;\n  border:1px solid var(--line);\n  background:var(--card);\n}\n.payflow .node.selma{border-color:var(--rose);color:var(--rose);}\n.payflow .arrow{color:var(--muted);font-size:18px;}\n.payflow .label{\n  font-family:'Source Serif 4',serif;\n  font-weight:400;\n  font-size:13px;\n  color:var(--muted);\n  width:100%;\n  text-align:center;\n  margin-top:-4px;\n}\n\n/* ── QUESTIONS SECTION ───────────────────────── */\n.questions-section{\n  background:var(--ink);\n  color:#F0EDE8;\n  border-radius:16px;\n  padding:40px;\n  margin-top:20px;\n}\n.questions-section h2{\n  font-size:clamp(22px,3vw,30px);\n  font-weight:700;\n  margin:0 0 8px;\n  color:#fff;\n  letter-spacing:-0.01em;\n}\n.questions-section .qs-sub{\n  font-size:15px;\n  color:#9AAAA8;\n  margin:0 0 32px;\n  max-width:58ch;\n}\n.q-group{margin-bottom:32px;}\n.q-group-title{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:700;\n  letter-spacing:.1em;\n  text-transform:uppercase;\n  color:#9AAAA8;\n  margin-bottom:14px;\n  padding-bottom:8px;\n  border-bottom:1px solid #2E3E42;\n}\n.q-card{\n  background:#243035;\n  border:1px solid #2E3E42;\n  border-radius:10px;\n  padding:16px 18px;\n  margin-bottom:10px;\n  display:flex;\n  gap:14px;\n}\n.q-card:last-child{margin-bottom:0;}\n.q-id{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:700;\n  color:#9AAAA8;\n  flex-shrink:0;\n  min-width:48px;\n  padding-top:2px;\n}\n.q-body{}\n.q-text{\n  font-size:14.5px;\n  line-height:1.6;\n  color:#E8E4DE;\n  margin:0 0 8px;\n}\n.q-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}\n.q-pri{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:10px;\n  font-weight:700;\n  padding:2px 7px;\n  border-radius:4px;\n  letter-spacing:.06em;\n  text-transform:uppercase;\n}\n.q-pri.high{background:#4a1a1a;color:#F09090;}\n.q-pri.med{background:#3a3010;color:#E0C060;}\n.q-tag{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:10px;\n  padding:2px 7px;\n  border-radius:4px;\n  background:#2E3E42;\n  color:#9AAAA8;\n  font-weight:500;\n}\n.q-tag.new{background:#3a2a10;color:#C8900A;}\n.q-answer-line{\n  border-top:1px solid #2E3E42;\n  margin-top:12px;\n  padding-top:10px;\n  font-size:12px;\n  color:#9AAAA8;\n  font-family:'Space Grotesk',sans-serif;\n}\n.q-answer-blank{\n  display:inline-block;\n  width:100%;\n  border-bottom:1px dashed #3a4e52;\n  height:18px;\n  margin-top:4px;\n}\n\n/* ── FOOTER ──────────────────────────────────── */\nfooter{\n  max-width:1140px;\n  margin:0 auto;\n  padding:36px 24px 60px;\n  color:var(--muted);\n  font-size:13.5px;\n  border-top:1px solid var(--line);\n  font-family:'Space Grotesk',sans-serif;\n  display:flex;\n  justify-content:space-between;\n  flex-wrap:wrap;\n  gap:10px;\n}\nfooter strong{color:var(--ink);}\n": "\n:root{\n  --paper:#F7F5F0;\n  --ink:#1B2A2F;\n  --teal:#2F6B5E;\n  --teal-soft:#E3EFE9;\n  --amber:#D98B3F;\n  --amber-soft:#FBE9D4;\n  --rose:#C25B4A;\n  --rose-soft:#F8E4DF;\n  --line:#D8D3C7;\n  --card:#FFFFFF;\n  --muted:#6E7C7A;\n  --purple:#5B3FA0;\n  --purple-soft:#EDE8FA;\n  --cancel:#8B2020;\n  --cancel-soft:#FCE8E8;\n  --overtime:#C27A20;\n  --overtime-soft:#FDF0DC;\n  --contract:#1A5E6E;\n  --contract-soft:#DFF0F4;\n}\n*{box-sizing:border-box;}\nhtml{scroll-behavior:smooth;}\nbody{\n  margin:0;\n  font-family:'Source Serif 4',Georgia,serif;\n  background:var(--paper);\n  color:var(--ink);\n  line-height:1.55;\n}\n.ui{font-family:'Space Grotesk',sans-serif;}\n\n\n\n/* ── HERO ───────────────────────────────────── */\nheader.hero{\n  padding:64px 24px 48px;\n  max-width:1140px;\n  margin:0 auto;\n  border-bottom:1px solid var(--line);\n}\n.eyebrow{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  letter-spacing:0.18em;\n  text-transform:uppercase;\n  color:var(--teal);\n  font-weight:700;\n  margin-bottom:14px;\n}\nh1{\n  font-size:clamp(34px,5.5vw,62px);\n  margin:0 0 16px;\n  font-weight:700;\n  letter-spacing:-0.015em;\n  max-width:16ch;\n  line-height:1.1;\n}\n.lede{\n  font-size:18px;\n  color:var(--muted);\n  max-width:52ch;\n  margin:0 0 28px;\n}\n.legend{\n  display:flex;\n  flex-wrap:wrap;\n  gap:8px;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n}\n.legend span{\n  display:inline-flex;\n  align-items:center;\n  gap:6px;\n  padding:5px 12px;\n  border-radius:999px;\n  background:var(--card);\n  border:1px solid var(--line);\n  font-weight:500;\n}\n.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}\n.dot.hospital{background:#3B6FA0;}\n.dot.home{background:var(--teal);}\n.dot.nurse{background:var(--amber);}\n.dot.selma{background:var(--rose);}\n\n/* ── VERSION BADGE ───────────────────────────── */\n.version-strip{\n  display:flex;gap:8px;flex-wrap:wrap;\n  padding:12px 24px;\n  max-width:1140px;\n  margin:0 auto;\n  border-bottom:1px solid var(--line);\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n}\n.vbadge{\n  padding:4px 10px;border-radius:5px;font-weight:600;font-size:11px;\n}\n.vbadge.new{background:var(--amber-soft);color:#7a4a10;}\n.vbadge.cancel{background:var(--cancel-soft);color:var(--cancel);}\n.vbadge.overtime{background:var(--overtime-soft);color:var(--overtime);}\n.vbadge.contract{background:var(--contract-soft);color:var(--contract);}\n.version-strip span{color:var(--muted);}\n\n/* ── NAV ─────────────────────────────────────── */\nnav.phasebar{\n  max-width:1140px;\n  margin:0 auto;\n  padding:14px 24px;\n  display:flex;\n  gap:6px;\n  overflow-x:auto;\n  -webkit-overflow-scrolling:touch;\n  position:sticky;\n  top:0;\n  background:var(--paper);\n  z-index:50;\n  border-bottom:1px solid var(--line);\n}\nnav.phasebar a{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:600;\n  color:var(--muted);\n  text-decoration:none;\n  padding:7px 13px;\n  border-radius:999px;\n  border:1px solid transparent;\n  white-space:nowrap;\n  transition:all .15s ease;\n}\nnav.phasebar a:hover,nav.phasebar a.active{\n  color:var(--ink);\n  border-color:var(--line);\n  background:var(--card);\n}\nnav.phasebar a.active{color:var(--ink);font-weight:700;}\n\n/* ── MAIN LAYOUT ─────────────────────────────── */\nmain{max-width:1140px;margin:0 auto;padding:0 24px 100px;}\n\nsection.phase{\n  padding:56px 0;\n  border-bottom:1px solid var(--line);\n  scroll-margin-top:72px;\n}\nsection.phase:last-child{border-bottom:none;}\n\n.phase-head{\n  display:flex;\n  align-items:baseline;\n  gap:16px;\n  margin-bottom:6px;\n  flex-wrap:wrap;\n}\n.phase-num{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--teal);\n  border:1.5px solid var(--teal);\n  border-radius:999px;\n  padding:3px 11px;\n  flex-shrink:0;\n}\n.phase-title{\n  font-size:clamp(22px,3vw,32px);\n  font-weight:700;\n  margin:0;\n  letter-spacing:-0.01em;\n}\n.phase-sub{\n  color:var(--muted);\n  max-width:66ch;\n  margin:6px 0 26px;\n  font-size:16.5px;\n}\n\n/* ── SECTION BADGES INSIDE PHASE ─────────────── */\n.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px;}\n.ptag{\n  font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;\n  padding:3px 9px;border-radius:5px;letter-spacing:.04em;text-transform:uppercase;\n}\n.ptag-new{background:var(--amber-soft);color:#7a4a10;}\n.ptag-cancel{background:var(--cancel-soft);color:var(--cancel);}\n.ptag-overtime{background:var(--overtime-soft);color:var(--overtime);}\n.ptag-contract{background:var(--contract-soft);color:var(--contract);}\n\n/* ── LANES ───────────────────────────────────── */\n.lanes{\n  display:grid;\n  grid-template-columns:repeat(4,1fr);\n  gap:14px;\n}\n@media(max-width:980px){.lanes{grid-template-columns:repeat(2,1fr);}}\n@media(max-width:600px){.lanes{grid-template-columns:1fr;}}\n\n.lane{\n  background:var(--card);\n  border:1px solid var(--line);\n  border-radius:14px;\n  overflow:hidden;\n  display:flex;\n  flex-direction:column;\n}\n.lane-head{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:700;\n  letter-spacing:.06em;\n  text-transform:uppercase;\n  padding:11px 16px;\n  color:#fff;\n  display:flex;\n  align-items:center;\n  gap:7px;\n}\n.lane.hospital .lane-head{background:#3B6FA0;}\n.lane.home .lane-head{background:var(--teal);}\n.lane.nurse .lane-head{background:var(--amber);}\n.lane.selma .lane-head{background:var(--rose);}\n\n.lane-body{\n  padding:14px 16px 18px;\n  display:flex;\n  flex-direction:column;\n  gap:12px;\n  flex:1;\n}\n.step{\n  border-left:3px solid var(--line);\n  padding-left:12px;\n}\n.lane.hospital .step{border-color:#c5daea;}\n.lane.home .step{border-color:var(--teal-soft);}\n.lane.nurse .step{border-color:var(--amber-soft);}\n.lane.selma .step{border-color:var(--rose-soft);}\n\n.step h4{\n  margin:0 0 3px;\n  font-size:15px;\n  font-weight:700;\n  font-family:'Space Grotesk',sans-serif;\n  line-height:1.3;\n}\n.step p{\n  margin:0;\n  font-size:14px;\n  color:var(--muted);\n  line-height:1.5;\n}\n.step.empty h4{color:#A8B0AC;font-weight:600;}\n.step.empty p{color:#B8C0BC;}\n.step.empty{border-color:var(--line);}\n\n/* ── INLINE FLAGS ────────────────────────────── */\n.flag{\n  display:inline-block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:11px;\n  font-weight:700;\n  letter-spacing:.05em;\n  text-transform:uppercase;\n  padding:2px 8px;\n  border-radius:5px;\n  margin-bottom:5px;\n}\n.flag.rule{background:var(--rose-soft);color:#8a3324;}\n.flag.cancel{background:var(--cancel-soft);color:var(--cancel);}\n.flag.overtime{background:var(--overtime-soft);color:var(--overtime);}\n.flag.contract{background:var(--contract-soft);color:var(--contract);}\n.flag.new{background:var(--amber-soft);color:#7a4a10;}\n\n/* ── CANCELLATION CALLOUT ────────────────────── */\n.cancel-box{\n  background:var(--cancel-soft);\n  border:1px solid #e8b8b8;\n  border-left:4px solid var(--cancel);\n  border-radius:10px;\n  padding:14px 18px;\n  margin-bottom:14px;\n  font-size:14px;\n}\n.cancel-box strong{\n  display:block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--cancel);\n  margin-bottom:6px;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n}\n.cancel-box ul{margin:0;padding:0 0 0 16px;color:#6b3030;}\n.cancel-box ul li{margin-bottom:4px;}\n\n/* ── OVERTIME CALLOUT ────────────────────────── */\n.overtime-box{\n  background:var(--overtime-soft);\n  border:1px solid #e8d0a0;\n  border-left:4px solid var(--overtime);\n  border-radius:10px;\n  padding:14px 18px;\n  margin-bottom:14px;\n  font-size:14px;\n}\n.overtime-box strong{\n  display:block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--overtime);\n  margin-bottom:6px;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n}\n.overtime-box ul{margin:0;padding:0 0 0 16px;color:#6b4a10;}\n.overtime-box ul li{margin-bottom:4px;}\n\n/* ── CONTRACT BOX ────────────────────────────── */\n.contract-box{\n  background:var(--contract-soft);\n  border:1px solid #a8d8e0;\n  border-left:4px solid var(--contract);\n  border-radius:10px;\n  padding:14px 18px;\n  margin-bottom:20px;\n  font-size:14px;\n}\n.contract-box strong{\n  display:block;\n  font-family:'Space Grotesk',sans-serif;\n  font-size:13px;\n  font-weight:700;\n  color:var(--contract);\n  margin-bottom:6px;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n}\n.contract-box p{margin:0;color:#1a4050;line-height:1.55;}\n\n/* ── PAYFLOW ─────────────────────────────────── */\n.payflow{\n  display:flex;\n  flex-wrap:wrap;\n  align-items:center;\n  justify-content:center;\n  gap:10px;\n  margin:8px 0 32px;\n  font-family:'Space Grotesk',sans-serif;\n  font-weight:700;\n  font-size:15px;\n}\n.payflow .node{\n  padding:10px 18px;\n  border-radius:10px;\n  border:1px solid var(--line);\n  background:var(--card);\n}\n.payflow .node.selma{border-color:var(--rose);color:var(--rose);}\n.payflow .arrow{color:var(--muted);font-size:18px;}\n.payflow .label{\n  font-family:'Source Serif 4',serif;\n  font-weight:400;\n  font-size:13px;\n  color:var(--muted);\n  width:100%;\n  text-align:center;\n  margin-top:-4px;\n}\n\n/* ── QUESTIONS SECTION ───────────────────────── */\n.questions-section{\n  background:var(--ink);\n  color:#F0EDE8;\n  border-radius:16px;\n  padding:40px;\n  margin-top:20px;\n}\n.questions-section h2{\n  font-size:clamp(22px,3vw,30px);\n  font-weight:700;\n  margin:0 0 8px;\n  color:#fff;\n  letter-spacing:-0.01em;\n}\n.questions-section .qs-sub{\n  font-size:15px;\n  color:#9AAAA8;\n  margin:0 0 32px;\n  max-width:58ch;\n}\n.q-group{margin-bottom:32px;}\n.q-group-title{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:700;\n  letter-spacing:.1em;\n  text-transform:uppercase;\n  color:#9AAAA8;\n  margin-bottom:14px;\n  padding-bottom:8px;\n  border-bottom:1px solid #2E3E42;\n}\n.q-card{\n  background:#243035;\n  border:1px solid #2E3E42;\n  border-radius:10px;\n  padding:16px 18px;\n  margin-bottom:10px;\n  display:flex;\n  gap:14px;\n}\n.q-card:last-child{margin-bottom:0;}\n.q-id{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:12px;\n  font-weight:700;\n  color:#9AAAA8;\n  flex-shrink:0;\n  min-width:48px;\n  padding-top:2px;\n}\n.q-body{}\n.q-text{\n  font-size:14.5px;\n  line-height:1.6;\n  color:#E8E4DE;\n  margin:0 0 8px;\n}\n.q-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}\n.q-pri{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:10px;\n  font-weight:700;\n  padding:2px 7px;\n  border-radius:4px;\n  letter-spacing:.06em;\n  text-transform:uppercase;\n}\n.q-pri.high{background:#4a1a1a;color:#F09090;}\n.q-pri.med{background:#3a3010;color:#E0C060;}\n.q-tag{\n  font-family:'Space Grotesk',sans-serif;\n  font-size:10px;\n  padding:2px 7px;\n  border-radius:4px;\n  background:#2E3E42;\n  color:#9AAAA8;\n  font-weight:500;\n}\n.q-tag.new{background:#3a2a10;color:#C8900A;}\n.q-answer-line{\n  border-top:1px solid #2E3E42;\n  margin-top:12px;\n  padding-top:10px;\n  font-size:12px;\n  color:#9AAAA8;\n  font-family:'Space Grotesk',sans-serif;\n}\n.q-answer-blank{\n  display:inline-block;\n  width:100%;\n  border-bottom:1px dashed #3a4e52;\n  height:18px;\n  margin-top:4px;\n}\n\n/* ── FOOTER ──────────────────────────────────── */\nfooter{\n  max-width:1140px;\n  margin:0 auto;\n  padding:36px 24px 60px;\n  color:var(--muted);\n  font-size:13.5px;\n  border-top:1px solid var(--line);\n  font-family:'Space Grotesk',sans-serif;\n  display:flex;\n  justify-content:space-between;\n  flex-wrap:wrap;\n  gap:10px;\n}\nfooter strong{color:var(--ink);}\n", "\"Anna K. checked out — 15:04. Shift: 07:02–15:04 (7h 32m billable after break deduction).\"": "„Anna K. hat ausgecheckt – 15:04. Schicht: 07:02–15:04 (7 Stunden und 32 Minuten abrechnungsfähig nach Abzug der Pause).“", "If hours look wrong": "Wenn die Stunden falsch aussehen", "NEW": "NEU", "Return top 3 to hospital": "Bringen Sie die Top 3 ins Krankenhaus zurück", "Selma prepares the QR payload (nurse ID + shift ID + hospital ID + valid time window) ready for the nurse's app to render on demand at check-in. The code is not shown until the nurse taps \"Check In\".": "Selma bereitet die QR-Nutzlast (Krankenschwester-ID + Schicht-ID + Krankenhaus-ID + gültiges Zeitfenster) vor, damit die App der Krankenschwester sie bei Bedarf beim Check-in rendern kann. Der Code wird erst angezeigt, wenn die Krankenschwester auf „Einchecken“ tippt.", "Taps \"Check Out\"": "Tippen Sie auf „Zur Kasse gehen“", "Reviews disputes manually": "Prüft Streitigkeiten manuell", "Check-in time · Check-out time · Total raw hours · Break deducted · Billable hours. Clear and readable.": "Check-in-Zeit · Check-out-Zeit · Gesamtstundenzahl · Abgezogene Pausen · Abrechnungsfähige Stunden. Klar und lesbar.", "Confirmed — ratings are Selma-only. Nurses are never shown scores or hospital comments.": "Bestätigt – Bewertungen gelten nur für Selma. Den Krankenschwestern werden niemals Ergebnisse oder Krankenhauskommentare angezeigt.", "If a nurse is a no-show without notice, the home is liable as if they had cancelled.": "Wenn eine Pflegekraft ohne Vorankündigung nicht erscheint, haftet das Heim wie bei einer Absage.", "The Selma platform handles real money — invoices, payouts, and commission deductions. Before either party can access the platform, a signed service agreement must be in place. The contract defines payment terms, penalty clauses, commission rates, and data processing obligations under GDPR. No contract = no account creation.": "Die Selma-Plattform wickelt echtes Geld ab – Rechnungen, Auszahlungen und Provisionsabzüge. Bevor eine der Parteien auf die Plattform zugreifen kann, muss ein unterzeichneter Servicevertrag vorliegen. Der Vertrag definiert Zahlungsbedingungen, Strafklauseln, Provisionssätze und Datenverarbeitungspflichten gemäß DSGVO. Kein Vertrag = keine Kontoerstellung.", "Answer: ": "Antwort:", "Selma — Full Platform Flow v2": "Selma – Vollständiger Plattform-Flow v2", "Every 15 days or monthly per agreed cycle. Amount = billable hours × rate − Selma commission − any breach penalties.": "Alle 15 Tage oder monatlich im vereinbarten Zyklus. Betrag = abrechenbare Stunden × Tarif – Selma-Provision – etwaige Strafen bei Verstößen.", " The nurse opens their app to display a QR code, and the hospital reception scans it (via tablet, webcam, or barcode scanner). ": "Die Krankenschwester öffnet ihre App, um einen QR-Code anzuzeigen, und die Rezeption des Krankenhauses scannt ihn (per Tablet, Webcam oder Barcode-Scanner).", "\"Nurse Anna K. checked in — 07:02\" shown instantly in the portal. No further action needed.": "„Schwester Anna K. hat eingecheckt – 07:02“ wird sofort im Portal angezeigt. Es sind keine weiteren Maßnahmen erforderlich.", "Moves down the top-3 list automatically.": "Geht automatisch in der Top-3-Liste nach unten.", "Flag manual entries for admin review": "Manuelle Einträge zur Überprüfung durch den Administrator kennzeichnen", "MED": "MED", "Sets password": "Legt das Passwort fest", "App shows shift as ACTIVE": "App zeigt Schicht als AKTIV an", "Registers nurses": "Registriert Krankenschwestern", "Includes cancellation rules": "Enthält Stornierungsregeln", "The hospital selects from the top 3. The chosen home accepts and assigns nurses. From this point, cancellations have financial consequences for all parties.": "Das Krankenhaus wählt aus den Top 3 aus. Das ausgewählte Heim nimmt Pflegekräfte auf und weist sie zu. Ab diesem Zeitpunkt haben Stornierungen für alle Beteiligten finanzielle Konsequenzen.", "This shift's earnings added to the projected payout for the current billing cycle.": "Die Einnahmen dieser Schicht werden zur voraussichtlichen Auszahlung für den aktuellen Abrechnungszeitraum addiert.", "Blocks: Withdrawal flow": "Blöcke: Entnahmefluss", "If approved: extra hours are added to the billing record at the standard hourly rate (no premium rate confirmed).": "Bei Genehmigung: Zusätzliche Stunden werden dem Abrechnungsdatensatz zum Standardstundensatz hinzugefügt (kein Prämiensatz bestätigt).", "Architecture Questions Register": "Architekturfragen-Register", "If the hospital does not respond to the overtime prompt within 1 hour, the system auto-alerts Selma admin to resolve.": "Wenn das Krankenhaus nicht innerhalb einer Stunde auf die Überstundenaufforderung reagiert, benachrichtigt das System den Selma-Administrator automatisch, um das Problem zu lösen.", "Push notification the moment the nurse's QR is successfully validated by hospital reception.": "Push-Benachrichtigung, sobald der QR-Code der Krankenschwester von der Rezeption des Krankenhauses erfolgreich validiert wurde.", "Check for duplicates": "Auf Duplikate prüfen", "Hospital can withdraw a job posting at any time before a nursing home has accepted it — no penalty.": "Das Krankenhaus kann eine Stellenausschreibung jederzeit zurückziehen, bevor das Pflegeheim sie angenommen hat – ohne Strafe.", "Travels to hospital": "Fahrt ins Krankenhaus", "Hospital admin, nursing home admin, and Selma all receive an alert simultaneously.": "Der Krankenhausadministrator, der Pflegeheimadministrator und Selma erhalten alle gleichzeitig eine Benachrichtigung.", "These questions must be answered before the relevant phase can be built. All are drawn from this walkthrough — each one blocks a specific part of the architecture.": "Diese Fragen müssen beantwortet werden, bevor die entsprechende Phase erstellt werden kann. Alle stammen aus dieser exemplarischen Vorgehensweise – jeder blockiert einen bestimmten Teil der Architektur.", "If cancellation is received within 24 hours, maximum penalty is auto-calculated and applied from the contract on file.": "Wenn die Stornierung innerhalb von 24 Stunden eingeht, wird die Höchststrafe automatisch berechnet und anhand des in den Unterlagen hinterlegten Vertrags angewendet.", "Does Selma currently hold an AÜG (Arbeitnehmerüberlassung) licence for temporary staffing? If not, the platform must enforce the 18-month maximum temporary staffing rule per nurse per hospital under German law.": "Verfügt Selma derzeit über eine AÜG-Lizenz für Arbeitnehmerüberlassung? Ist dies nicht der Fall, muss die Plattform nach deutschem Recht die maximal 18-monatige Zeitarbeitsregelung pro Pflegekraft und Krankenhaus durchsetzen.", "What are the exact cancellation penalty amounts or formulas for: (a) hospital cancels &gt;24 hrs before shift, (b) hospital cancels &lt;24 hrs before shift, (c) nursing home cancels after accepting, (d) nursing home cancels &lt;24 hrs? Are these fixed euro amounts, a percentage of the shift value, or defined in each contract individually?": "Wie lauten die genauen Stornogebühren oder Formeln für: (a) Stornierungen im Krankenhaus > 24 Stunden vor der Schicht, (b) Stornierungen im Krankenhaus < 24 Stunden vor der Schicht, (c) Stornierungen im Pflegeheim nach der Annahme, (d) Stornierungen im Pflegeheim < 24 Stunden? Sind diese festen Euro-Beträge, ein Prozentsatz des Schichtwertes oder in jedem Vertrag individuell definiert?", "Nursing home contacts Selma or is approached by Selma's team directly.": "Das Pflegeheim kontaktiert Selma oder wird direkt von Selmas Team angesprochen.", "Selma platform": "Selma-Plattform", "If a hospital terminates a shift early during Phase 7 (active shift) — for example because the ward situation changed — does the nursing home still get paid for the full originally agreed shift duration, or only for hours actually worked?": "Wenn ein Krankenhaus in Phase 7 (Aktivschicht) eine Schicht vorzeitig abbricht – beispielsweise weil sich die Situation auf der Station geändert hat – erhält das Pflegeheim dann weiterhin die Vergütung für die gesamte ursprünglich vereinbarte Schichtdauer oder nur für die tatsächlich geleisteten Stunden?", "Auto-escalate on timeout": "Automatische Eskalation bei Zeitüberschreitung", "Selma Healthcare Workforce Platform — End-to-End Walkthrough v2": "Selma Healthcare Workforce Platform – Komplettlösung v2", "Push notification when approaching the 10-hour daily maximum.": "Push-Benachrichtigung bei Annäherung an das 10-Stunden-Tagesmaximum.", "Triggers a formal review and may result in temporary account suspension.": "Löst eine formelle Überprüfung aus und kann zu einer vorübergehenden Kontosperrung führen.", "No penalty if withdrawn before first job posted. Contract termination notice period applies (as defined in the agreement).": "Bei Rücktritt vor der ersten ausgeschriebenen Stelle fallen keine Strafen an. Es gilt die Kündigungsfrist für den Vertrag (wie in der Vereinbarung definiert).", "Enforce 10-hour daily maximum": "Erzwingen Sie ein tägliches Maximum von 10 Stunden", "Before any account is created, Selma's team establishes a formal service contract with each hospital and each nursing home. This is the legal and commercial foundation everything else sits on.": "Bevor ein Konto erstellt wird, schließt Selmas Team mit jedem Krankenhaus und jedem Pflegeheim einen formellen Servicevertrag ab. Dies ist die rechtliche und wirtschaftliche Grundlage für alles andere.", "Selma — payment engine": "Selma – Zahlungsmaschine", "Hospital portal camera (or manual code entry) reads the QR displayed on the nurse's phone. The platform validates it instantly.": "Die Portalkamera des Krankenhauses (oder die manuelle Codeeingabe) liest den auf dem Telefon der Krankenschwester angezeigten QR. Die Plattform validiert es sofort.", "GDPR consent given": "DSGVO-Einwilligung erteilt", "Hospital portal reads the code submitted by reception and decodes the embedded identifiers.": "Das Krankenhausportal liest den von der Rezeption übermittelten Code und dekodiert die eingebetteten Identifikatoren.", "Revenue dashboard updated": "Umsatz-Dashboard aktualisiert", "Receives overtime approval prompt": "Erhält eine Aufforderung zur Genehmigung von Überstunden", "Active shift &amp; overtime": "Aktive Schicht & Überstunden", "What is the acceptance window for a nursing home to respond to a posting? What happens if all 3 homes decline or time out — does the system auto-expand to the next 3 available homes?": "Wie lange dauert es, bis ein Pflegeheim auf eine Ausschreibung reagiert? Was passiert, wenn alle drei Häuser abgelehnt werden oder eine Zeitüberschreitung auftritt – wird das System automatisch auf die nächsten drei verfügbaren Häuser erweitert?", "Match nurse to shift": "Passen Sie die Krankenschwester der Schicht an", "Commission model": "Provisionsmodell", "QR scanning direction & hardware": "QR-Scanrichtung und Hardware", "The matching engine runs immediately and calculates the top 3 homes.": "Die Matching-Engine läuft sofort und berechnet die Top-3-Häuser.", "Check-in time is locked. A shift timer starts in the nurse's app. The nurse is now on the clock.": "Die Check-in-Zeit ist gesperrt. In der Pfleger-App startet ein Schichttimer. Die Krankenschwester ist jetzt im Dienst.", "If still active 30 mins after scheduled end — hospital portal gets the approval prompt.": "Wenn 30 Minuten nach dem geplanten Ende immer noch aktiv, erhält das Krankenhausportal die Aufforderung zur Genehmigung.", "6 · Check-in": "6 · Einchecken", "The figure used for invoice generation and nursing home payout.": "Der Betrag, der für die Rechnungserstellung und Auszahlung an das Pflegeheim verwendet wird.", "Existing open questions — still need answers": "Bestehende offene Fragen – brauchen noch Antworten", "Configures geo region": "Konfiguriert die geografische Region", "Early termination scenario": "Szenario einer vorzeitigen Beendigung", "Payment model": "Zahlungsmodell", "Checkout confirmed": "Kauf bestätigt", "1–5 stars across: Payment speed, Communication, Ward environment — within 48 hours of shift end.": "1–5 Sterne für: Zahlungsgeschwindigkeit, Kommunikation, Stationsumgebung – innerhalb von 48 Stunden nach Schichtende.", "The nurse is on the floor. The platform monitors time, compliance rules, and handles overtime carefully — extra hours require digital hospital approval before they count toward billing.": "Die Krankenschwester liegt auf dem Boden. Die Plattform überwacht Zeit, Compliance-Regeln und geht sorgfältig mit Überstunden um – Überstunden erfordern eine digitale Genehmigung des Krankenhauses, bevor sie auf die Abrechnung angerechnet werden.", "Payment cycle": "Zahlungszyklus", "Does the hospital pay Selma in advance (escrow deposit before the shift), or via post-invoice at the end of the billing period? If post-invoice and the hospital defaults, Selma absorbs the risk — please confirm this is acceptable.": "Bezahlt das Krankenhaus Selma im Voraus (Treuhandkaution vor der Schicht) oder per Postrechnung am Ende des Abrechnungszeitraums? Wenn das Krankenhaus nach Rechnungsstellung in Verzug gerät, übernimmt Selma das Risiko – bitte bestätigen Sie, dass dies akzeptabel ist.", "Hospital reception sees \"QR does not match this shift\" or \"Outside valid time window.\" Nurse is told to contact their nursing home admin — do not attempt manual override without authorisation.": "An der Rezeption des Krankenhauses wird „QR passt nicht zu dieser Schicht“ oder „Außerhalb des gültigen Zeitfensters“ angezeigt. Die Krankenschwester wird angewiesen, sich an die Pflegeheimleitung zu wenden – versuchen Sie nicht, ohne Genehmigung eine manuelle Überbrückung vorzunehmen.", "If validation fails": "Wenn die Validierung fehlschlägt", "Scenario A:": "Szenario A:", "If a job requires 3 nurses but one nursing home can only supply 2 — can two nursing homes split-fulfil a single job posting, or must one home supply all the required nurses?": "Wenn für einen Job drei Pflegekräfte erforderlich sind, ein Pflegeheim jedoch nur zwei versorgen kann – können zwei Pflegeheime eine einzelne Stellenausschreibung aufteilen oder muss ein Heim alle benötigten Pflegekräfte stellen?", "Auto-alert if no checkout after shift": "Automatische Benachrichtigung, wenn nach der Schicht kein Checkout erfolgt", "Validate time window": "Zeitfenster validieren", "Completes their profile and provides phone number for push notifications.": "Vervollständigt sein Profil und gibt eine Telefonnummer für Push-Benachrichtigungen an.", "Shift locked in portal": "Schicht im Portal gesperrt", "No self-registration": "Keine Selbstregistrierung", "Checks AÜG licence expiry date and Betriebserlaubnis. Logs renewal dates.": "Prüft das Ablaufdatum der AÜG-Lizenz und die Betriebserlaubnis. Protokolliert Verlängerungsdaten.", "24-hour push notification": "24-Stunden-Push-Benachrichtigung", "Assignment only happens after a home accepts.": "Die Zuteilung erfolgt erst, nachdem ein Haus zugesagt hat.", "If the hospital approves overtime, the nursing home is notified that the shift will run longer than planned.": "Wenn das Krankenhaus Überstunden genehmigt, wird das Pflegeheim darüber informiert, dass die Schicht länger dauern wird als geplant.", "Selects preferred home": "Wählt bevorzugtes Zuhause", "Per the agreed payout cycle from the nursing home's contract.": "Gemäß dem vereinbarten Auszahlungszyklus aus dem Pflegeheimvertrag.", "Nursing home withdraws after accepting:": "Pflegeheim zieht sich nach Aufnahme zurück:", "Check-out &amp; shift lock": "Check-out & Schichtsperre", "Calculate payout per nursing home": "Berechnen Sie die Auszahlung pro Pflegeheim", "Sees hours worked, ArbZG break deducted, and billable hours for this shift.": "Zeigt geleistete Arbeitsstunden, abgezogene ArbZG-Pause und abrechenbare Stunden für diese Schicht an.", "Phase 1": "Phase 1", "Creates job posting": "Erstellt eine Stellenausschreibung", "Admin assigns nurses": "Der Administrator weist Krankenschwestern zu", "Validation passes": "Validierung besteht", "Calculate invoice per hospital": "Rechnung pro Krankenhaus berechnen", "Pre-shift preparation": "Vorbereitung vor der Schicht", "If a rating seems unfair or retaliatory, submits to Selma admin for manual review.": "Wenn eine Bewertung unfair oder repressiv erscheint, wird sie zur manuellen Überprüfung an den Selma-Administrator weitergeleitet.", "Feeds directly into Phase 9 billing cycle.": "Führt direkt in den Abrechnungszyklus der Phase 9 ein.", "v2, June 2026": "v2, Juni 2026", "Nursing home agrees to the commission structure and confirms they hold the required AÜG licence. Signs DPA.": "Das Pflegeheim ist mit der Provisionsstruktur einverstanden und bestätigt, dass es über die erforderliche AÜG-Lizenz verfügt. Unterschreibt DPA.", "Scans nurse's QR code": "Scannt den QR-Code der Krankenschwester", "If no checkout is recorded within a configurable window past expected end, Selma admin is alerted.": "Wenn innerhalb eines konfigurierbaren Zeitfensters nach dem erwarteten Ende kein Checkout aufgezeichnet wird, wird der Selma-Administrator benachrichtigt.", "Cancellation & withdrawal — across all phases": "Stornierung & Rücktritt – über alle Phasen hinweg", "Late cancellation — within 24 hours of shift start": "Späte Stornierung – innerhalb von 24 Stunden nach Schichtbeginn", "When the nurse taps \"Check In\", the platform generates a dynamic QR code embedding: nurse ID · shift ID · hospital ID · valid time window. This code lives only in the nurse's app.": "Wenn die Krankenschwester auf „Einchecken“ tippt, generiert die Plattform einen dynamischen QR-Code, der Folgendes einbettet: Krankenschwester-ID · Schicht-ID · Krankenhaus-ID · gültiges Zeitfenster. Dieser Code existiert nur in der App der Krankenschwester.", "Unless an emergency or alert fires.": "Es sei denn, es liegt ein Notfall oder ein Alarm vor.", "Selma admin": "Selma-Administratorin", "Receives partnership contract": "Erhält Partnerschaftsvertrag", "Clear error shown in portal": "Fehler im Portal", "Any manual punch-in or manual checkout is highlighted in the admin dashboard.": "angezeigt Alle manuellen Punch-Ins oder manuellen Checkouts werden im Admin-Dashboard hervorgehoben.", "Hospital-side admin sets up their portal login. Can add multiple admin users per hospital.": "Der Krankenhausadministrator richtet seine Portal-Anmeldung ein. Pro Krankenhaus können mehrere Administratorbenutzer hinzugefügt werden.", "Pays Selma": "Bezahlt Selma", "Cannot accept jobs or register nurses until verified.": "Bis zur Bestätigung können keine Jobs angenommen oder Krankenschwestern registriert werden.", "Opens shift in app": "Öffnet die Schicht in der App", "New in v2:": "Neu in v2:", "Check-in at hospital": "Check-in im Krankenhaus", "If the ward no longer needs the nurse, hospital admin can trigger early checkout from the portal. Nurse is notified. Billing stops at that time.": "Wenn die Station die Krankenschwester nicht mehr benötigt, kann der Krankenhausadministrator über das Portal eine vorzeitige Abmeldung veranlassen. Die Krankenschwester wird benachrichtigt. Die Abrechnung wird zu diesem Zeitpunkt eingestellt.", "Contract is active. Selma admin can now create the hospital's onboarding invite.": "Vertrag ist aktiv. Der Selma-Administrator kann jetzt die Onboarding-Einladung des Krankenhauses erstellen.", "2 · Onboarding": "2 · Onboarding", "Receives notification": "Erhält Benachrichtigung", "If home declines": "Wenn das Haus ablehnt", "Push at the 6-hour mark: \"You are due a 30-min break as required by ArbZG.\"": "Drücken Sie bei der 6-Stunden-Marke: „Es steht Ihnen gemäß ArbZG eine 30-minütige Pause zu.“", "Contract renewal": "Vertragsverlängerung", "Apply cancellation penalties": "Stornierungsgebühren anwenden", "Job posting schema": "Stellenausschreibungsschema", "Calculate and apply penalties": "Strafen berechnen und verhängen", "Receives invoice from Selma": "Erhält eine Rechnung von Selma", "\n// Active nav highlight on scroll\nconst sections = document.querySelectorAll('section.phase');\nconst navLinks = document.querySelectorAll('nav.phasebar a');\n\nconst observer = new IntersectionObserver((entries) => {\n  entries.forEach(entry => {\n    if (entry.isIntersecting) {\n      const id = entry.target.getAttribute('id');\n      navLinks.forEach(a => {\n        a.classList.toggle('active', a.getAttribute('href') === '#' + id);\n      });\n    }\n  });\n}, { rootMargin: '-20% 0px -70% 0px' });\n\nsections.forEach(s => observer.observe(s));\n": "// Aktive Navigationshervorhebung beim Scrollen\nconst section = document.querySelectorAll('section.phase');\nconst navLinks = document.querySelectorAll('nav.phasebar a');\n\nconst observer = new IntersectionObserver((entries) => {\n  Einträge.forEach(entry => {\n    if (entry.isIntersecting) {\n      const id = enter.target.getAttribute('id');\n      navLinks.forEach(a => {\n        a.classList.toggle('active', a.getAttribute('href') === '#' + id);\n      });\n    }\n  });\n}, { rootMargin: '-20% 0px -70% 0px' });\n\nAbschnitte.forEach(s => Observer.observe(s));", "Generates nurse QR on demand": "Erzeugt bei Bedarf QR-Code für Krankenschwestern", "Log acceptance + cancellation events": "Annahme- und Stornierungsereignisse protokollieren", "Selma Platform — Full Flow Walkthrough · ": "Selma-Plattform – Komplettlösung für den kompletten Ablauf ·", "Questions pending client confirmation": "Fragen zur Bestätigung durch den Kunden", "Both signed contracts stored securely. Expiry dates and renewal reminders set in Selma admin dashboard.": "Beide unterzeichneten Verträge werden sicher aufbewahrt. Ablaufdaten und Verlängerungserinnerungen werden im Selma-Admin-Dashboard festgelegt.", "Shift details and hospital info shown in the portal.": "Schichtdetails und Krankenhausinformationen werden im Portal angezeigt.", "If fewer than 3 are available, the radius expands and the hospital is told.": "Stehen weniger als 3 zur Verfügung, erweitert sich der Radius und das Krankenhaus wird informiert.", "Creates admin account": "Erstellt ein Administratorkonto", "Cancellation window — before acceptance": "Stornierungsfrist – vor Annahme", "Find all approved homes in Germany": "Finden Sie alle zugelassenen Häuser in Deutschland", "Includes: commission rate Selma deducts, payout schedule (15-day or monthly), nurse deployment rules, AÜG compliance obligations, and the DPA as a data controller.": "Beinhaltet: Provisionssatz, den Selma abzieht, Auszahlungsplan (15 Tage oder monatlich), Regeln für den Einsatz von Krankenschwestern, AÜG-Compliance-Verpflichtungen und die Datenschutzbehörde als Datenverantwortlicher.", "Selma": "Selma", "Push notification received": "Push-Benachrichtigung erhalten", ", who scans or reads it using the hospital portal. The nurse never scans anything — the QR lives on the nurse's phone and is presented to the hospital. This QR is generated by the Selma platform (not by the nurse, not by the hospital).": ", der es über das Krankenhausportal scannt oder liest. Die Krankenschwester scannt nie etwas – der QR befindet sich auf dem Telefon der Krankenschwester und wird dem Krankenhaus vorgelegt. Dieser QR wird von der Selma-Plattform generiert (nicht von der Krankenschwester, nicht vom Krankenhaus).", "Issues onboarding invites": "Probleme beim Onboarding mit Einladungen", "Includes withdrawal rules": "Beinhaltet Auszahlungsregeln", "Hospital admin can punch in manually": "Der Krankenhausadministrator kann sich manuell anmelden", "Nurse holds up their phone screen. Hospital reception scans or reads the QR using the hospital portal — the nurse does not scan anything.": "Die Krankenschwester hält den Bildschirm ihres Telefons hoch. Die Rezeption des Krankenhauses scannt oder liest den QR über das Krankenhausportal – die Krankenschwester scannt nichts.", "Raw hours = checkout − check-in": "Rohe Stunden = Auschecken − Einchecken", "Contract setup flow": "Ablauf der Vertragseinrichtung", "Itemised by shift: nurse count × billable hours × hourly rate. Any cancellation penalties included as separate line items.": "Aufgeschlüsselt nach Schicht: Anzahl der Krankenschwestern × abrechenbare Stunden × Stundensatz. Eventuelle Stornierungsgebühren sind als separate Posten enthalten.", "Phase 1 — Contract setup": "Phase 1 – Vertragsaufbau", "Platform sends renewal reminders 60 days before expiry. Account is flagged (but not blocked) at expiry until renewed.": "Die Plattform sendet 60 Tage vor Ablauf Verlängerungserinnerungen. Das Konto wird bei Ablauf bis zur Verlängerung markiert (aber nicht gesperrt).", "Check-in confirmation received": "Check-in-Bestätigung erhalten", "\"The hospital has approved your shift extension. You may continue working and check out when finished.\"": "„Das Krankenhaus hat Ihrer Schichtverlängerung zugestimmt. Sie können weiterarbeiten und auschecken, wenn Sie fertig sind.“", "Blocks any overtime approval that would push the nurse past 10 hours total on that calendar day.": "Blockiert die Genehmigung aller Überstunden, die die Krankenschwester an diesem Kalendertag auf insgesamt mehr als 10 Stunden belasten würden.", "Block double-booking across homes": "Doppelbuchung hausübergreifend blockieren", "If home cancels after accepting": "Wenn Home nach Annahme von", "Shift appears in dashboard": "storniert Shift erscheint im Dashboard", "To nurses, hospital admin, and nursing home admin.": "An Krankenschwestern, Krankenhausverwalter und Pflegeheimverwalter.", "Aggregate all locked shift records": "Aggregieren Sie alle gesperrten Schichtdatensätze", "Billable hours × rate − commission − any penalties the home owes.": "Abzurechnende Stunden × Tarif – Provision – etwaige Strafen, die das Haus schuldet.", "Receives job notification": "Erhält eine Auftragsbenachrichtigung", "Selma is the only payment hub. Money flows from the hospital, through Selma, to the nursing home. Cancellation penalties and commission deductions are applied before disbursement. Nurses are paid separately by their home.": "Selma ist der einzige Zahlungsknotenpunkt. Das Geld fließt vom Krankenhaus über Selma zum Pflegeheim. Stornogebühren und Provisionsabzüge werden vor der Auszahlung verrechnet. Krankenschwestern werden von ihrem Heimatort separat bezahlt.", "24-hour reminder notification": "24-Stunden-Erinnerungsbenachrichtigung", "Verifies hospital documents": "Überprüft Krankenhausdokumente", "Contract includes: platform access terms, hourly rate framework, billing cycle (post-invoice), penalty clauses for late cancellations, and GDPR data processing agreement (DPA).": "Der Vertrag umfasst: Plattformzugriffsbedingungen, Stundensatzrahmen, Abrechnungszyklus (nach Rechnungsstellung), Strafklauseln für verspätete Stornierungen und DSGVO-Datenverarbeitungsvereinbarung (DPA).", "Nurse shown as \"On shift\"": "Krankenschwester wird als „Im Dienst“ angezeigt", "Can now post job requests. Billing cycle begins from first job post date.": "Kann jetzt Stellenanfragen posten. Der Abrechnungszeitraum beginnt mit dem Datum der ersten Stellenausschreibung.", "Is overtime billed at the same hourly rate as the standard shift, or is there a separate overtime multiplier (e.g. 1.25× or 1.5×)? This was discussed as \"no urgent/standard rate difference\" — but does that apply to overtime too, or is overtime treated differently?": "Werden Überstunden zum gleichen Stundensatz wie die Standardschicht abgerechnet oder gibt es einen separaten Überstundenmultiplikator (z. B. 1,25× oder 1,5×)? Dies wurde als „kein Unterschied zwischen dringenden und regulären Sätzen“ diskutiert – aber gilt das auch für Überstunden oder werden Überstunden anders behandelt?", "Receives check-in confirmation": "Erhält eine Check-in-Bestätigung", "Not involved yet": "Noch nicht beteiligt", "Consistently low scores move a nursing home down in the top-3 matching algorithm.": "Anhaltend niedrige Werte rücken ein Pflegeheim im Top-3-Matching-Algorithmus nach unten.", "Run ArbZG 11-hour rest check": "Führen Sie die 11-Stunden-Ruhezeitkontrolle von ArbZG durch", "No night or weekend premium": "Keine Nacht- oder Wochenendprämie", "After every completed shift, the hospital and nursing home rate each other. All ratings are private — only Selma sees them. They feed directly back into who gets matched first next time.": "Nach jeder absolvierten Schicht bewerten sich Krankenhaus und Pflegeheim gegenseitig. Alle Bewertungen sind privat – nur Selma sieht sie. Sie geben direkt Auskunft darüber, wer beim nächsten Mal zuerst gematcht wird.", " Higher penalty. Nursing home receives a larger compensation amount. Selma retains a processing fee.": "Höhere Strafe. Pflegeheim erhält höhere Entschädigungssumme. Selma behält eine Bearbeitungsgebühr.", "Matching, acceptance &amp; cancellation": "Matching, Annahme & Stornierung", "Nurses are not party to any Selma contract. They are employed by the nursing home.": "Krankenschwestern sind keine Vertragsparteien eines Selma-Vertrags. Sie sind im Pflegeheim angestellt.", "Must notify nursing home immediately": "Muss das Pflegeheim sofort benachrichtigen", "System auto-escalates to next home": "Das System eskaliert automatisch zum nächsten Zuhause", "Praskla Technology": "Praskla-Technologie", "Trigger ArbZG break alert at 6 hours": "ArbZG-Unterbrechungsalarm nach 6 Stunden auslösen", "Approves or rejects extra time": "Genehmigt zusätzliche Zeit oder lehnt sie ab", "If home had a cancellation penalty": "Wenn zu Hause eine Stornierungsgebühr anfällt", " The hospital portal displays a QR code at reception, and the nurse scans it using their phone camera. Please confirm which flow and what hardware will be used.": "Das Krankenhausportal zeigt an der Rezeption einen QR-Code an und die Krankenschwester scannt ihn mit der Handykamera. Bitte bestätigen Sie, welcher Flow und welche Hardware verwendet werden.", "Email and push alert — 24/7 if the urgency flag is set.": "E-Mail- und Push-Benachrichtigung – rund um die Uhr, wenn die Dringlichkeitsflagge gesetzt ist.", "Can end shift early": "Kann die Schicht vorzeitig beenden", "Log every state change immutably": "Protokollieren Sie jede Zustandsänderung unveränderlich", "If overtime would push a nurse past the ArbZG 10-hour daily maximum, should the platform: (a) hard-block the hospital from approving it, (b) allow it but flag it as a compliance violation, or (c) require a Selma admin override? What is the liability if overtime in breach of ArbZG is approved and recorded?": "Wenn Überstunden dazu führen würden, dass eine Krankenschwester über die ArbZG-Grenze von 10 Stunden pro Tag hinausgeht, sollte die Plattform dann: (a) das Krankenhaus hart daran hindern, sie zu genehmigen, (b) sie zulassen, aber als Compliance-Verstoß kennzeichnen, oder (c) eine Selma-Administratorüberschreibung verlangen? Wie hoch ist die Haftung, wenn Überstunden entgegen dem ArbZG genehmigt und protokolliert werden?", "Withdrawal scenario": "Auszahlungsszenario", "The hospital always starts the process. Pull model — nursing homes respond to demand, they never push their availability out first. The hospital can withdraw the posting right up until a home accepts.": "Das Krankenhaus leitet immer den Prozess ein. Pull-Modell – Pflegeheime reagieren auf die Nachfrage, sie schieben ihre Verfügbarkeit nie zuerst heraus. Das Krankenhaus kann die Entsendung zurückziehen, bis ein Heim sie akzeptiert.", "Not involved in selection": "Nicht an der Auswahl beteiligt", "Shift moves to COMPLETED": "Die Umschalttaste wechselt zu ABGESCHLOSSEN", "14 new questions": "14 neue Fragen", "Outside the platform's normal automated flow — Selma's team handles this manually.": "Außerhalb des normalen automatisierten Ablaufs der Plattform – Selmas Team erledigt dies manuell.", " and taps \"Check In\" — the app displays a dynamic QR code unique to that nurse and that shift. The nurse shows this QR code to the ": "und tippt auf „Einchecken“ – die App zeigt einen dynamischen QR-Code an, der eindeutig für diese Krankenschwester und diese Schicht gilt. Die Krankenschwester zeigt dem", "Job sent to chosen home": "diesen QR-Code Auftrag an ausgewähltes Zuhause geschickt", "Hospital, nursing home, and nurse all receive real-time confirmation.": "Krankenhaus, Pflegeheim und Krankenschwester erhalten alle eine Echtzeitbestätigung.", "Can withdraw before acceptance": "Kann vor Annahme zurücktreten", "Opens assigned shift in app": "Öffnet die zugewiesene Schicht in der App", "If home doesn't accept in time": "Wenn Zuhause nicht rechtzeitig akzeptiert", "If nursing home withdraws": "Wenn das Pflegeheim zurücktritt", "ArbZG break reminder": "ArbZG-Pausenerinnerung", "Receives payout from Selma": "Erhält eine Auszahlung von Selma", "Configures account in backend": "Konfiguriert das Konto im Backend", "hospital reception or ward manager": "Krankenhausempfang oder Stationsleiter", "Why this phase exists": "Warum es diese Phase gibt", "24-hour reminder sent": "24-Stunden-Erinnerung gesendet", "Logs signed contracts": "Protokolliert unterzeichnete Verträge", "Hospital admin must digitally approve or reject the extra time before the nurse can check out.": "Die Krankenhausverwaltung muss die zusätzliche Zeit digital genehmigen oder ablehnen, bevor die Krankenschwester auschecken kann.", "Shift ends. Legal break deductions are applied automatically. The record locks permanently. Payroll data is generated and pushed to the payment engine.": "Schicht endet. Abzüge wegen gesetzlicher Unterbrechung werden automatisch angewendet. Der Datensatz wird dauerhaft gesperrt. Gehaltsabrechnungsdaten werden generiert und an die Zahlungsmaschine weitergeleitet.", "Revenue dashboard": "Umsatz-Dashboard", "Any cancellation by the hospital within 24 hours triggers the maximum penalty rate defined in the contract.": "Jede Stornierung durch das Krankenhaus innerhalb von 24 Stunden löst die im Vertrag festgelegte Höchststrafe aus.", "Receives service contract": "Erhält einen Servicevertrag", "Pre-generate QR payload for this shift": "QR-Nutzlast für diese Schicht vorab generieren", "If no active deployments: clean exit per notice period. If nurses are currently deployed under live contracts, Selma must be notified immediately and a handover plan agreed before the account can be closed.": "Wenn keine aktiven Bereitstellungen: sauberer Ausstieg gemäß Kündigungsfrist. Sollten Pflegekräfte derzeit im Rahmen von Live-Verträgen eingesetzt werden, muss Selma unverzüglich benachrichtigt und ein Übergabeplan vereinbart werden, bevor das Konto geschlossen werden kann.", "Last chance to cancel — high penalty": "Letzte Chance zum Abbruch – hohe Strafe", "Blocks: Phase 1 workflow": "Blöcke: Arbeitsablauf der Phase 1", "Not part of platform payment": "Nicht Teil der Plattformzahlung", "Withdrawal": "Auszahlung", "Is the QR code static (same code per hospital, rotated daily/weekly) or dynamic (unique per shift/nurse)? Dynamic is more tamper-proof and is the recommended approach for a payment-linked system, but requires more infrastructure.": "Ist der QR-Code statisch (gleicher Code pro Krankenhaus, täglich/wöchentlich gewechselt) oder dynamisch (einzigartig pro Schicht/Krankenschwester)? Dynamisch ist manipulationssicherer und der empfohlene Ansatz für ein zahlungsgebundenes System, erfordert jedoch mehr Infrastruktur.", "If overtime is approved": "Wenn Überstunden genehmigt werden", "ArbZG daily maximum (10 hours including overtime) is enforced — if approval would breach 10 hours, the system blocks it and alerts Selma admin.": "Das ArbZG-Tagesmaximum (10 Stunden inklusive Überstunden) wird durchgesetzt. Wenn die Genehmigung 10 Stunden überschreiten würde, blockiert das System dies und benachrichtigt den Selma-Administrator.", "Nurse arrives at reception and opens the Selma app to show their QR code. Reception staff open the hospital portal to scan or enter the code.": "Die Krankenschwester kommt an der Rezeption an und öffnet die Selma-App, um ihren QR-Code vorzuzeigen. Das Empfangspersonal öffnet das Krankenhausportal, um den Code zu scannen oder einzugeben.", "Invoice total → deducts commission + penalties → pays out → home pays nurse salary": "Rechnungssumme → Abzug von Provision + Strafen → Auszahlung → Gehalt der Krankenschwester nach Hause", "Ratings &amp; feedback loop": "Bewertungen und Feedbackschleife", "Early termination": "Vorzeitige Kündigung", "All ratings are visible to Selma admin only — hospitals do not see nursing home ratings of them.": "Alle Bewertungen sind nur für Selma-Administratoren sichtbar – Krankenhäuser sehen keine Bewertungen von Pflegeheimen.", "QR must be presented within the valid window (15 mins before start by default). Expired codes are rejected automatically.": "QR muss innerhalb des gültigen Zeitfensters vorgelegt werden (standardmäßig 15 Minuten vor dem Start). Abgelaufene Codes werden automatisch abgelehnt.", "Contract active. Selma can now create the nursing home's onboarding account.": "Vertrag aktiv. Selma kann nun das Onboarding-Konto des Pflegeheims erstellen.", "Selma platform — live monitoring": "Selma-Plattform – Live-Überwachung", "Selma platform — hours calculation": "Selma-Plattform – Stundenberechnung", "Not yet involved": "Noch nicht beteiligt", "3 · Job posted": "3 · Stellenausschreibung", "Sent by nursing home admin via email — nurse cannot sign up independently.": "Wird vom Pflegeheimadministrator per E-Mail verschickt – Pflegekraft kann sich nicht selbstständig anmelden.", "Alert if no check-in": "Benachrichtigung, wenn kein Check-in erfolgt", "If the shift is still active 30 minutes past the scheduled end time, the hospital portal shows an \"Approve Overtime\" prompt.": "Wenn die Schicht 30 Minuten nach dem geplanten Ende noch aktiv ist, zeigt das Krankenhausportal die Aufforderung „Überstunden genehmigen“ an.", "Uploads verification documents": "Lädt Verifizierungsdokumente hoch", "The ": "Das", "Questions": "Fragen", "Who triggers the overtime approval request — does the system automatically prompt the hospital portal when the shift runs 30 minutes past end time, or does the hospital admin proactively initiate it? What happens if the hospital never responds to the overtime prompt?": "Wer löst die Genehmigungsanfrage für Überstunden aus? Meldet das System das Krankenhausportal automatisch an, wenn die Schicht 30 Minuten nach Ende der Schicht läuft, oder leitet die Krankenhausverwaltung dies proaktiv ein? Was passiert, wenn das Krankenhaus nie auf die Überstundenaufforderung reagiert?", "Are contract terms the same for all hospitals and nursing homes, or can Selma negotiate bespoke commission rates and billing cycles per client? If bespoke — does the platform need to support per-client rate configuration in the admin backend?": "Sind die Vertragsbedingungen für alle Krankenhäuser und Pflegeheime gleich oder kann Selma maßgeschneiderte Provisionssätze und Abrechnungszyklen pro Kunde aushandeln? Muss die Plattform bei Maßanfertigung die Tarifkonfiguration pro Kunde im Admin-Backend unterstützen?", "Hospital cancels the posting — all notified homes are informed. No penalty at this stage.": "Das Krankenhaus storniert die Ausschreibung – alle benachrichtigten Heime werden informiert. Zu diesem Zeitpunkt gibt es keine Strafe.", "The nurse is employed by the nursing home, who manages their salary.": "Die Krankenschwester ist im Pflegeheim angestellt und verwaltet ihr Gehalt.", "Per contract terms, Selma chases the hospital. Nursing home is not exposed to the hospital's default.": "Gemäß den Vertragsbedingungen jagt Selma das Krankenhaus. Das Pflegeheim ist nicht der Zahlungsunfähigkeit des Krankenhauses ausgesetzt.", "Approval adds the extra hours to billing. Rejection ends the shift record — nurse must check out immediately.": "Durch die Genehmigung werden die zusätzlichen Stunden zur Abrechnung hinzugefügt. Durch die Ablehnung endet das Schichtprotokoll – die Krankenschwester muss sofort auschecken.", "Selma admin — contract actions": "Selma-Administrator – Vertragsaktionen", "Over 9 hrs → deduct 45 min": "Über 9 Stunden → 45 Minuten abziehen", "4 · Matching": "4 · Matching", "Confirms the nurse shown in the QR is assigned to this exact shift at this hospital.": "Bestätigt, dass die im QR angezeigte Krankenschwester genau dieser Schicht in diesem Krankenhaus zugewiesen ist.", "Max hours warning": "Warnung zur maximalen Stundenzahl", "Shows confirmed earnings from all completed shifts in the current billing period, projected before the payout runs.": "Zeigt bestätigte Einnahmen aus allen abgeschlossenen Schichten im aktuellen Abrechnungszeitraum an, prognostiziert vor den Auszahlungsläufen.", "One contract template for hospitals, one for nursing homes. Commission rate, billing cycle, and penalty terms are configured per client.": "Eine Vertragsvorlage für Krankenhäuser, eine für Pflegeheime. Provisionssatz, Abrechnungszeitraum und Strafbedingungen werden pro Kunde konfiguriert.", "Monitors credential expiry": "Überwacht den Ablauf der Anmeldeinformationen", "No further edits possible by any party without Selma admin override (with audit log).": "Ohne Selma-Administrator-Überschreibung (mit Prüfprotokoll) sind von keiner Seite weitere Änderungen möglich.", "Overtime handling": "Umgang mit Überstunden", "Blocks: Overtime flow": "Blöcke: Überstundenfluss", "Triggered by completed contract — not before.": "Ausgelöst durch abgeschlossenen Vertrag – nicht vorher.", "2-hour push notification": "2-stündige Push-Benachrichtigung", "Push payroll data to payment engine": "Gehaltsabrechnungsdaten an die Zahlungsmaschine übertragen", "Waiting for a notification from the platform.": "Warten auf eine Benachrichtigung von der Plattform.", "Backend timer running continuously from check-in timestamp.": "Der Backend-Timer läuft kontinuierlich ab dem Check-in-Zeitstempel.", "Split fulfilment logic": "Geteilte Erfüllungslogik", "Must accept data processing consent at first login — consent covers data sharing with hospitals for shift deployment purposes.": "Bei der ersten Anmeldung muss die Einwilligung zur Datenverarbeitung akzeptiert werden. Die Einwilligung gilt für die Datenweitergabe an Krankenhäuser zum Zwecke des Schichteinsatzes.", "Phase 4": "Phase 4", "No penalty for declining at this stage — only acceptance and then cancellation triggers penalties.": "Zu diesem Zeitpunkt gibt es keine Strafe für eine Ablehnung – nur die Annahme und die anschließende Stornierung lösen Strafen aus.", "Lock check-in timestamp": "Check-in-Zeitstempel sperren", "Selma absorbs the risk": "Selma übernimmt das Risiko", "Checks registration and insurance. Approves or rejects with a reason note.": "Überprüft Registrierung und Versicherung. Genehmigt oder lehnt mit einer Begründung ab.", "Can investigate flagged or contested ratings. Can override or remove ratings with an audit log entry.": "Kann gemeldete oder angefochtene Bewertungen untersuchen. Kann Bewertungen mit einem Audit-Log-Eintrag überschreiben oder entfernen.", "Sets the nursing home's operational area for the matching engine.": "Legt den Betriebsbereich des Pflegeheims für die passende Engine fest.", "Base duration of the shift.": "Basisdauer der Schicht.", "Nurses travel to the hospital independently.": "Krankenschwestern fahren selbstständig ins Krankenhaus.", "The 24 hours before the shift. Reminders go out, the dynamic QR code is pre-generated by Selma (ready to appear in the nurse's app at check-in time), and everyone knows exactly what to expect. Late cancellations at this stage carry the highest penalties.": "Die 24 Stunden vor der Schicht. Erinnerungen gehen raus, der dynamische QR-Code wird von Selma vorgeneriert (bereit, um beim Check-in in der App der Krankenschwester zu erscheinen) und jeder weiß genau, was ihn erwartet. Für verspätete Stornierungen in dieser Phase sind die höchsten Strafen vorgesehen.", "Receives invite link": "Erhält einen Einladungslink", "Each card shows name, distance, rating, and available nurse count for this shift.": "Auf jeder Karte werden Name, Entfernung, Bewertung und die Anzahl der verfügbaren Pflegekräfte für diese Schicht angezeigt.", "Does not see their own rating": "Sieht die eigene Bewertung nicht", "HIGH": "HOCH", "Breach penalty applied": "Verstoßstrafe verhängt", "Filter by specialisation": "Nach Spezialisierung filtern", "Selma platform — QR generation &amp; validation": "Selma-Plattform – QR-Generierung und -Validierung", "Checks nurse isn't already assigned elsewhere at the same time.": "Überprüft, ob die Krankenschwester nicht bereits gleichzeitig woanders eingesetzt ist.", "Knows who is arriving": "Weiß, wer ankommt", "New — contract flow": "Neu – Vertragsablauf", "App access granted": "App-Zugriff gewährt", "Only active, contract-holding homes with verified documents.": "Nur aktive, vertragshaltende Häuser mit geprüften Dokumenten.", "Moves to the next home in the list.": "Wechselt zum nächsten Zuhause in der Liste.", "Prepares bespoke contracts": "Bereitet maßgeschneiderte Verträge vor", "Can now register nurses and accept job offers.": "Kann jetzt Krankenschwestern registrieren und Stellenangebote annehmen.", "Taps \"Check In\" — the app generates and displays a dynamic QR code unique to this nurse and this shift.": "Tippen Sie auf „Einchecken“ – die App generiert und zeigt einen dynamischen QR-Code an, der für diese Krankenschwester und diese Schicht eindeutig ist.", "Phase 8": "Phase 8", "ArbZG check fires automatically": "ArbZG-Prüfung wird automatisch ausgelöst", "If they've worked with a nurse before, they can name them. The post goes directly to that nurse's home — bypassing the top-3 algorithm.": "Wenn sie bereits mit einer Krankenschwester zusammengearbeitet haben, können sie diese benennen. Der Beitrag geht direkt an das Pflegeheim dieser Pflegekraft – unter Umgehung des Top-3-Algorithmus.", "Written to the immutable shift record. This is the billing start time.": "Wird in den unveränderlichen Schichtdatensatz geschrieben. Dies ist die Startzeit der Abrechnung.", "Hospital flags the shift to Selma admin with a note. Record stays locked while dispute is reviewed.": "Das Krankenhaus weist den Wechsel zum Selma-Administrator mit einer Notiz darauf hin. Der Datensatz bleibt gesperrt, während der Streit überprüft wird.", "Who triggers checkout at the end of a shift? Does the nurse scan a second QR code, or does the hospital admin click \"Mark Shift Complete\" in the portal?": "Wer löst am Ende einer Schicht den Checkout aus? Scannt die Krankenschwester einen zweiten QR-Code oder klickt der Krankenhausadministrator im Portal auf „Schicht als abgeschlossen markieren“?", "Home handles nurse salaries per their own employment contracts. Platform does not touch nurse pay.": "Das Heim verwaltet die Gehälter der Krankenschwestern gemäß ihren eigenen Arbeitsverträgen. Die Plattform hat keinen Einfluss auf die Bezahlung von Krankenschwestern.", "Who at Selma is responsible for preparing and issuing the service contract to a hospital or nursing home — is this a manual step by a Selma ops team member, or will the platform generate a contract template automatically?": "Wer bei Selma ist für die Vorbereitung und Ausstellung des Dienstleistungsvertrags an ein Krankenhaus oder Pflegeheim verantwortlich – ist dies ein manueller Schritt durch ein Mitglied des Selma-Einsatzteams oder generiert die Plattform automatisch eine Vertragsvorlage?", "If nurse cannot attend": "Wenn die Krankenschwester nicht anwesend sein kann", "Receives arriving nurse": "Empfängt die ankommende Krankenschwester", "Individual nurse withdraws after assignment:": "Einzelne Krankenschwester zieht sich nach Zuweisung zurück:", " · 10 phases, 3 actors, all scenarios": "· 10 Phasen, 3 Akteure, alle Szenarien", "Shift record is immutable": "Schichtdatensatz ist unveränderlich", "How the QR check-in actually works": "Wie der QR-Check-in tatsächlich funktioniert", "Repeated 1-star → flag or block": "Wiederholtes 1-Stern → Flag oder Block", "Sees top-3 nursing homes": "Sieht die Top-3-Pflegeheime", "Hospital — reception / ward manager": "Krankenhaus – Empfangs-/Stationsleiter", "If the hospital withdraws a posting that was sent to a specific nurse's home (bypass posting), the home must be notified immediately.": "Wenn das Krankenhaus eine Ausschreibung, die an ein bestimmtes Pflegeheim gesendet wurde (Umgehungsausschreibung), zurückzieht, muss das Pflegeheim unverzüglich benachrichtigt werden.", "Blocks: GDPR compliance": "Blöcke: DSGVO-Konformität", "Blocks: Transparency logic": "Blöcke: Transparenzlogik", "Receives onboarding invite": "Erhält Onboarding-Einladung", "Blocks: ArbZG enforcement logic": "Blöcke: ArbZG-Durchsetzungslogik", "Sends feedback to nurses independently": "Sendet selbständig Feedback an das Pflegepersonal", " Penalty fee applies (defined in contract). Fee goes to nursing home to compensate for reserved nurse time.": "Es fällt eine Vertragsstrafe an (im Vertrag festgelegt). Die Gebühr geht an das Pflegeheim, um die reservierte Pflegezeit zu kompensieren.", "Can a nurse themselves request an extension to their shift — for example if they want to stay longer voluntarily — or can overtime only ever be initiated by the hospital? In Germany, voluntary overtime without employer request has different legal implications under ArbZG.": "Kann eine Pflegekraft selbst eine Schichtverlängerung beantragen – etwa wenn sie freiwillig länger bleiben möchte – oder können Überstunden immer nur vom Krankenhaus veranlasst werden? In Deutschland haben freiwillige Überstunden ohne Aufforderung des Arbeitgebers nach dem ArbZG unterschiedliche rechtliche Auswirkungen.", "Automatic push to nurse at the 6-hour elapsed mark.": "Automatisches Drücken zum Stillen nach Ablauf der 6-Stunden-Marke.", "Running timer visible. \"Check Out\" is shown but not active until the shift end window opens.": "Laufender Timer sichtbar. „Auschecken“ wird angezeigt, ist aber erst aktiv, wenn das Schichtendefenster geöffnet wird.", "Appears in past shifts list. Immutable. The nurse can reference this at any time.": "Erscheint in der Liste der vergangenen Schichten. Unveränderlich. Hierauf kann die Pflegekraft jederzeit Bezug nehmen.", "Selma's commission comes off before the home receives their payout.": "Selmas Provision wird ausgezahlt, bevor das Haus seine Auszahlung erhält.", "nurse opens the Selma app": "Krankenschwester öffnet die Selma-App", "Blocks: Billing engine design": "Blöcke: Design der Abrechnungsmaschine", "Start acceptance countdown": "Akzeptanz-Countdown starten", "What exact fields must a hospital provide in a job posting? (Ward name, Shift type, Start and end datetime, Headcount required, Specialisation, Urgency flag — confirm which are mandatory vs optional.)": "Welche genauen Felder muss ein Krankenhaus in einer Stellenausschreibung angeben? (Bezirksname, Schichttyp, Start- und Enddatum/-uhrzeit, erforderliche Mitarbeiterzahl, Spezialisierung, Dringlichkeitskennzeichnung – bestätigen Sie, ob dies obligatorisch oder optional ist.)", "Hospital cancels &gt;24 hrs before shift:": "Krankenhaus sagt >24 Stunden vor Schichtbeginn ab:", "Deduct platform commission": "Plattformprovision abziehen", "Cancellation rules — after acceptance": "Stornobedingungen – nach Annahme", "Full visibility across every shift and every party.": "Volle Transparenz über jede Schicht und jede Party hinweg.", "Blocks: Rate calculation": "Blöcke: Tarifberechnung", "Every event is immutably recorded with a timestamp for audit and penalty calculation.": "Jedes Ereignis wird unveränderlich mit einem Zeitstempel zur Prüfung und Strafberechnung aufgezeichnet.", "Live deployment view": "Live-Bereitstellungsansicht", "Cancellation & withdrawal": "Stornierung & Rücktritt", "Also notified if the nurse fails to check in within the threshold time. Home is expected to contact the nurse immediately.": "Wird auch benachrichtigt, wenn die Krankenschwester sich nicht innerhalb der vorgegebenen Zeit meldet. Es wird erwartet, dass das Heim die Krankenschwester umgehend kontaktiert.", "Contract penalty terms apply. Invoice is adjusted. Nursing home is compensated per the agreed rate.": "Es gelten Vertragsstrafenbedingungen. Rechnung wird angepasst. Pflegeheim wird entsprechend dem vereinbarten Satz vergütet.", "Receives early end notification": "Erhält eine Benachrichtigung über das vorzeitige Ende", "Can flag a dispute": "Kann einen Streit melden", "All financial records retained for 10 years per German commercial law requirements.": "Alle Finanzunterlagen werden gemäß den deutschen handelsrechtlichen Anforderungen 10 Jahre lang aufbewahrt.", "GDPR consent collected later": "DSGVO-Einwilligung später eingeholt", "Shift confirmation sent by the platform.": "Von der Plattform gesendete Schichtbestätigung.", "Billable hours + any cancellation penalties received.": "Abzurechnende Stunden + eventuell erhaltene Stornogebühren.", "Negotiates and signs": "Verhandelt und unterschreibt", "Past completed shifts in the app give the nurse a clear record of hours worked — the nursing home uses the same data for payroll calculation.": "Vergangene Schichten in der App geben der Pflegekraft einen klaren Überblick über die geleisteten Arbeitsstunden – das Pflegeheim nutzt dieselben Daten für die Lohnabrechnung.", "Receives Selma feedback separately": "Erhält Selma-Feedback separat", "Prevents the same nurse checking in twice to the same shift.": "Verhindert, dass dieselbe Krankenschwester zweimal in derselben Schicht eincheckt.", "Acceptance countdown starts — e.g. 2 hours.": "Der Countdown zur Annahme beginnt – z.B. 2 Stunden.", "No further action needed": "Keine weiteren Maßnahmen erforderlich", "Receives checkout notification": "Erhält die Checkout-Benachrichtigung", "Blocks: Billing engine": "Blöcke: Abrechnungsmaschine", "If nurse not checked in by X mins past start": "Wenn die Krankenschwester X Minuten nach Beginn nicht eingecheckt hat", "Same hourly rate applies to all shift types — confirmed in alignment meetings.": "Für alle Schichttypen gilt der gleiche Stundensatz – bestätigt in Abstimmungsbesprechungen.", "Penalty is calculated and logged": "Strafe wird berechnet und protokolliert", "Key cancellation thresholds apply here": "Hier gelten die wichtigsten Stornierungsschwellenwerte", "Hospital portal shows confirmed nurse names, count, and nursing home for this shift. No QR to display — the nurse carries the QR on their app.": "Das Krankenhausportal zeigt bestätigte Namen, Anzahl und Pflegeheim der Krankenschwestern für diese Schicht. Kein QR zum Anzeigen – die Krankenschwester trägt den QR in ihrer App.", "30 minutes past scheduled end time — hospital admin must tap \"Approve\" or \"End Shift Now.\"": "30 Minuten nach dem geplanten Ende – der Krankenhausadministrator muss auf „Genehmigen“ oder „Schicht jetzt beenden“ tippen.", "Shift moves to ACTIVE": "Die Umschalttaste wechselt auf AKTIV", "Taps to confirm — can view the home's profile first.": "Zum Bestätigen antippen – kann zuerst das Profil des Zuhauses anzeigen.", "Alert fires to all parties": "Alarmfeuer an alle Parteien", "If rejected: nurse is expected to check out immediately. Any extra time not approved is not billed.": "Bei Ablehnung: Von der Krankenschwester wird erwartet, dass sie sofort auscheckt. Nicht genehmigte zusätzliche Zeit wird nicht in Rechnung gestellt.", "No in-app GPS tracking during travel. The app is 100% online — nurse must have a connection to check in.": "Kein In-App-GPS-Tracking während der Reise. Die App ist zu 100 % online – zum Einchecken muss die Krankenschwester über eine Verbindung verfügen.", "Both hospital penalties (paid to homes) and nursing home penalties (deducted from payouts) are calculated from contract terms.": "Sowohl Krankenhausstrafen (an Heime gezahlt) als auch Pflegeheimstrafen (von den Auszahlungen abgezogen) werden anhand der Vertragsbedingungen berechnet.", "Account onboarding": "Konto-Onboarding", "Account approved": "Konto genehmigt", "Matching, acceptance & cancellation": "Zuweisung, Annahme & Stornierung", "Active shift & overtime": "Aktive Schicht & Überstunden", "Provision": "Provision", "Ratings & feedback loop": "Bewertungen & Feedback-Schleife", "Phase 1-10": "Phase 1-10", "Hospital cancels >24 hrs before shift:": "Krankenhaus storniert >24 Std. vor Schicht:", "Hospital cancels <24 hrs before shift:": "Krankenhaus storniert <24 Std. vor Schicht:", "W.01": "W.01", "What are the exact cancellation penalty amounts or formulas for: (a) hospital cancels >24 hrs before shift, (b) hospital cancels <24 hrs before shift, (c) nursing home cancels after accepting, (d) nursing home cancels <24 hrs? Are these fixed euro amounts, a percentage of the shift value, or defined in each contract individually?": "Wie lauten die genauen Strafbeträge oder Formeln für Stornierungen: (a) Krankenhaus storniert >24 Std. vor Schichtbeginn, (b) Krankenhaus storniert <24 Std. vor Schichtbeginn, (c) Pflegeheim storniert nach Annahme, (d) Pflegeheim storniert <24 Std. vorher? Handelt es sich um feste Euro-Beträge, einen Prozentsatz des Schichtwertes oder werden diese in jedem Vertrag individuell definiert?", "The nurse opens the Selma app and taps \"Check In\" — the app displays a dynamic QR code unique to that nurse and that shift. The nurse shows this QR code to the hospital reception or ward manager, who scans or reads it using the hospital portal. The nurse never scans anything — the QR lives on the nurse's phone and is presented to the hospital. This QR is generated by the Selma platform (not by the nurse, not by the hospital).": "Die Krankenschwester öffnet die Selma-App und tippt auf „Einchecken“ – die App zeigt einen dynamischen QR-Code an, der eindeutig für diese Krankenschwester und diese Schicht ist. Die Krankenschwester zeigt diesen QR-Code dem Krankenhaus-Empfang oder der Stationsleitung, die ihn über das Krankenhausportal scannen oder ablesen. Die Krankenschwester scannt niemals etwas – der QR-Code befindet sich auf dem Telefon der Krankenschwester und wird dem Krankenhaus vorgelegt. Dieser QR-Code wird von der Selma-Plattform generiert (nicht von der Krankenschwester, nicht vom Krankenhaus)."};
+let isGerman = false;
+
+const textNodes = [];
+function collectTextNodes(node) {
+    if (node.nodeType === 3) {
+        if (node.nodeValue.trim().length > 0) {
+            textNodes.push({
+                node: node,
+                en: node.nodeValue,
+                de: translations[node.nodeValue] || node.nodeValue
+            });
+        }
+    } else if (node.nodeType === 1 && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
+        for (let i = 0; i < node.childNodes.length; i++) {
+            collectTextNodes(node.childNodes[i]);
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    collectTextNodes(document.body);
+});
+
+function toggleLanguage() {
+    isGerman = !isGerman;
+    textNodes.forEach(item => {
+        item.node.nodeValue = isGerman ? item.de : item.en;
+    });
+    document.getElementById('lang-toggle').innerText = isGerman ? '🇬🇧 EN' : '🇩🇪 DE';
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow ui">Selma Healthcare Workforce Platform — End-to-End Walkthrough v2</div>
+  <h1>From contract to paycheck — the full picture</h1>
+  <p class="lede">Three actors. Nine phases. One shift. This walkthrough traces every step from Selma's first contract with a hospital or nursing home, through onboarding, job posting, matching, check-in, check-out, and payment — including every cancellation and overtime scenario.</p>
+  <div class="legend">
+    <span><span class="dot hospital"></span>Hospital</span>
+    <span><span class="dot home"></span>Nursing home</span>
+    <span><span class="dot nurse"></span>Nurse</span>
+    <span><span class="dot selma"></span>Selma platform</span>
+  </div>
+</header>
+
+<!-- VERSION STRIP -->
+<div class="version-strip ui">
+  <span>New in v2:</span>
+  <span class="vbadge contract">Contract setup flow</span>
+  <span class="vbadge cancel">Cancellation & withdrawal</span>
+  <span class="vbadge overtime">Overtime handling</span>
+  <span class="vbadge new">14 new questions</span>
+</div>
+
+<!-- NAV -->
+<nav class="phasebar ui" id="phasebar">
+  <a href="#p1">1 · Contract</a>
+  <a href="#p2">2 · Onboarding</a>
+  <a href="#p3">3 · Job posted</a>
+  <a href="#p4">4 · Matching</a>
+  <a href="#p5">5 · Pre-shift</a>
+  <a href="#p6">6 · Check-in</a>
+  <a href="#p7">7 · Active shift</a>
+  <a href="#p8">8 · Check-out</a>
+  <a href="#p9">9 · Payment</a>
+  <a href="#p10">10 · Ratings</a>
+  <a href="#pq">Questions</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 1 — CONTRACT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p1">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 1</span>
+    <h2 class="phase-title">Contract setup with Selma</h2>
+  </div>
+  <p class="phase-sub">Before any account is created, Selma's team establishes a formal service contract with each hospital and each nursing home. This is the legal and commercial foundation everything else sits on.</p>
+
+  <div class="phase-tags">
+    <span class="ptag ptag-contract">New — contract flow</span>
+    <span class="ptag ptag-cancel">Includes withdrawal rules</span>
+  </div>
+
+  <div class="contract-box">
+    <strong>Why this phase exists</strong>
+    <p>The Selma platform handles real money — invoices, payouts, and commission deductions. Before either party can access the platform, a signed service agreement must be in place. The contract defines payment terms, penalty clauses, commission rates, and data processing obligations under GDPR. No contract = no account creation.</p>
+  </div>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step">
+          <h4>Initial enquiry to Selma</h4>
+          <p>Hospital contacts Selma expressing interest. Sales or ops team at Selma initiates the process.</p>
+        </div>
+        <div class="step">
+          <h4>Receives service contract</h4>
+          <p>Contract includes: platform access terms, hourly rate framework, billing cycle (post-invoice), penalty clauses for late cancellations, and GDPR data processing agreement (DPA).</p>
+        </div>
+        <div class="step">
+          <h4>Negotiates and signs</h4>
+          <p>Hospital agrees to the rate structure and payment terms. Signs the DPA as a data recipient. Returns signed contract to Selma.</p>
+        </div>
+        <div class="step">
+          <h4>Selma countersigns</h4>
+          <p>Contract is active. Selma admin can now create the hospital's onboarding invite.</p>
+        </div>
+        <div class="flag cancel">Withdrawal scenario</div>
+        <div class="step">
+          <h4>If hospital withdraws before going live</h4>
+          <p>No penalty if withdrawn before first job posted. Contract termination notice period applies (as defined in the agreement).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step">
+          <h4>Initial enquiry to Selma</h4>
+          <p>Nursing home contacts Selma or is approached by Selma's team directly.</p>
+        </div>
+        <div class="step">
+          <h4>Receives partnership contract</h4>
+          <p>Includes: commission rate Selma deducts, payout schedule (15-day or monthly), nurse deployment rules, AÜG compliance obligations, and the DPA as a data controller.</p>
+        </div>
+        <div class="step">
+          <h4>Negotiates and signs</h4>
+          <p>Nursing home agrees to the commission structure and confirms they hold the required AÜG licence. Signs DPA.</p>
+        </div>
+        <div class="step">
+          <h4>Selma countersigns</h4>
+          <p>Contract active. Selma can now create the nursing home's onboarding account.</p>
+        </div>
+        <div class="flag cancel">Withdrawal scenario</div>
+        <div class="step">
+          <h4>If nursing home withdraws</h4>
+          <p>If no active deployments: clean exit per notice period. If nurses are currently deployed under live contracts, Selma must be notified immediately and a handover plan agreed before the account can be closed.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step empty">
+          <h4>Not yet involved</h4>
+          <p>Nurses are not party to any Selma contract. They are employed by the nursing home.</p>
+        </div>
+        <div class="step empty">
+          <h4>GDPR consent collected later</h4>
+          <p>Individual nurse GDPR consent is obtained at onboarding (Phase 2), not at contract stage.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma admin — contract actions</div>
+      <div class="lane-body">
+        <div class="step">
+          <h4>Prepares bespoke contracts</h4>
+          <p>One contract template for hospitals, one for nursing homes. Commission rate, billing cycle, and penalty terms are configured per client.</p>
+        </div>
+        <div class="step">
+          <h4>Issues DPA to both parties</h4>
+          <p>As required by GDPR Article 28. Selma acts as data processor; hospitals and nursing homes are data controllers.</p>
+        </div>
+        <div class="step">
+          <h4>Logs signed contracts</h4>
+          <p>Both signed contracts stored securely. Expiry dates and renewal reminders set in Selma admin dashboard.</p>
+        </div>
+        <div class="step">
+          <h4>Configures account in backend</h4>
+          <p>Sets commission rate, billing cycle, penalty thresholds, and notification preferences for this client before onboarding begins.</p>
+        </div>
+        <div class="flag contract">Contract renewal</div>
+        <div class="step">
+          <h4>Annual contract review</h4>
+          <p>Platform sends renewal reminders 60 days before expiry. Account is flagged (but not blocked) at expiry until renewed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 2 — ONBOARDING -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p2">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 2</span>
+    <h2 class="phase-title">Account onboarding</h2>
+  </div>
+  <p class="phase-sub">Contract signed — now everyone gets their platform accounts. Selma verifies documents, approves accounts, and nurses are registered by their nursing home before getting their own app access.</p>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives onboarding invite</h4><p>Email from Selma with a unique setup link — sent only after contract is countersigned.</p></div>
+        <div class="step"><h4>Creates admin account</h4><p>Hospital-side admin sets up their portal login. Can add multiple admin users per hospital.</p></div>
+        <div class="step"><h4>Uploads verification documents</h4><p>Business registration (Handelsregistereintrag) and public liability insurance certificate.</p></div>
+        <div class="step"><h4>Awaiting Selma approval</h4><p>Account locked — cannot post jobs until Selma has verified and approved the documents.</p></div>
+        <div class="step"><h4>Account approved — platform live</h4><p>Can now post job requests. Billing cycle begins from first job post date.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives onboarding invite</h4><p>Sent only after contract countersigning.</p></div>
+        <div class="step"><h4>Creates admin account</h4><p>Sets up nursing home portal login and contact preferences.</p></div>
+        <div class="step"><h4>Uploads verification documents</h4><p>Betriebserlaubnis, AÜG licence (with expiry date), liability insurance.</p></div>
+        <div class="step"><h4>Awaiting Selma approval</h4><p>Cannot accept jobs or register nurses until verified.</p></div>
+        <div class="step"><h4>Account approved</h4><p>Can now register nurses and accept job offers.</p></div>
+        <div class="step"><h4>Registers nurses</h4><p>Creates each nurse profile: full name, unique platform ID, specialisation, phone number. Nurse receives invite link to set their own password.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="flag new">No self-registration</div>
+        <div class="step"><h4>Receives invite link</h4><p>Sent by nursing home admin via email — nurse cannot sign up independently.</p></div>
+        <div class="step"><h4>Sets password</h4><p>Completes their profile and provides phone number for push notifications.</p></div>
+        <div class="step"><h4>GDPR consent given</h4><p>Must accept data processing consent at first login — consent covers data sharing with hospitals for shift deployment purposes.</p></div>
+        <div class="step"><h4>App access granted</h4><p>Can see assigned shifts. "Check In" button generates their QR on demand. Navigation links to hospitals are live.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma admin</div>
+      <div class="lane-body">
+        <div class="step"><h4>Issues onboarding invites</h4><p>Triggered by completed contract — not before.</p></div>
+        <div class="step"><h4>Verifies hospital documents</h4><p>Checks registration and insurance. Approves or rejects with a reason note.</p></div>
+        <div class="step"><h4>Verifies nursing home documents</h4><p>Checks AÜG licence expiry date and Betriebserlaubnis. Logs renewal dates.</p></div>
+        <div class="step"><h4>Configures geo region</h4><p>Sets the nursing home's operational area for the matching engine.</p></div>
+        <div class="step"><h4>Monitors credential expiry</h4><p>Dashboard flags upcoming renewals 30 and 60 days in advance. Account can be blocked if documents lapse.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 3 — JOB POSTED -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p3">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 3</span>
+    <h2 class="phase-title">Hospital posts a job</h2>
+  </div>
+  <p class="phase-sub">The hospital always starts the process. Pull model — nursing homes respond to demand, they never push their availability out first. The hospital can withdraw the posting right up until a home accepts.</p>
+
+  <div class="phase-tags">
+    <span class="ptag ptag-cancel">Includes cancellation rules</span>
+  </div>
+
+  <div class="cancel-box">
+    <strong>Cancellation window — before acceptance</strong>
+    <ul>
+      <li>Hospital can withdraw a job posting at any time before a nursing home has accepted it — no penalty.</li>
+      <li>Once a home has accepted, cancellation rules from Phase 4 apply.</li>
+      <li>If the hospital withdraws a posting that was sent to a specific nurse's home (bypass posting), the home must be notified immediately.</li>
+    </ul>
+  </div>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Creates job posting</h4><p>Ward, shift type (day / night / weekend), start and end datetime, headcount required, specialisation, urgency flag.</p></div>
+        <div class="step"><h4>Optional: request specific nurse</h4><p>If they've worked with a nurse before, they can name them. The post goes directly to that nurse's home — bypassing the top-3 algorithm.</p></div>
+        <div class="step"><h4>Post published</h4><p>The matching engine runs immediately and calculates the top 3 homes.</p></div>
+        <div class="flag cancel">Withdrawal</div>
+        <div class="step"><h4>Can withdraw before acceptance</h4><p>Hospital cancels the posting — all notified homes are informed. No penalty at this stage.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step empty"><h4>Not involved yet</h4><p>Waiting for a notification from the platform.</p></div>
+        <div class="step"><h4>Receives job notification</h4><p>Email and push alert — 24/7 if the urgency flag is set.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step empty"><h4>Not involved yet</h4><p>Assignment only happens after a home accepts.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma platform — matching engine</div>
+      <div class="lane-body">
+        <div class="step"><h4>Find all approved homes in Germany</h4><p>Only active, contract-holding homes with verified documents.</p></div>
+        <div class="step"><h4>Filter by specialisation</h4><p>Only homes with nurses matching the required qualification.</p></div>
+        <div class="step"><h4>Rank by proximity + rating</h4><p>Closer and better-rated homes rank higher.</p></div>
+        <div class="step"><h4>Return top 3 to hospital</h4><p>If fewer than 3 are available, the radius expands and the hospital is told.</p></div>
+        <div class="step"><h4>Log posting timestamp</h4><p>Immutable record of when the job went live.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 4 — MATCHING & ACCEPTANCE -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p4">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 4</span>
+    <h2 class="phase-title">Matching, acceptance &amp; cancellation</h2>
+  </div>
+  <p class="phase-sub">The hospital selects from the top 3. The chosen home accepts and assigns nurses. From this point, cancellations have financial consequences for all parties.</p>
+
+  <div class="phase-tags">
+    <span class="ptag ptag-cancel">Key cancellation thresholds apply here</span>
+  </div>
+
+  <div class="cancel-box">
+    <strong>Cancellation rules — after acceptance</strong>
+    <ul>
+      <li><strong>Hospital cancels &gt;24 hrs before shift:</strong> Penalty fee applies (defined in contract). Fee goes to nursing home to compensate for reserved nurse time.</li>
+      <li><strong>Hospital cancels &lt;24 hrs before shift:</strong> Higher penalty. Nursing home receives a larger compensation amount. Selma retains a processing fee.</li>
+      <li><strong>Nursing home withdraws after accepting:</strong> Home is liable for a breach penalty. Hospital is auto-offered the next available home in the list. Selma admin is alerted.</li>
+      <li><strong>Individual nurse withdraws after assignment:</strong> Nursing home must replace the nurse immediately or notify the hospital within 2 hours. If unable to replace, home is liable for the shortfall.</li>
+    </ul>
+  </div>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Sees top-3 nursing homes</h4><p>Each card shows name, distance, rating, and available nurse count for this shift.</p></div>
+        <div class="step"><h4>Selects preferred home</h4><p>Taps to confirm — can view the home's profile first.</p></div>
+        <div class="step"><h4>Job sent to chosen home</h4><p>Acceptance countdown starts — e.g. 2 hours.</p></div>
+        <div class="flag rule">If home doesn't accept in time</div>
+        <div class="step"><h4>System auto-escalates to next home</h4><p>Moves down the top-3 list automatically.</p></div>
+        <div class="flag cancel">Cancellation after acceptance</div>
+        <div class="step"><h4>Penalty is calculated and logged</h4><p>Contract penalty terms apply. Invoice is adjusted. Nursing home is compensated per the agreed rate.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives job offer</h4><p>Shift details and hospital info shown in the portal.</p></div>
+        <div class="flag rule">ArbZG check fires automatically</div>
+        <div class="step"><h4>System checks nurse eligibility</h4><p>Each nurse checked against the 11-hour rest rule and double-booking before they can be assigned.</p></div>
+        <div class="step"><h4>Admin assigns nurses</h4><p>Picks eligible nurses from the list — names confirmed to the hospital.</p></div>
+        <div class="step"><h4>Accepts the job</h4><p>Nurses notified via push immediately.</p></div>
+        <div class="flag cancel">If home declines</div>
+        <div class="step"><h4>Job moves to next home</h4><p>No penalty for declining at this stage — only acceptance and then cancellation triggers penalties.</p></div>
+        <div class="flag cancel">If home cancels after accepting</div>
+        <div class="step"><h4>Breach penalty applied</h4><p>Selma admin is alerted. Hospital is offered the next available home. Penalty is deducted from the home's next payout.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step empty"><h4>Not involved in selection</h4><p>Nursing home admin decides who goes.</p></div>
+        <div class="step"><h4>Push notification received</h4><p>"New shift assigned — St. Mary's Hospital, 14 Jun, 07:00–15:00"</p></div>
+        <div class="step"><h4>Shift appears in dashboard</h4><p>Status: Assigned. Hospital address and directions link visible.</p></div>
+        <div class="flag cancel">If nurse cannot attend</div>
+        <div class="step"><h4>Must notify nursing home immediately</h4><p>Nurse contacts their nursing home admin directly — not through the app. Home is responsible for finding a replacement.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma platform</div>
+      <div class="lane-body">
+        <div class="step"><h4>Run ArbZG 11-hour rest check</h4><p>Per nurse, before any assignment can be confirmed.</p></div>
+        <div class="step"><h4>Block double-booking across homes</h4><p>Checks nurse isn't already assigned elsewhere at the same time.</p></div>
+        <div class="step"><h4>Start acceptance countdown</h4><p>Tracks the time-limited window for the chosen home.</p></div>
+        <div class="step"><h4>Auto-escalate on timeout</h4><p>Moves to the next home in the list.</p></div>
+        <div class="step"><h4>Log acceptance + cancellation events</h4><p>Every event is immutably recorded with a timestamp for audit and penalty calculation.</p></div>
+        <div class="step"><h4>Calculate and apply penalties</h4><p>Penalty amounts are derived from the contract terms on file. Applied automatically to the relevant billing cycle.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 5 — PRE-SHIFT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p5">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 5</span>
+    <h2 class="phase-title">Pre-shift preparation</h2>
+  </div>
+  <p class="phase-sub">The 24 hours before the shift. Reminders go out, the dynamic QR code is pre-generated by Selma (ready to appear in the nurse's app at check-in time), and everyone knows exactly what to expect. Late cancellations at this stage carry the highest penalties.</p>
+
+  <div class="cancel-box">
+    <strong>Late cancellation — within 24 hours of shift start</strong>
+    <ul>
+      <li>Any cancellation by the hospital within 24 hours triggers the maximum penalty rate defined in the contract.</li>
+      <li>Nursing home cancellation within 24 hours is treated as a serious breach — Selma admin is alerted and the home's matching ranking is temporarily reduced.</li>
+      <li>If a nurse is a no-show without notice, the home is liable as if they had cancelled.</li>
+    </ul>
+  </div>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Knows who is arriving</h4><p>Hospital portal shows confirmed nurse names, count, and nursing home for this shift. No QR to display — the nurse carries the QR on their app.</p></div>
+        <div class="step"><h4>24-hour reminder notification</h4><p>Shift confirmation sent by the platform.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>24-hour reminder sent</h4><p>Covers all assigned nurses for this shift.</p></div>
+        <div class="step"><h4>Last chance to cancel — high penalty</h4><p>If the home must cancel at this stage, Selma admin is immediately notified and the maximum penalty is applied.</p></div>
+        <div class="step"><h4>No further action needed</h4><p>Nurses travel to the hospital independently.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step"><h4>24-hour push notification</h4><p>"Reminder: shift at St. Mary's Hospital tomorrow at 07:00."</p></div>
+        <div class="step"><h4>2-hour push notification</h4><p>"Your shift starts in 2 hours. Don't forget to check in on arrival."</p></div>
+        <div class="step"><h4>Opens shift in app</h4><p>Sees hospital name, ward, shift time, and a "Get directions" button that opens the device's native maps app.</p></div>
+        <div class="step"><h4>Travels to hospital</h4><p>No in-app GPS tracking during travel. The app is 100% online — nurse must have a connection to check in.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma platform</div>
+      <div class="lane-body">
+        <div class="step"><h4>Pre-generate QR payload for this shift</h4><p>Selma prepares the QR payload (nurse ID + shift ID + hospital ID + valid time window) ready for the nurse's app to render on demand at check-in. The code is not shown until the nurse taps "Check In".</p></div>
+        <div class="step"><h4>Send 24-hr and 2-hr reminders</h4><p>To nurses, hospital admin, and nursing home admin.</p></div>
+        <div class="step"><h4>Monitor for late cancellations</h4><p>If cancellation is received within 24 hours, maximum penalty is auto-calculated and applied from the contract on file.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 6 — CHECK-IN -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p6">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 6</span>
+    <h2 class="phase-title">Check-in at hospital</h2>
+  </div>
+  <div class="contract-box" style="margin-bottom:20px;">
+    <strong>How the QR check-in actually works</strong>
+    <p>The nurse opens the Selma app and taps "Check In" — the app displays a dynamic QR code unique to that nurse and that shift. The nurse shows this QR code to the hospital reception or ward manager, who scans or reads it using the hospital portal. The nurse never scans anything — the QR lives on the nurse's phone and is presented to the hospital. This QR is generated by the Selma platform (not by the nurse, not by the hospital).</p>
+  </div>
+  <p class="phase-sub">The most critical moment of the whole flow. The nurse presents their Selma QR on their phone — hospital reception validates it. Every failure path — dead battery, wrong code, outside time window — has a defined resolution. The check-in timestamp is the foundation of the billing record.</p>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital — reception / ward manager</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives arriving nurse</h4><p>Nurse arrives at reception and opens the Selma app to show their QR code. Reception staff open the hospital portal to scan or enter the code.</p></div>
+        <div class="step"><h4>Scans nurse's QR code</h4><p>Hospital portal camera (or manual code entry) reads the QR displayed on the nurse's phone. The platform validates it instantly.</p></div>
+        <div class="step"><h4>Receives check-in confirmation</h4><p>"Nurse Anna K. checked in — 07:02" shown instantly in the portal. No further action needed.</p></div>
+        <div class="flag rule">If nurse not checked in by X mins past start</div>
+        <div class="step"><h4>Alert fires to all parties</h4><p>Hospital admin, nursing home admin, and Selma all receive an alert simultaneously.</p></div>
+        <div class="flag rule">Manual punch-in fallback</div>
+        <div class="step"><h4>Hospital admin can punch in manually</h4><p>Used if the nurse's phone is dead or broken. Admin enters the nurse's platform ID manually. Creates a flagged audit record — both hospital and nursing home must confirm this entry.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Check-in confirmation received</h4><p>Push notification the moment the nurse's QR is successfully validated by hospital reception.</p></div>
+        <div class="step"><h4>Alert if no check-in</h4><p>Also notified if the nurse fails to check in within the threshold time. Home is expected to contact the nurse immediately.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step"><h4>Opens assigned shift in app</h4><p>Taps "Check In" — the app generates and displays a dynamic QR code unique to this nurse and this shift.</p></div>
+        <div class="step"><h4>Shows QR to hospital reception</h4><p>Nurse holds up their phone screen. Hospital reception scans or reads the QR using the hospital portal — the nurse does not scan anything.</p></div>
+        <div class="step"><h4>Validation passes</h4><p>Correct nurse · Correct shift · Correct hospital · Within valid time window · Not already checked in.</p></div>
+        <div class="flag rule">If validation fails</div>
+        <div class="step"><h4>Clear error shown in portal</h4><p>Hospital reception sees "QR does not match this shift" or "Outside valid time window." Nurse is told to contact their nursing home admin — do not attempt manual override without authorisation.</p></div>
+        <div class="step"><h4>Shift moves to ACTIVE</h4><p>Check-in time is locked. A shift timer starts in the nurse's app. The nurse is now on the clock.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma platform — QR generation &amp; validation</div>
+      <div class="lane-body">
+        <div class="step"><h4>Generates nurse QR on demand</h4><p>When the nurse taps "Check In", the platform generates a dynamic QR code embedding: nurse ID · shift ID · hospital ID · valid time window. This code lives only in the nurse's app.</p></div>
+        <div class="step"><h4>QR decoded by hospital portal</h4><p>Hospital portal reads the code submitted by reception and decodes the embedded identifiers.</p></div>
+        <div class="step"><h4>Match nurse to shift</h4><p>Confirms the nurse shown in the QR is assigned to this exact shift at this hospital.</p></div>
+        <div class="step"><h4>Validate time window</h4><p>QR must be presented within the valid window (15 mins before start by default). Expired codes are rejected automatically.</p></div>
+        <div class="step"><h4>Check for duplicates</h4><p>Prevents the same nurse checking in twice to the same shift.</p></div>
+        <div class="step"><h4>Lock check-in timestamp</h4><p>Written to the immutable shift record. This is the billing start time.</p></div>
+        <div class="step"><h4>Notify all parties</h4><p>Hospital, nursing home, and nurse all receive real-time confirmation.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 7 — ACTIVE SHIFT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p7">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 7</span>
+    <h2 class="phase-title">Active shift &amp; overtime</h2>
+  </div>
+  <p class="phase-sub">The nurse is on the floor. The platform monitors time, compliance rules, and handles overtime carefully — extra hours require digital hospital approval before they count toward billing.</p>
+
+  <div class="phase-tags">
+    <span class="ptag ptag-overtime">Overtime handling</span>
+    <span class="ptag ptag-cancel">Early termination scenario</span>
+  </div>
+
+  <div class="overtime-box">
+    <strong>How overtime is handled</strong>
+    <ul>
+      <li>If the shift is still active 30 minutes past the scheduled end time, the hospital portal shows an "Approve Overtime" prompt.</li>
+      <li>Hospital admin must digitally approve or reject the extra time before the nurse can check out.</li>
+      <li>If approved: extra hours are added to the billing record at the standard hourly rate (no premium rate confirmed).</li>
+      <li>If rejected: nurse is expected to check out immediately. Any extra time not approved is not billed.</li>
+      <li>ArbZG daily maximum (10 hours including overtime) is enforced — if approval would breach 10 hours, the system blocks it and alerts Selma admin.</li>
+      <li>If the hospital does not respond to the overtime prompt within 1 hour, the system auto-alerts Selma admin to resolve.</li>
+    </ul>
+  </div>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Live deployment view</h4><p>Portal shows each nurse as "Active" with a running timer for their shift.</p></div>
+        <div class="flag overtime">Overtime scenario</div>
+        <div class="step"><h4>Receives overtime approval prompt</h4><p>30 minutes past scheduled end time — hospital admin must tap "Approve" or "End Shift Now."</p></div>
+        <div class="step"><h4>Approves or rejects extra time</h4><p>Approval adds the extra hours to billing. Rejection ends the shift record — nurse must check out immediately.</p></div>
+        <div class="flag cancel">Early termination</div>
+        <div class="step"><h4>Can end shift early</h4><p>If the ward no longer needs the nurse, hospital admin can trigger early checkout from the portal. Nurse is notified. Billing stops at that time.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Nurse shown as "On shift"</h4><p>Nursing home portal shows the active deployment status and elapsed time.</p></div>
+        <div class="step"><h4>Notified of overtime</h4><p>If the hospital approves overtime, the nursing home is notified that the shift will run longer than planned.</p></div>
+        <div class="step empty"><h4>No action required otherwise</h4><p>Unless an emergency or alert fires.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step"><h4>App shows shift as ACTIVE</h4><p>Running timer visible. "Check Out" is shown but not active until the shift end window opens.</p></div>
+        <div class="step"><h4>ArbZG break reminder</h4><p>Push at the 6-hour mark: "You are due a 30-min break as required by ArbZG."</p></div>
+        <div class="step"><h4>Max hours warning</h4><p>Push notification when approaching the 10-hour daily maximum.</p></div>
+        <div class="flag overtime">If overtime is approved</div>
+        <div class="step"><h4>Receives notification</h4><p>"The hospital has approved your shift extension. You may continue working and check out when finished."</p></div>
+        <div class="flag cancel">If shift ends early</div>
+        <div class="step"><h4>Receives early end notification</h4><p>"The hospital has ended this shift early. Please check out now." Check-out button becomes active immediately.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma platform — live monitoring</div>
+      <div class="lane-body">
+        <div class="step"><h4>Track shift duration in real time</h4><p>Backend timer running continuously from check-in timestamp.</p></div>
+        <div class="step"><h4>Trigger ArbZG break alert at 6 hours</h4><p>Automatic push to nurse at the 6-hour elapsed mark.</p></div>
+        <div class="step"><h4>Trigger overtime prompt at shift end</h4><p>If still active 30 mins after scheduled end — hospital portal gets the approval prompt.</p></div>
+        <div class="step"><h4>Enforce 10-hour daily maximum</h4><p>Blocks any overtime approval that would push the nurse past 10 hours total on that calendar day.</p></div>
+        <div class="step"><h4>Auto-alert if no checkout after shift</h4><p>If no checkout is recorded within a configurable window past expected end, Selma admin is alerted.</p></div>
+        <div class="step"><h4>Log every state change immutably</h4><p>Every event timestamped and recorded for ArbZG compliance audit trail.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 8 — CHECK-OUT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p8">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 8</span>
+    <h2 class="phase-title">Check-out &amp; shift lock</h2>
+  </div>
+  <p class="phase-sub">Shift ends. Legal break deductions are applied automatically. The record locks permanently. Payroll data is generated and pushed to the payment engine.</p>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives checkout notification</h4><p>"Anna K. checked out — 15:04. Shift: 07:02–15:04 (7h 32m billable after break deduction)."</p></div>
+        <div class="step"><h4>Shift locked in portal</h4><p>Read-only — no edits possible. Dispute window opens for 48 hours.</p></div>
+        <div class="flag rule">If hours look wrong</div>
+        <div class="step"><h4>Raise a dispute within 48 hours</h4><p>Hospital flags the shift to Selma admin with a note. Record stays locked while dispute is reviewed.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Checkout confirmed</h4><p>Sees hours worked, ArbZG break deducted, and billable hours for this shift.</p></div>
+        <div class="step"><h4>Revenue dashboard updated</h4><p>This shift's earnings added to the projected payout for the current billing cycle.</p></div>
+        <div class="step"><h4>Can raise a dispute</h4><p>If the recorded hours are wrong, the home flags it to Selma within 48 hours.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step"><h4>Taps "Check Out"</h4><p>App shows a checkout QR code (same mechanism as check-in). Nurse shows it to hospital reception who scans it to confirm departure — or the hospital admin confirms checkout directly from the portal.</p></div>
+        <div class="step"><h4>Shift summary shown</h4><p>Check-in time · Check-out time · Total raw hours · Break deducted · Billable hours. Clear and readable.</p></div>
+        <div class="step"><h4>Shift moves to COMPLETED</h4><p>Appears in past shifts list. Immutable. The nurse can reference this at any time.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma platform — hours calculation</div>
+      <div class="lane-body">
+        <div class="step"><h4>Raw hours = checkout − check-in</h4><p>Base duration of the shift.</p></div>
+        <div class="step"><h4>Over 6 hrs → deduct 30 min</h4><p>ArbZG-mandated break deduction.</p></div>
+        <div class="step"><h4>Over 9 hrs → deduct 45 min</h4><p>ArbZG-mandated break deduction.</p></div>
+        <div class="step"><h4>Overtime hours added if approved</h4><p>Any hospital-approved overtime is included in billable total.</p></div>
+        <div class="step"><h4>Billable = raw + overtime − deduction</h4><p>The figure used for invoice generation and nursing home payout.</p></div>
+        <div class="step"><h4>Record locked as immutable</h4><p>No further edits possible by any party without Selma admin override (with audit log).</p></div>
+        <div class="step"><h4>Flag manual entries for admin review</h4><p>Any manual punch-in or manual checkout is highlighted in the admin dashboard.</p></div>
+        <div class="step"><h4>Push payroll data to payment engine</h4><p>Feeds directly into Phase 9 billing cycle.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 9 — PAYMENT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p9">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 9</span>
+    <h2 class="phase-title">Payment cycle</h2>
+  </div>
+  <p class="phase-sub">Selma is the only payment hub. Money flows from the hospital, through Selma, to the nursing home. Cancellation penalties and commission deductions are applied before disbursement. Nurses are paid separately by their home.</p>
+
+  <div class="payflow ui">
+    <div class="node">Hospital</div>
+    <div class="arrow">→</div>
+    <div class="node selma">Selma</div>
+    <div class="arrow">→</div>
+    <div class="node">Nursing home</div>
+    <div class="arrow">→</div>
+    <div class="node">Nurse</div>
+    <div class="label">Invoice total → deducts commission + penalties → pays out → home pays nurse salary</div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives invoice from Selma</h4><p>Itemised by shift: nurse count × billable hours × hourly rate. Any cancellation penalties included as separate line items.</p></div>
+        <div class="step"><h4>Pays Selma</h4><p>Bank transfer to Selma's account — no direct financial contact with nursing homes.</p></div>
+        <div class="flag rule">If hospital defaults on payment</div>
+        <div class="step"><h4>Selma absorbs the risk</h4><p>Per contract terms, Selma chases the hospital. Nursing home is not exposed to the hospital's default.</p></div>
+        <div class="step"><h4>No night or weekend premium</h4><p>Same hourly rate applies to all shift types — confirmed in alignment meetings.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Revenue dashboard</h4><p>Shows confirmed earnings from all completed shifts in the current billing period, projected before the payout runs.</p></div>
+        <div class="step"><h4>Receives payout from Selma</h4><p>Every 15 days or monthly per agreed cycle. Amount = billable hours × rate − Selma commission − any breach penalties.</p></div>
+        <div class="flag cancel">If home had a cancellation penalty</div>
+        <div class="step"><h4>Penalty deducted from payout</h4><p>Cancellation penalties (from Phase 4 or 5) are deducted before the home receives their disbursement. Itemised in payout statement.</p></div>
+        <div class="step"><h4>Pays nurses independently</h4><p>Home handles nurse salaries per their own employment contracts. Platform does not touch nurse pay.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step empty"><h4>Not part of platform payment</h4><p>The nurse is employed by the nursing home, who manages their salary.</p></div>
+        <div class="step"><h4>Shift history as payslip reference</h4><p>Past completed shifts in the app give the nurse a clear record of hours worked — the nursing home uses the same data for payroll calculation.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma — payment engine</div>
+      <div class="lane-body">
+        <div class="step"><h4>Aggregate all locked shift records</h4><p>Pulls in every completed, immutable shift from the billing period.</p></div>
+        <div class="step"><h4>Apply cancellation penalties</h4><p>Both hospital penalties (paid to homes) and nursing home penalties (deducted from payouts) are calculated from contract terms.</p></div>
+        <div class="step"><h4>Calculate invoice per hospital</h4><p>Billable hours + any cancellation penalties received.</p></div>
+        <div class="step"><h4>Receive hospital payment</h4><p>Funds held before disbursing to homes.</p></div>
+        <div class="step"><h4>Deduct platform commission</h4><p>Selma's commission comes off before the home receives their payout.</p></div>
+        <div class="step"><h4>Calculate payout per nursing home</h4><p>Billable hours × rate − commission − any penalties the home owes.</p></div>
+        <div class="step"><h4>Disburse every 15 days or monthly</h4><p>Per the agreed payout cycle from the nursing home's contract.</p></div>
+        <div class="step"><h4>Generate HGB-compliant reports</h4><p>All financial records retained for 10 years per German commercial law requirements.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PHASE 10 — RATINGS -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="p10">
+  <div class="phase-head">
+    <span class="phase-num ui">Phase 10</span>
+    <h2 class="phase-title">Ratings &amp; feedback loop</h2>
+  </div>
+  <p class="phase-sub">After every completed shift, the hospital and nursing home rate each other. All ratings are private — only Selma sees them. They feed directly back into who gets matched first next time.</p>
+
+  <div class="lanes">
+    <div class="lane hospital">
+      <div class="lane-head ui">Hospital</div>
+      <div class="lane-body">
+        <div class="step"><h4>Rates the nursing home</h4><p>1–5 stars across: Punctuality, Clinical skill, Communication, and Professionalism — within 48 hours of shift end.</p></div>
+        <div class="step"><h4>Cannot see how they were rated</h4><p>All ratings are visible to Selma admin only — hospitals do not see nursing home ratings of them.</p></div>
+        <div class="step"><h4>Can flag a dispute</h4><p>Raise a complaint to Selma within 48 hours if there was a serious problem with the deployment.</p></div>
+      </div>
+    </div>
+
+    <div class="lane home">
+      <div class="lane-head ui">Nursing home</div>
+      <div class="lane-body">
+        <div class="step"><h4>Rates the hospital</h4><p>1–5 stars across: Payment speed, Communication, Ward environment — within 48 hours of shift end.</p></div>
+        <div class="step"><h4>Cannot see how they were rated</h4><p>Only Selma admin sees all ratings from both directions.</p></div>
+        <div class="step"><h4>Can raise a dispute</h4><p>If a rating seems unfair or retaliatory, submits to Selma admin for manual review.</p></div>
+      </div>
+    </div>
+
+    <div class="lane nurse">
+      <div class="lane-head ui">Nurse</div>
+      <div class="lane-body">
+        <div class="step empty"><h4>Does not see their own rating</h4><p>Confirmed — ratings are Selma-only. Nurses are never shown scores or hospital comments.</p></div>
+        <div class="step"><h4>Receives Selma feedback separately</h4><p>Selma sends individual feedback outside the app — via email or a separate feedback form.</p></div>
+        <div class="step"><h4>Shift record is immutable</h4><p>Nurse sees completed shifts in history but no rating data is shown anywhere in the app.</p></div>
+      </div>
+    </div>
+
+    <div class="lane selma">
+      <div class="lane-head ui">Selma admin</div>
+      <div class="lane-body">
+        <div class="step"><h4>Receives all ratings — both directions</h4><p>Full visibility across every shift and every party.</p></div>
+        <div class="step"><h4>Reviews disputes manually</h4><p>Can investigate flagged or contested ratings. Can override or remove ratings with an audit log entry.</p></div>
+        <div class="step"><h4>Low-rated homes deprioritised</h4><p>Consistently low scores move a nursing home down in the top-3 matching algorithm.</p></div>
+        <div class="step"><h4>Repeated 1-star → flag or block</h4><p>Triggers a formal review and may result in temporary account suspension.</p></div>
+        <div class="step"><h4>Sends feedback to nurses independently</h4><p>Outside the platform's normal automated flow — Selma's team handles this manually.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- QUESTIONS SECTION -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="phase" id="pq">
+  <div class="phase-head">
+    <span class="phase-num ui" style="border-color:var(--amber);color:var(--amber);">Open Qs</span>
+    <h2 class="phase-title">Questions pending client confirmation</h2>
+  </div>
+  <p class="phase-sub">These questions must be answered before the relevant phase can be built. All are drawn from this walkthrough — each one blocks a specific part of the architecture.</p>
+
+  <div class="questions-section">
+    <h2>Architecture Questions Register</h2>
+    <p class="qs-sub">Questions marked NEW were raised after the alignment meeting based on this flow. All HIGH-priority answers are needed before database design begins.</p>
+
+    <!-- CONTRACT -->
+    <div class="q-group">
+      <div class="q-group-title">Phase 1 — Contract setup</div>
+
+      <div class="q-card">
+        <div class="q-id">C.01</div>
+        <div class="q-body">
+          <p class="q-text">Who at Selma is responsible for preparing and issuing the service contract to a hospital or nursing home — is this a manual step by a Selma ops team member, or will the platform generate a contract template automatically?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Phase 1 workflow</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">C.02</div>
+        <div class="q-body">
+          <p class="q-text">What happens if a hospital or nursing home wants to terminate their contract mid-deployment — i.e. while nurses are actively working shifts? Is there a minimum notice period, and who is responsible for fulfilling open shifts during the exit window?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Withdrawal flow</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">C.03</div>
+        <div class="q-body">
+          <p class="q-text">Does Selma issue a separate Data Processing Agreement (DPA) to each hospital and nursing home — or is it embedded within the main service contract? Who acts as Data Controller and who is the Processor under GDPR?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: GDPR compliance</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">C.04</div>
+        <div class="q-body">
+          <p class="q-text">Are contract terms the same for all hospitals and nursing homes, or can Selma negotiate bespoke commission rates and billing cycles per client? If bespoke — does the platform need to support per-client rate configuration in the admin backend?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Billing engine design</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CANCELLATION -->
+    <div class="q-group">
+      <div class="q-group-title">Cancellation & withdrawal — across all phases</div>
+
+      <div class="q-card">
+        <div class="q-id">W.01</div>
+        <div class="q-body">
+          <p class="q-text">What are the exact cancellation penalty amounts or formulas for: (a) hospital cancels &gt;24 hrs before shift, (b) hospital cancels &lt;24 hrs before shift, (c) nursing home cancels after accepting, (d) nursing home cancels &lt;24 hrs? Are these fixed euro amounts, a percentage of the shift value, or defined in each contract individually?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Billing engine</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">W.02</div>
+        <div class="q-body">
+          <p class="q-text">If a nurse individually withdraws from an assigned shift without enough notice, what is the nursing home's obligation? Must they replace the nurse, notify the hospital within a set time window, or is there a standard fallback process? Who decides what "enough notice" means?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Nurse withdrawal flow</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">W.03</div>
+        <div class="q-body">
+          <p class="q-text">If a hospital terminates a shift early during Phase 7 (active shift) — for example because the ward situation changed — does the nursing home still get paid for the full originally agreed shift duration, or only for hours actually worked?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Early termination billing</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">W.04</div>
+        <div class="q-body">
+          <p class="q-text">Should the platform show a full cancellation history log to each party — i.e. can a hospital see how many times a nursing home has cancelled in the past 90 days? Or is this data visible only to Selma admin?</p>
+          <div class="q-meta"><span class="q-pri med">MED</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Transparency logic</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERTIME -->
+    <div class="q-group">
+      <div class="q-group-title">Overtime & extra time handling</div>
+
+      <div class="q-card">
+        <div class="q-id">OT.01</div>
+        <div class="q-body">
+          <p class="q-text">Who triggers the overtime approval request — does the system automatically prompt the hospital portal when the shift runs 30 minutes past end time, or does the hospital admin proactively initiate it? What happens if the hospital never responds to the overtime prompt?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Overtime flow</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">OT.02</div>
+        <div class="q-body">
+          <p class="q-text">Is overtime billed at the same hourly rate as the standard shift, or is there a separate overtime multiplier (e.g. 1.25× or 1.5×)? This was discussed as "no urgent/standard rate difference" — but does that apply to overtime too, or is overtime treated differently?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: Rate calculation</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">OT.03</div>
+        <div class="q-body">
+          <p class="q-text">If overtime would push a nurse past the ArbZG 10-hour daily maximum, should the platform: (a) hard-block the hospital from approving it, (b) allow it but flag it as a compliance violation, or (c) require a Selma admin override? What is the liability if overtime in breach of ArbZG is approved and recorded?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: ArbZG enforcement logic</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">OT.04</div>
+        <div class="q-body">
+          <p class="q-text">Can a nurse themselves request an extension to their shift — for example if they want to stay longer voluntarily — or can overtime only ever be initiated by the hospital? In Germany, voluntary overtime without employer request has different legal implications under ArbZG.</p>
+          <div class="q-meta"><span class="q-pri med">MED</span><span class="q-tag new">NEW</span><span class="q-tag">Blocks: ArbZG + nurse UX</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXISTING HIGH-PRIORITY OPEN QUESTIONS -->
+    <div class="q-group">
+      <div class="q-group-title">Existing open questions — still need answers</div>
+
+      <div class="q-card">
+        <div class="q-id">01.01</div>
+        <div class="q-body">
+          <p class="q-text">What exact fields must a hospital provide in a job posting? (Ward name, Shift type, Start and end datetime, Headcount required, Specialisation, Urgency flag — confirm which are mandatory vs optional.)</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">Job posting schema</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">01.04</div>
+        <div class="q-body">
+          <p class="q-text">What is the acceptance window for a nursing home to respond to a posting? What happens if all 3 homes decline or time out — does the system auto-expand to the next 3 available homes?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">Matching logic</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">01.06</div>
+        <div class="q-body">
+          <p class="q-text">If a job requires 3 nurses but one nursing home can only supply 2 — can two nursing homes split-fulfil a single job posting, or must one home supply all the required nurses?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">Split fulfilment logic</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">02.01</div>
+        <div class="q-body">
+          <p class="q-text">Who triggers checkout at the end of a shift? Does the nurse scan a second QR code, or does the hospital admin click "Mark Shift Complete" in the portal?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">QR flow</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">02.06</div>
+        <div class="q-body">
+          <p class="q-text">Is the QR code static (same code per hospital, rotated daily/weekly) or dynamic (unique per shift/nurse)? Dynamic is more tamper-proof and is the recommended approach for a payment-linked system, but requires more infrastructure.</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">QR architecture</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">02.07</div>
+        <div class="q-body">
+          <p class="q-text">Which QR scanning direction is preferred? <strong>Scenario A:</strong> The nurse opens their app to display a QR code, and the hospital reception scans it (via tablet, webcam, or barcode scanner). <strong>Scenario B:</strong> The hospital portal displays a QR code at reception, and the nurse scans it using their phone camera. Please confirm which flow and what hardware will be used.</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag new">NEW</span><span class="q-tag">QR scanning direction & hardware</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">03.01</div>
+        <div class="q-body">
+          <p class="q-text">Does the hospital pay Selma in advance (escrow deposit before the shift), or via post-invoice at the end of the billing period? If post-invoice and the hospital defaults, Selma absorbs the risk — please confirm this is acceptable.</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">Payment model</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">03.03</div>
+        <div class="q-body">
+          <p class="q-text">What percentage or flat fee does Selma deduct as platform commission before paying the nursing home? Is this fixed across all homes or negotiated per contract?</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">Commission model</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-id">05.05</div>
+        <div class="q-body">
+          <p class="q-text">Does Selma currently hold an AÜG (Arbeitnehmerüberlassung) licence for temporary staffing? If not, the platform must enforce the 18-month maximum temporary staffing rule per nurse per hospital under German law.</p>
+          <div class="q-meta"><span class="q-pri high">HIGH</span><span class="q-tag">Legal — Germany</span></div>
+          <div class="q-answer-line">Answer: <span class="q-answer-blank"></span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="ui">
+  <span>Selma Platform — Full Flow Walkthrough · <strong>v2, June 2026</strong> · 10 phases, 3 actors, all scenarios</span>
+  <span>Prepared by <strong>Praskla Technology</strong> · info@prasklatechnology.com</span>
+</footer>
+
+<script>
+// Active nav highlight on scroll
+const sections = document.querySelectorAll('section.phase');
+const navLinks = document.querySelectorAll('nav.phasebar a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
