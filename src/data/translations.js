@@ -11,6 +11,8 @@ export const translations = {
   'Nursing home': 'Pflegeheim',
   'Nurse':       'Krankenschwester',
 
+  'Click to enlarge': 'Zum Vergrößern klicken',
+
   'Prepared by': 'Erstellt von',
 
   // ─── VERSION STRIP ────────────────────────────────────────────────────────

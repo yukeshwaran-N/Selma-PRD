@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Header from './components/Header';
 import Hero from './components/Hero';
 import VersionStrip from './components/VersionStrip';
 import PhaseNav from './components/PhaseNav';
@@ -14,7 +15,8 @@ export default function App() {
 
   return (
     <>
-      <Hero lang={lang} onToggleLang={toggleLang} />
+      <Header lang={lang} onToggleLang={toggleLang} />
+      <Hero lang={lang} />
       <VersionStrip lang={lang} />
       <PhaseNav lang={lang} />
       <main>
