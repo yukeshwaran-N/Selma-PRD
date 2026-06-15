@@ -29,14 +29,14 @@ export default function QuestionsSection({ lang }) {
                 <div className="q-body">
                   <p className="q-text">{t(q.text, lang)}</p>
                   <div className="q-meta">
-                    <span className={`q-pri ${q.priority}`}>{q.priority.toUpperCase()}</span>
-                    {q.isNew && <span className="q-tag new">NEW</span>}
+                    <span className={`q-pri ${q.priority}`}>{t(q.priority.toUpperCase(), lang)}</span>
+                    {q.isNew && <span className="q-tag new">{t('NEW', lang)}</span>}
                     {q.tags.map((tag, ti) => (
                       <span className="q-tag" key={ti}>{t(tag, lang)}</span>
                     ))}
                   </div>
                   <div className="q-answer-line">
-                    Answer: <span className="q-answer-blank" />
+                    {t('Answer:', lang)} <span className="q-answer-blank" />
                   </div>
                 </div>
               </div>

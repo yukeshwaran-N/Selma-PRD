@@ -291,8 +291,8 @@ export const translations = {
   'Each nurse checked against the 11-hour rest rule and double-booking before they can be assigned.':
     'Jede Pflegekraft wird gegen die 11-Stunden-Ruhezeitsregel und Doppelbuchung geprüft, bevor sie zugewiesen werden kann.',
   'Admin assigns nurses': 'Administrator weist Pflegekräfte zu',
-  'Picks eligible nurses from the list — names confirmed to the hospital.':
-    'Wählt geeignete Pflegekräfte aus der Liste – Namen werden dem Krankenhaus bestätigt.',
+  'Picks eligible nurses from the list — names confirmed to the hospital.': 'Wählt geeignete Pflegekräfte aus der Liste – Namen werden dem Krankenhaus bestätigt.',
+  'System checks nurse eligibility': 'System prüft Eignung der Pflegekraft',
   'Accepts the job': 'Nimmt die Stelle an',
   'Nurses notified via push immediately.': 'Pflegekräfte werden sofort per Push benachrichtigt.',
   'Job moves to next home': 'Stelle geht zum nächsten Heim',
@@ -329,6 +329,12 @@ export const translations = {
   'Calculate and apply penalties': 'Strafen berechnen und anwenden',
   'Penalty amounts are derived from the contract terms on file. Applied automatically to the relevant billing cycle.':
     'Die Strafhöhe ergibt sich aus den vorliegenden Vertragsbedingungen. Wird automatisch auf den jeweiligen Abrechnungszeitraum angewendet.',
+
+  // ─── QUESTIONS TAGS ───────────────────────────────────────────────────────
+  'HIGH': 'HOCH',
+  'MED': 'MITTEL',
+  'Answer:': 'Antwort:',
+  'Blocks: Phase 1 workflow': 'Blockiert: Phase-1-Workflow',
 
   // ─── PHASE 5 STEPS ────────────────────────────────────────────────────────
   'Knows who is arriving': 'Weiß, wer ankommt',
