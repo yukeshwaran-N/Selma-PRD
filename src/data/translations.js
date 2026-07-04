@@ -800,6 +800,54 @@ export const translations = {
   '[V2 UPDATE: OVERTIME COMPLIANCE] Strict validation added. Payroll processing is hard-blocked if overtime lacks explicit hospital approval.':
     '[V2-UPDATE: ÜBERSTUNDEN-COMPLIANCE] Strenge Validierung hinzugefügt. Gehaltsabrechnung wird blockiert, wenn Überstunden keine ausdrückliche Genehmigung des Krankenhauses haben.',
   '← Back to Timeline': '← Zurück zur Zeitleiste',
+
+  // ─── TIMELINE & DASHBOARD UI ──────────────────────────────────────────────
+  'Version History': 'Versionshistorie',
+  'Latest': 'Aktuell',
+  'By': 'Von',
+  'Open Full PRD': 'Vollständiges PRD öffnen',
+  "What's Changed": 'Was hat sich geändert',
+  'Added Requirements': 'Hinzugefügte Anforderungen',
+  'Modified Requirements': 'Geänderte Anforderungen',
+  'Removed Requirements': 'Entfernte Anforderungen',
+  'No new requirements added.': 'Keine neuen Anforderungen hinzugefügt.',
+  'No modified requirements.': 'Keine geänderten Anforderungen.',
+  'No removed requirements.': 'Keine entfernten Anforderungen.',
+  'Client Notes': 'Kundennotizen',
+  'Open Questions': 'Offene Fragen',
+  'No specific client notes for this version.': 'Keine spezifischen Kundennotizen für diese Version.',
+  'No open questions pending.': 'Keine offenen Fragen ausstehend.',
+
+  // ─── VERSION METADATA ─────────────────────────────────────────────────────
+  'Version 2.0': 'Version 2.0',
+  'Version 1.0': 'Version 1.0',
+  'Client Review & Integration Updates': 'Kundenprüfung & Integrations-Updates',
+  'Initial Platform PRD': 'Ursprüngliches Plattform-PRD',
+  'In Review': 'In Prüfung',
+  'Approved': 'Genehmigt',
+  'Draft': 'Entwurf',
+
+  // ─── VERSION SUMMARIES ────────────────────────────────────────────────────
+  'Refined the user flow based on client feedback, focusing on overtime compliance and clearer contract endpoints.':
+    'Benutzerablauf auf Basis des Kundenfeedbacks verfeinert, mit Fokus auf Überstunden-Compliance und klarere Vertragsendpunkte.',
+  'The foundational Product Requirements Document outlining the core user journeys, API structure, and frontend components for the Selma platform.':
+    'Das grundlegende Produktanforderungsdokument, das die Kern-Benutzerreisen, API-Struktur und Frontend-Komponenten für die Selma-Plattform beschreibt.',
+
+  // ─── CHANGE LOG ITEMS ─────────────────────────────────────────────────────
+  'Overtime compliance tracking in Timesheet phase': 'Überstunden-Compliance-Verfolgung in der Stundenzettel-Phase',
+  'Direct contract PDF download endpoint': 'Direkter Vertrag-PDF-Download-Endpunkt',
+  'Updated UI layout for the Shift Planning component': 'UI-Layout der Schichtplanungs-Komponente aktualisiert',
+  'Changed terminology from "Worker" to "Contractor" in Client portal': 'Terminologie im Kundenportal von „Arbeiter" zu „Auftragnehmer" geändert',
+  'Deprecated the legacy API v1 endpoints': 'Legacy-API-v1-Endpunkte als veraltet markiert',
+  'Initial core documentation': 'Ursprüngliche Kerndokumentation',
+
+  // ─── CHANGE LOG NOTES ─────────────────────────────────────────────────────
+  'The client specifically requested stricter validation on overtime hours before payroll approval.':
+    'Der Kunde hat ausdrücklich eine strengere Validierung der Überstunden vor der Gehaltsfreigabe angefordert.',
+  'Approved for initial development sprint.': 'Für den ersten Entwicklungssprint genehmigt.',
+  'Do we need a separate role for HR managers to approve overtime, or does the Project Lead handle it?':
+    'Benötigen wir eine separate Rolle für Personalmanager zur Genehmigung von Überstunden, oder übernimmt dies der Projektleiter?',
+  'None.': 'Keine.',
 };
 
 /**

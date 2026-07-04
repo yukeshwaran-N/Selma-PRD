@@ -34,12 +34,14 @@ export default function App() {
           <Timeline 
             versions={versions} 
             selectedVersionId={selectedVersionId} 
-            onSelectVersion={setSelectedVersionId} 
+            onSelectVersion={setSelectedVersionId}
+            lang={lang}
           />
           <div className="version-main-content">
             <VersionDashboard 
               version={selectedVersion} 
-              onOpenFullPRD={() => setViewMode('full-prd')} 
+              onOpenFullPRD={() => setViewMode('full-prd')}
+              lang={lang}
             />
           </div>
         </div>
