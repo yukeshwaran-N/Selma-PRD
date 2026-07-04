@@ -1,8 +1,9 @@
 import { t } from '../data/translations';
 
-export default function VersionStrip({ lang }) {
+export default function VersionStrip({ lang, versionNumber }) {
   return (
     <div className="version-strip">
+      {versionNumber && <span className="vbadge new">{versionNumber}</span>}
       <span className="vbadge new">{t('NEW', lang)}</span>
       <span>{t('Cancellation & withdrawal rules across all phases', lang)}</span>
       <span className="vbadge cancel">{t('CANCEL', lang)}</span>

@@ -704,6 +704,102 @@ export const translations = {
     'Welchen Prozentsatz oder welche Pauschalgebühr zieht Selma als Plattformprovision ab, bevor das Pflegeheim bezahlt wird? Ist dies für alle Heime einheitlich oder wird es vertraglich ausgehandelt?',
   'What is the billing cycle — monthly or bi-weekly (every 15 days)? Is this fixed for all clients or per-contract?':
     'Wie lautet der Abrechnungszyklus – monatlich oder zweiwöchentlich (alle 15 Tage)? Ist dies für alle Kunden einheitlich oder vertraglich geregelt?',
+
+  // ─── V2 QUESTION GROUP TITLES ─────────────────────────────────────────────
+  'Matching & Fallback Logic': 'Matching- & Fallback-Logik',
+  'Nurse Replacement & Cancellation': 'Pflegekraft-Ersatz & Stornierung',
+  'Billing, Overtime & Invoicing': 'Abrechnung, Überstunden & Rechnungsstellung',
+  'Ratings, Doctor Module & Permissions': 'Bewertungen, Ärztemodul & Berechtigungen',
+  'No-Show, Shift Conflicts & Disputes': 'Nichterscheinen, Schichtkonflikte & Streitfälle',
+  'Compliance, Liability & Insurance': 'Compliance, Haftung & Versicherung',
+  'Platform Architecture & Data': 'Plattformarchitektur & Daten',
+
+  // ─── V2 PRIORITY LABELS ──────────────────────────────────────────────────
+  'HIGH': 'HOCH',
+  'MED': 'MITTEL',
+
+  // ─── V2 QUESTIONS — Matching & Fallback ───────────────────────────────────
+  'If all Top 3 Leasing Companies reject the request, what should happen? Options: (a) Automatically search the next 3 companies, (b) Increase the search radius, (c) Notify Selma for manual intervention, (d) Inform the hospital that no provider is available.':
+    'Was soll passieren, wenn alle Top-3-Leasingunternehmen die Anfrage ablehnen? Optionen: (a) Automatisch die nächsten 3 Unternehmen suchen, (b) Suchradius erweitern, (c) Selma zur manuellen Bearbeitung benachrichtigen, (d) Das Krankenhaus informieren, dass kein Anbieter verfügbar ist.',
+  'After a hospital selects a leasing company, how long does the leasing company have to accept the request? For example: 30 minutes, 1 hour, or 2 hours.':
+    'Wie lange hat ein Leasingunternehmen Zeit, die Anfrage anzunehmen, nachdem ein Krankenhaus es ausgewählt hat? Zum Beispiel: 30 Minuten, 1 Stunde oder 2 Stunden.',
+
+  // ─── V2 QUESTIONS — Nurse Replacement ─────────────────────────────────────
+  'If an assigned nurse cancels, how much time does the leasing company have to provide a replacement? For example: Immediately, Within 1 hour, Within 2 hours, or Before shift start.':
+    'Wenn eine zugewiesene Pflegekraft absagt, wie viel Zeit hat das Leasingunternehmen, einen Ersatz zu stellen? Zum Beispiel: Sofort, innerhalb von 1 Stunde, innerhalb von 2 Stunden oder vor Schichtbeginn.',
+
+  // ─── V2 QUESTIONS — Billing, Overtime & Invoicing ─────────────────────────
+  'Hospital Ends Shift Early — the notes say the hospital pays for planned shifts. Please confirm: Does the leasing company receive payment for the full planned shift even if the nurse worked fewer hours?':
+    'Krankenhaus beendet Schicht vorzeitig – die Notizen besagen, dass das Krankenhaus für geplante Schichten zahlt. Bitte bestätigen: Erhält das Leasingunternehmen die Zahlung für die gesamte geplante Schicht, auch wenn die Pflegekraft weniger Stunden gearbeitet hat?',
+  'Overtime Calculation — the notes mention documenting and approving overtime. Please confirm: Is overtime paid at the normal hourly rate, or should a different rate ever apply?':
+    'Überstundenberechnung – die Notizen erwähnen die Dokumentation und Genehmigung von Überstunden. Bitte bestätigen: Werden Überstunden zum normalen Stundensatz bezahlt, oder sollte jemals ein anderer Satz gelten?',
+  'Invoice Schedule — the notes mention monthly billing. Please confirm: Are invoices generated automatically at the end of every month, or can Selma manually generate invoices whenever needed?':
+    'Rechnungszeitplan – die Notizen erwähnen monatliche Abrechnung. Bitte bestätigen: Werden Rechnungen automatisch am Ende jedes Monats erstellt, oder kann Selma bei Bedarf manuell Rechnungen erstellen?',
+  'Commission Flexibility — the notes say Selma receives 5%. Please confirm: Is 5% fixed for every customer, or can Selma configure a different percentage for specific hospitals or leasing companies?':
+    'Provisionsflexibilität – die Notizen besagen, dass Selma 5 % erhält. Bitte bestätigen: Sind 5 % für jeden Kunden fest, oder kann Selma einen anderen Prozentsatz für bestimmte Krankenhäuser oder Leasingunternehmen konfigurieren?',
+
+  // ─── V2 QUESTIONS — Ratings, Doctor Module & Permissions ──────────────────
+  'Should ratings affect matching? For example: Lower-rated leasing companies appear lower in search results? Or are ratings only visible to Selma and not used by the matching algorithm?':
+    'Sollen Bewertungen das Matching beeinflussen? Zum Beispiel: Schlechter bewertete Leasingunternehmen erscheinen weiter unten in den Suchergebnissen? Oder sind Bewertungen nur für Selma sichtbar und werden nicht vom Matching-Algorithmus verwendet?',
+  'Doctor Module — the notes mention future support for doctors. Should the platform be designed now so that nurses and doctors share the same workflow, or will doctors have a completely separate workflow later?':
+    'Ärztemodul – die Notizen erwähnen zukünftige Unterstützung für Ärzte. Soll die Plattform jetzt so gestaltet werden, dass Pflegekräfte und Ärzte denselben Workflow teilen, oder werden Ärzte später einen komplett separaten Workflow haben?',
+  'Manual Exceptions — some scenarios mention manual handling. Please confirm: Who is allowed to perform manual actions? Options: (a) Selma Admin only, (b) Hospital Admin, (c) Leasing Company Admin.':
+    'Manuelle Ausnahmen – einige Szenarien erwähnen manuelle Bearbeitung. Bitte bestätigen: Wer darf manuelle Aktionen durchführen? Optionen: (a) Nur Selma-Admin, (b) Krankenhaus-Admin, (c) Leasingunternehmen-Admin.',
+
+  // ─── V2 QUESTIONS — No-Show, Shift Conflicts & Disputes ──────────────────
+  "No-Show vs. Cancellation — A nurse cancelling is covered. But what happens if a nurse simply doesn't show up — no cancellation, no communication? Is the penalty different from a late cancellation? Does the system auto-trigger a replacement search, and after how many minutes of no check-in?":
+    'Nichterscheinen vs. Stornierung – Die Absage einer Pflegekraft ist abgedeckt. Aber was passiert, wenn eine Pflegekraft einfach nicht erscheint – keine Absage, keine Kommunikation? Ist die Strafe anders als bei einer späten Stornierung? Löst das System automatisch eine Ersatzsuche aus, und nach wie vielen Minuten ohne Check-in?',
+  "Concurrent Shift Conflicts — What prevents a leasing company from assigning the same nurse to two overlapping shifts at different hospitals? Should the platform enforce this at the system level, or is it the leasing company's responsibility?":
+    'Gleichzeitige Schichtkonflikte – Was hindert ein Leasingunternehmen daran, dieselbe Pflegekraft zwei überlappenden Schichten in verschiedenen Krankenhäusern zuzuweisen? Soll die Plattform dies auf Systemebene durchsetzen, oder liegt es in der Verantwortung des Leasingunternehmens?',
+  "Nurse Profile Visibility — Can a hospital see the nurse's name, qualifications, and photo before accepting the match — or is it anonymous until the leasing company is selected? This has both UX and GDPR implications.":
+    'Sichtbarkeit des Pflegekraft-Profils – Kann ein Krankenhaus den Namen, die Qualifikationen und das Foto der Pflegekraft sehen, bevor es das Match akzeptiert – oder ist es anonym, bis das Leasingunternehmen ausgewählt wird? Dies hat sowohl UX- als auch DSGVO-Auswirkungen.',
+  'Dispute Resolution — If the hospital says the nurse worked 6 hours but the leasing company claims 8 hours, who arbitrates? Does QR check-in/check-out timestamp serve as the single source of truth, or can either party dispute it?':
+    'Streitbeilegung – Wenn das Krankenhaus sagt, die Pflegekraft hat 6 Stunden gearbeitet, aber das Leasingunternehmen 8 Stunden behauptet, wer entscheidet? Dient der QR-Check-in/Check-out-Zeitstempel als einzige Wahrheitsquelle, oder kann eine der Parteien ihn anfechten?',
+  'Blacklisting — Can a hospital permanently block a specific nurse or leasing company from future matching? Can a leasing company refuse to serve a specific hospital? Where does this data live — and is Selma notified?':
+    'Blacklisting – Kann ein Krankenhaus eine bestimmte Pflegekraft oder ein Leasingunternehmen dauerhaft vom zukünftigen Matching ausschließen? Kann ein Leasingunternehmen die Zusammenarbeit mit einem bestimmten Krankenhaus ablehnen? Wo werden diese Daten gespeichert – und wird Selma benachrichtigt?',
+
+  // ─── V2 QUESTIONS — Compliance, Liability & Insurance ─────────────────────
+  'Break Time Compliance (ArbZG §4) — ArbZG mandates 30-minute breaks after 6 hours and 45-minute breaks after 9 hours. Is break time tracked by the platform? Is it deducted from billing automatically, or is it included in the paid shift time?':
+    'Pausenzeitkonformität (ArbZG §4) – Das ArbZG schreibt 30-minütige Pausen nach 6 Stunden und 45-minütige Pausen nach 9 Stunden vor. Wird die Pausenzeit von der Plattform erfasst? Wird sie automatisch von der Abrechnung abgezogen, oder ist sie in der bezahlten Schichtzeit enthalten?',
+  "Insurance Liability During Active Shift — If a nurse is injured while working at a hospital, whose insurance covers it — the hospital's, the leasing company's, or Selma's? Does the platform need to verify insurance documents before allowing a shift to begin?":
+    'Versicherungshaftung während aktiver Schicht – Wenn eine Pflegekraft während der Arbeit im Krankenhaus verletzt wird, wessen Versicherung greift – die des Krankenhauses, des Leasingunternehmens oder von Selma? Muss die Plattform Versicherungsdokumente überprüfen, bevor eine Schicht beginnen darf?',
+
+  // ─── V2 QUESTIONS — Platform Architecture & Data ──────────────────────────
+  "Payment Failure / Dunning — If a hospital doesn't pay their invoice on time, what happens? Is there an automated dunning process (reminder → warning → suspension)? At what point does Selma freeze the hospital's ability to post new shifts?":
+    'Zahlungsausfall / Mahnverfahren – Was passiert, wenn ein Krankenhaus seine Rechnung nicht rechtzeitig bezahlt? Gibt es ein automatisiertes Mahnverfahren (Erinnerung → Warnung → Sperrung)? Ab wann sperrt Selma die Möglichkeit des Krankenhauses, neue Schichten auszuschreiben?',
+  'Recurring / Multi-Day Bookings — Can a hospital book the same nurse for a recurring weekly shift (e.g., every Monday for 8 weeks)? Or is every single shift a standalone booking? This fundamentally changes the matching and billing architecture.':
+    'Wiederkehrende / Mehrtages-Buchungen – Kann ein Krankenhaus dieselbe Pflegekraft für eine wiederkehrende wöchentliche Schicht buchen (z. B. jeden Montag für 8 Wochen)? Oder ist jede einzelne Schicht eine eigenständige Buchung? Dies verändert grundlegend die Matching- und Abrechnungsarchitektur.',
+  'Data Retention & Right to Deletion — Under GDPR, how long is shift history, personal data, and billing records retained? If a nurse or leasing company leaves the platform, what gets deleted vs. what must be kept for tax/legal compliance?':
+    'Datenspeicherung & Recht auf Löschung – Wie lange werden Schichthistorie, personenbezogene Daten und Abrechnungsdaten unter der DSGVO aufbewahrt? Wenn eine Pflegekraft oder ein Leasingunternehmen die Plattform verlässt, was wird gelöscht und was muss für steuerliche/rechtliche Compliance aufbewahrt werden?',
+
+  // ─── V2 QUESTION TAGS ─────────────────────────────────────────────────────
+  'Blocks: Matching engine fallback': 'Blockiert: Matching-Engine-Fallback',
+  'Blocks: Acceptance window': 'Blockiert: Annahmezeitfenster',
+  'Blocks: Replacement SLA': 'Blockiert: Ersatz-SLA',
+  'Blocks: Early termination billing': 'Blockiert: Abrechnung bei vorzeitiger Beendigung',
+  'Blocks: Rate calculation': 'Blockiert: Tarifberechnung',
+  'Blocks: Invoicing engine': 'Blockiert: Rechnungsstellungs-Engine',
+  'Blocks: Commission config': 'Blockiert: Provisionskonfiguration',
+  'Blocks: Matching algorithm': 'Blockiert: Matching-Algorithmus',
+  'Blocks: Architecture scope': 'Blockiert: Architekturumfang',
+  'Blocks: Role permissions': 'Blockiert: Rollenberechtigungen',
+  'Blocks: No-show flow': 'Blockiert: Nichterscheinen-Ablauf',
+  'Blocks: Scheduling engine': 'Blockiert: Planungs-Engine',
+  'Blocks: Matching UX + GDPR': 'Blockiert: Matching-UX + DSGVO',
+  'Blocks: Dispute workflow': 'Blockiert: Streitfall-Workflow',
+  'Blocks: Matching exclusions': 'Blockiert: Matching-Ausschlüsse',
+  'Blocks: ArbZG break tracking': 'Blockiert: ArbZG-Pausenerfassung',
+  'Blocks: Insurance verification': 'Blockiert: Versicherungsprüfung',
+  'Blocks: Dunning engine': 'Blockiert: Mahn-Engine',
+  'Blocks: Booking model': 'Blockiert: Buchungsmodell',
+  'Blocks: GDPR data lifecycle': 'Blockiert: DSGVO-Datenlebenszyklus',
+
+  // ─── V2 PHASE UPDATES & UI ────────────────────────────────────────────────
+  '[V2 UPDATE: Added Direct PDF Download Endpoint]. Before any shift can ever be posted, both the hospital and every nursing home it will work with must sign a service contract with Selma. This phase is manual — handled by Selma\'s ops team.':
+    '[V2-UPDATE: Direkter PDF-Download-Endpunkt hinzugefügt]. Bevor eine Schicht ausgeschrieben werden kann, müssen sowohl das Krankenhaus als auch jedes Pflegeheim, mit dem es zusammenarbeiten wird, einen Dienstleistungsvertrag mit Selma unterzeichnen. Diese Phase ist manuell – sie wird vom Selma-Betriebsteam abgewickelt.',
+  '[V2 UPDATE: OVERTIME COMPLIANCE] Strict validation added. Payroll processing is hard-blocked if overtime lacks explicit hospital approval.':
+    '[V2-UPDATE: ÜBERSTUNDEN-COMPLIANCE] Strenge Validierung hinzugefügt. Gehaltsabrechnung wird blockiert, wenn Überstunden keine ausdrückliche Genehmigung des Krankenhauses haben.',
+  '← Back to Timeline': '← Zurück zur Zeitleiste',
 };
 
 /**

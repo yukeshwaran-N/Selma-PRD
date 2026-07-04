@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yukeshwaran N – Service & Responsibility Charter | Praskla Technology</title>
+    <meta name="description" content="Service & Responsibility Charter of Yukeshwaran N – Director of Cybersecurity &amp; Secure Full-Stack Developer at Praskla Technology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        :root {
+            --plum:        #5c1a6b;
+            --plum-dark:   #3d0f49;
+            --plum-mid:    #7a2490;
+            --plum-light:  #f2e8f7;
+            --plum-rule:   #c49ad5;
+            --plum-muted:  #e8d0f3;
+            --bg:          #f7f5fa;
+            --surface:     #ffffff;
+            --text-1:      #0f0d14;
+            --text-2:      #3a3244;
+            --text-3:      #7c6d8a;
+            --rule:        #e3d8ee;
+            --blue:        #1c5db5;
+            --blue-bg:     #eef4ff;
+            --teal:        #0c7266;
+            --teal-bg:     #effcf9;
+            --amber:       #9f5c08;
+            --amber-bg:    #fef9ee;
+            --slate:       #3d5268;
+            --slate-bg:    #f4f7fb;
+            --green:       #16603a;
+            --green-bg:    #effaf4;
+            --indigo:      #3730a3;
+            --indigo-bg:   #eef2ff;
+            --rose:        #9f1239;
+            --rose-bg:     #fff1f2;
+        }
+
+        @page {
+            size: A4;
+            margin-top: 14mm;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+
+        @page :first {
+            margin-top: 0;
+        }
+
+        html { font-size: 11px; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text-1);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            max-width: 794px;
+            margin: 0 auto;
+            background: var(--surface);
+            min-height: 1123px;
+        }
+
+        /* ══════════════════════════════════
+           HEADER — full-width designed banner
+        ══════════════════════════════════ */
+        .header {
+            background: var(--plum-dark);
+            background-image: linear-gradient(135deg, #3d0f49 0%, #5c1a6b 55%, #7a2490 100%);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* subtle pattern overlay */
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.04) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .header-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 20px;
+            padding: 22px 30px 20px;
+        }
+
+        /* Logo block */
+        .header-logo {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 0 5px rgba(255,255,255,0.08);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Name + title */
+        .header-identity {}
+
+        .header-org {
+            font-size: 7.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 4px;
+        }
+
+        .header-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 30px;
+            color: #ffffff;
+            margin: 0 0 3px;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .header-doc-title {
+            font-size: 9.5px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Right stats */
+        .header-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .h-stat {
+            text-align: right;
+        }
+
+        .h-stat-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .h-stat-lbl {
+            font-size: 7.5px;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        /* Role strip */
+        .header-role-strip {
+            background: rgba(0,0,0,0.22);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 9px 30px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .role-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9.5px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .role-pill .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .dot-blue   { background: #60a5fa; }
+        .dot-teal   { background: #2dd4bf; }
+        .dot-amber  { background: #fbbf24; }
+        .dot-green  { background: #34d399; }
+
+        .role-divider {
+            width: 1px;
+            height: 14px;
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* ══════════════════════════════════
+           CONTENT AREA
+        ══════════════════════════════════ */
+        .content {
+            padding: 16px 30px 20px;
+        }
+
+        /* ── PRIMARY ROLE ── */
+        .intro {
+            margin-bottom: 13px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .section-eyebrow {
+            font-family: 'Outfit', sans-serif;
+            font-size: 7px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--plum);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .section-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 2px;
+            background: var(--plum);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .intro p {
+            font-size: 11px;
+            color: var(--text-2);
+            margin: 0 0 4px;
+            line-height: 1.7;
+        }
+        .intro p:last-child { margin: 0; }
+
+        /* ── CORE AREAS HEADING ── */
+        .areas-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--text-1);
+            margin: 0 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .areas-heading::after {
+            content: '';
+            flex: 1;
+            height: 1.5px;
+            background: linear-gradient(to right, var(--plum-rule), transparent);
+            border-radius: 2px;
+        }
+
+        /* ── AREA BLOCK ── */
+        .area {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--rule);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .area:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .area-top {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 7px;
+        }
+
+        .area-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 9.5px;
+            font-weight: 700;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .c-b .area-num { background: var(--blue-bg);  color: var(--blue);  border: 1px solid #bfdbfe; }
+        .c-t .area-num { background: var(--teal-bg);  color: var(--teal);  border: 1px solid #99f6e4; }
+        .c-a .area-num { background: var(--amber-bg); color: var(--amber); border: 1px solid #fde68a; }
+        .c-s .area-num { background: var(--slate-bg); color: var(--slate); border: 1px solid #cbd5e1; }
+        .c-g .area-num { background: var(--green-bg); color: var(--green); border: 1px solid #bbf7d0; }
+        .c-i .area-num { background: var(--indigo-bg); color: var(--indigo); border: 1px solid #c7d2fe; }
+        .c-r .area-num { background: var(--rose-bg);   color: var(--rose);   border: 1px solid #fecdd3; }
+
+        .area h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-1);
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: -0.1px;
+        }
+
+        .area-rule {
+            height: 2px;
+            width: 28px;
+            border-radius: 2px;
+            margin: 3px 0 8px 33px;
+        }
+        .c-b .area-rule { background: var(--blue); }
+        .c-t .area-rule { background: var(--teal); }
+        .c-a .area-rule { background: var(--amber); }
+        .c-s .area-rule { background: var(--slate); }
+        .c-g .area-rule { background: var(--green); }
+        .c-i .area-rule { background: var(--indigo); }
+        .c-r .area-rule { background: var(--rose); }
+
+        .area-body {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .area-lists { flex: 1; }
+
+        .area-sub {
+            font-size: 7.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            margin: 7px 0 5px;
+        }
+        .area-sub:first-child { margin-top: 0; }
+        .c-b .area-sub { color: var(--blue); }
+        .c-t .area-sub { color: var(--teal); }
+        .c-a .area-sub { color: var(--amber); }
+        .c-s .area-sub { color: var(--slate); }
+        .c-g .area-sub { color: var(--green); }
+        .c-i .area-sub { color: var(--indigo); }
+        .c-r .area-sub { color: var(--rose); }
+
+        .area ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px 14px;
+        }
+
+        .area ul li {
+            font-size: 10px;
+            color: var(--text-2);
+            position: relative;
+            padding-left: 11px;
+            line-height: 1.55;
+            min-width: 44%;
+        }
+
+        .area ul li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            font-size: 11px;
+            line-height: 1.35;
+            font-weight: 700;
+        }
+        .c-b ul li::before { color: var(--blue); }
+        .c-t ul li::before { color: var(--teal); }
+        .c-a ul li::before { color: var(--amber); }
+        .c-s ul li::before { color: var(--slate); }
+        .c-g ul li::before { color: var(--green); }
+        .c-i ul li::before { color: var(--indigo); }
+        .c-r ul li::before { color: var(--rose); }
+
+        .area-obj-wrap { flex: 0 0 195px; }
+
+        .area-obj-label {
+            font-size: 7px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            margin-bottom: 4px;
+        }
+        .c-b .area-obj-label { color: var(--blue); }
+        .c-t .area-obj-label { color: var(--teal); }
+        .c-a .area-obj-label { color: var(--amber); }
+        .c-s .area-obj-label { color: var(--slate); }
+        .c-g .area-obj-label { color: var(--green); }
+        .c-i .area-obj-label { color: var(--indigo); }
+        .c-r .area-obj-label { color: var(--rose); }
+
+        .area-obj {
+            font-size: 10px;
+            font-style: italic;
+            line-height: 1.65;
+            padding: 8px 10px;
+            border-left: 2.5px solid;
+            border-radius: 0 5px 5px 0;
+        }
+        .c-b .area-obj { color: #1e3869; border-color: var(--blue);  background: var(--blue-bg); }
+        .c-t .area-obj { color: #0a4842; border-color: var(--teal);  background: var(--teal-bg); }
+        .c-a .area-obj { color: #663d05; border-color: var(--amber); background: var(--amber-bg);}
+        .c-s .area-obj { color: #2c3e50; border-color: var(--slate); background: var(--slate-bg);}
+        .c-g .area-obj { color: #0e3d20; border-color: var(--green);  background: var(--green-bg);}
+        .c-i .area-obj { color: #1e1b6e; border-color: var(--indigo); background: var(--indigo-bg);}
+        .c-r .area-obj { color: #6b0f24; border-color: var(--rose);   background: var(--rose-bg);}
+
+        /* ── ROLE BADGES ── */
+        .area-roles {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 7px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 2px 7px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .rb-cyber {
+            background: var(--plum-light);
+            color: var(--plum);
+            border: 1px solid var(--plum-muted);
+        }
+
+        .rb-dev {
+            background: var(--blue-bg);
+            color: var(--blue);
+            border: 1px solid #bfdbfe;
+        }
+
+        .rb-lead {
+            background: var(--slate-bg);
+            color: var(--slate);
+            border: 1px solid #cbd5e1;
+        }
+
+        .rb-devsec {
+            background: var(--rose-bg);
+            color: var(--rose);
+            border: 1px solid #fecdd3;
+        }
+
+        .rb-train {
+            background: var(--teal-bg);
+            color: var(--teal);
+            border: 1px solid #99f6e4;
+        }
+
+        .rb-qa {
+            background: var(--amber-bg);
+            color: var(--amber);
+            border: 1px solid #fde68a;
+        }
+
+        .rb-bus {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid #86efac;
+        }
+
+        /* ── VISION ── */
+        .vision {
+            margin-top: 12px;
+            padding-top: 11px;
+            border-top: 2px solid var(--plum);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .vision p {
+            font-size: 11px;
+            color: var(--text-2);
+            margin: 0 0 4px;
+            line-height: 1.72;
+        }
+        .vision p:last-child { margin: 0; }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: var(--bg);
+            border-top: 1px solid var(--rule);
+            padding: 8px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+        }
+
+        .footer p {
+            font-size: 8px;
+            color: var(--text-3);
+            margin: 0;
+            letter-spacing: 0.3px;
+        }
+
+        .footer .f-name { color: var(--plum); font-weight: 700; }
+
+        /* ── PRINT ── */
+        @media print {
+            body { background: #f7f5fa !important; }
+            .page { box-shadow: none; }
+            .area   { page-break-inside: avoid; break-inside: avoid; }
+            .vision { page-break-inside: avoid; break-inside: avoid; }
+            .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+
+    <!-- ══════════ HEADER ══════════ -->
+    <div class="header">
+        <div class="header-inner">
+            <img class="header-logo" src="./py-round.png" alt="Praskla Logo">
+
+            <div class="header-identity">
+                <div class="header-org">Praskla Technology</div>
+                <div class="header-name">Yukeshwaran N</div>
+                <div class="header-doc-title">Service &amp; Responsibility Charter</div>
+            </div>
+
+            <div class="header-stats">
+                <div class="h-stat">
+                    <div class="h-stat-val">Director of Cybersecurity</div>
+                    <div class="h-stat-lbl">Security Leadership</div>
+                </div>
+                <div class="h-stat">
+                    <div class="h-stat-val">Secure Full-Stack Developer</div>
+                    <div class="h-stat-lbl">Engineering Role</div>
+                </div>
+                <div class="h-stat">
+                    <div class="h-stat-val">7 Defined Roles</div>
+                    <div class="h-stat-lbl">Scope of Responsibility</div>
+                </div>
+                <div class="h-stat">
+                    <div class="h-stat-val">7 Core Service Areas</div>
+                    <div class="h-stat-lbl">Delivery Coverage</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-role-strip">
+            <span class="role-pill"><span class="dot" style="background:#c084fc;"></span>Director of Cybersecurity</span>
+            <div class="role-divider"></div>
+            <span class="role-pill"><span class="dot dot-blue"></span>Secure Full-Stack Developer</span>
+            <div class="role-divider"></div>
+            <span class="role-pill"><span class="dot" style="background:#94a3b8;"></span>Project Lead</span>
+            <div class="role-divider"></div>
+            <span class="role-pill"><span class="dot dot-amber"></span>QA Lead</span>
+            <div class="role-divider"></div>
+            <span class="role-pill"><span class="dot" style="background:#fb7185;"></span>DevSecOps Engineer</span>
+            <div class="role-divider"></div>
+            <span class="role-pill"><span class="dot dot-teal"></span>Security Trainer &amp; Mentor</span>
+            <div class="role-divider"></div>
+            <span class="role-pill"><span class="dot dot-green"></span>Business &amp; Product Strategist</span>
+        </div>
+    </div>
+
+    <!-- ══════════ CONTENT ══════════ -->
+    <div class="content">
+
+        <!-- Intro -->
+        <div class="intro">
+            <div class="section-eyebrow">My 7 Roles at Praskla Technology</div>
+            <p>As <strong>Director of Cybersecurity</strong>, I lead all security strategy, standards, and enforcement. As <strong>Secure Full-Stack Developer</strong>, I build products end-to-end with security embedded from day one.</p>
+            <p>As <strong>Project Lead</strong>, I own delivery and team alignment for SELMA. As <strong>QA Lead</strong>, I ensure that every release meets stringent quality expectations. As <strong>DevSecOps Engineer</strong>, I secure every pipeline and CI/CD process.</p>
+            <p>As <strong>Security Trainer &amp; Mentor</strong>, I grow the next generation of secure developers at Praskla. As <strong>Business &amp; Product Strategist</strong>, I drive product vision and align client requirements with technical execution.</p>
+        </div>
+
+        <!-- Roles Heading -->
+        <div class="areas-heading">Roles &amp; Responsibilities</div>
+
+        <!-- ROLE 01 -->
+        <div class="area c-i">
+            <div class="area-top">
+                <span class="area-num">01</span>
+                <h3>Director of Cybersecurity</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-cyber">&#9679; Director of Cybersecurity</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Security Governance</div>
+                    <ul>
+                        <li>Security Strategy &amp; Policy Ownership</li>
+                        <li>Company-Wide Security Standards</li>
+                        <li>Risk Management &amp; Compliance</li>
+                        <li>Cross-Team Security Enforcement</li>
+                        <li>Business Growth Oversight</li>
+                        <li>Process &amp; Operational Improvement</li>
+                    </ul>
+                    <div class="area-sub">Security Validation</div>
+                    <ul>
+                        <li>Vulnerability Assessment &amp; Penetration Testing (VAPT)</li>
+                        <li>Authentication &amp; Authorization Testing</li>
+                        <li>API Security Testing</li>
+                        <li>Security Risk Analysis</li>
+                        <li>Security Recommendations</li>
+                        <li>Quality Standards Enforcement</li>
+                    </ul>
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Lead and own all security strategy, standards, validation, and enforcement across every product and process at Praskla — ensuring security is a company-wide discipline, not a single team's concern.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLE 02 -->
+        <div class="area c-b">
+            <div class="area-top">
+                <span class="area-num">02</span>
+                <h3>Secure Full-Stack Developer</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-dev">&#9679; Secure Full-Stack Developer</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Engineering</div>
+                    <ul>
+                        <li>Full-Stack Development</li>
+                        <li>Secure Architecture Review</li>
+                        <li>Secure Coding Practices</li>
+                        <li>Application Development</li>
+                        <li>Security-by-Design Implementation</li>
+                        <li>Production Readiness Support</li>
+                    </ul>
+
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Build products end-to-end with security embedded from the first line of code — combining full-stack development with security engineering to deliver reliable, scalable, and resilient systems.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLE 03 -->
+        <div class="area c-s">
+            <div class="area-top">
+                <span class="area-num">03</span>
+                <h3>Project Lead</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-lead">&#9679; Project Lead</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Project — SELMA</div>
+                    <ul>
+                        <li>Project Planning &amp; Scoping</li>
+                        <li>Sprint Alignment</li>
+                        <li>Team Coordination</li>
+                        <li>Milestone Tracking</li>
+                        <li>Risk Identification &amp; Mitigation</li>
+                        <li>Delivery Monitoring</li>
+                        <li>Stakeholder Communication</li>
+                        <li>Release Readiness Verification</li>
+                    </ul>
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Ensure project execution remains aligned with business goals, timelines, and client expectations — driving SELMA from planning to delivery with clarity and accountability.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLE 04 -->
+        <div class="area c-a" style="page-break-before: always; padding-top: 28px;">
+            <div class="area-top">
+                <span class="area-num">04</span>
+                <h3>QA Lead</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-qa">&#9679; QA Lead</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Quality Validation</div>
+                    <ul>
+                        <li>Functional Testing &amp; Verification</li>
+                        <li>Regression Testing Workflows</li>
+                        <li>User Acceptance Validation</li>
+                        <li>Release Readiness Verification</li>
+                        <li>Quality Standards Enforcement</li>
+                        <li>Automated Quality Checks</li>
+                    </ul>
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Ensure every product release meets the highest bar for quality, functionality, and user experience — serving as the final gatekeeper before production.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLE 05 -->
+        <div class="area c-r">
+            <div class="area-top">
+                <span class="area-num">05</span>
+                <h3>DevSecOps Engineer</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-devsec">&#9679; DevSecOps Engineer</span>
+                <span class="role-badge rb-dev">&#9679; Secure Full-Stack Developer</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Pipeline &amp; Integration</div>
+                    <ul>
+                        <li>CI/CD Security Integration</li>
+                        <li>Automated Security Testing in Pipelines</li>
+                        <li>Static Application Security Testing (SAST)</li>
+                        <li>Dynamic Application Security Testing (DAST)</li>
+                        <li>Dependency &amp; Vulnerability Scanning</li>
+                        <li>Secret Detection &amp; Prevention</li>
+                    </ul>
+                    <div class="area-sub">Culture &amp; Process</div>
+                    <ul>
+                        <li>Shift-Left Security Implementation</li>
+                        <li>Security Gates in Release Process</li>
+                        <li>Developer Security Awareness</li>
+                        <li>Secure Infrastructure as Code (IaC)</li>
+                        <li>Incident Response Readiness</li>
+                        <li>Continuous Compliance Monitoring</li>
+                    </ul>
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Embed security seamlessly into every phase of the development and deployment pipeline — making security a shared responsibility across development, operations, and business teams.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLE 06 -->
+        <div class="area c-t">
+            <div class="area-top">
+                <span class="area-num">06</span>
+                <h3>Security Trainer &amp; Mentor</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-train">&#9679; Security Trainer &amp; Mentor</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Teaching Focus</div>
+                    <ul>
+                        <li>Secure-by-Design Principles</li>
+                        <li>Security-First Development Mindset</li>
+                        <li>Secure Code Review &amp; Guidance</li>
+                        <li>OWASP Top 10 &amp; Security Standards</li>
+                        <li>Hands-on Secure Coding Sessions</li>
+                        <li>Threat Modelling Fundamentals</li>
+                    </ul>
+                    <div class="area-sub">Training Methods</div>
+                    <ul>
+                        <li>1-on-1 Mentorship Sessions</li>
+                        <li>Live Code Walkthroughs</li>
+                        <li>Security Anti-Pattern Reviews</li>
+                        <li>Guided Project-Based Learning</li>
+                        <li>Security Checklist Adoption</li>
+                        <li>Post-Review Knowledge Sharing</li>
+                    </ul>
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Equip interns and trainees with the knowledge and mindset to build secure software from day one — embedding security into every stage of development before bad habits form.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLE 07 -->
+        <div class="area c-g">
+            <div class="area-top">
+                <span class="area-num">07</span>
+                <h3>Business &amp; Product Strategist</h3>
+            </div>
+            <div class="area-roles">
+                <span class="role-badge rb-bus">&#9679; Business &amp; Product Strategist</span>
+            </div>
+            <div class="area-rule"></div>
+            <div class="area-body">
+                <div class="area-lists">
+                    <div class="area-sub">Product Planning</div>
+                    <ul>
+                        <li>PRD Documentation Preparation</li>
+                        <li>Client Calls alongside CEO</li>
+                        <li>Requirement Gathering &amp; Analysis</li>
+                        <li>Scope Definition &amp; Feature Prioritization</li>
+                        <li>User Story Creation</li>
+                        <li>Business Requirement Analysis</li>
+                    </ul>
+                </div>
+                <div class="area-obj-wrap">
+                    <div class="area-obj-label">Objective</div>
+                    <div class="area-obj">Bridge the gap between business objectives and technical execution — gathering direct client requirements and translating them into actionable, well-documented product plans.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vision -->
+        <div class="vision">
+            <div class="section-eyebrow">Vision</div>
+            <p>My goal is to become a business-aware secure software leader who can contribute across development, security, product planning, project delivery, and business operations.</p>
+            <p>By combining technical excellence with business understanding, I aim to help Praskla Technology build secure products, scalable processes, and sustainable growth.</p>
+        </div>
+
+    </div>
+
+    <!-- ══════════ FOOTER ══════════ -->
+    <div class="footer">
+        <p><span class="f-name">Yukeshwaran N</span> &nbsp;·&nbsp; Service &amp; Responsibility Charter &nbsp;·&nbsp; Praskla Technology</p>
+        <p>Director of Cybersecurity &nbsp;·&nbsp; Secure Full-Stack Developer &nbsp;·&nbsp; Project Lead &nbsp;·&nbsp; QA Lead &nbsp;·&nbsp; DevSecOps Engineer &nbsp;·&nbsp; Security Trainer &amp; Mentor &nbsp;·&nbsp; Business &amp; Product Strategist</p>
+    </div>
+
+</div>
+</body>
+
+</html>

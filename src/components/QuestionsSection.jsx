@@ -1,7 +1,8 @@
-import { questionGroups } from '../data/phases';
 import { t } from '../data/translations';
 
-export default function QuestionsSection({ lang }) {
+export default function QuestionsSection({ lang, questionGroups }) {
+  if (!questionGroups || questionGroups.length === 0) return null;
+
   return (
     <section className="phase" id="pq">
       <div className="phase-head">
