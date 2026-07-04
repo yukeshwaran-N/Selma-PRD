@@ -8,7 +8,7 @@ export const versions = [
     title: 'Client Review & Integration Updates',
     dateCreated: '2026-07-04',
     status: 'In Review',
-    author: 'Yukeshwaran N',
+    author: 'Pranesh',
     summary: 'Refined the user flow based on client feedback, focusing on overtime compliance and clearer contract endpoints.',
     changeLog: {
       added: [
@@ -35,7 +35,7 @@ export const versions = [
     title: 'Initial Platform PRD',
     dateCreated: '2026-06-15',
     status: 'Approved',
-    author: 'Yukeshwaran N',
+    author: 'Pranesh',
     summary: 'The foundational Product Requirements Document outlining the core user journeys, API structure, and frontend components for the Selma platform.',
     changeLog: {
       added: ['Initial core documentation'],
