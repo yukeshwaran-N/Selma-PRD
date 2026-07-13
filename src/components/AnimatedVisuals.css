@@ -1,0 +1,110 @@
+.animated-svg-container {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.anim-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0% { r: 6; fill: var(--purple); opacity: 0.8; filter: drop-shadow(0 0 4px var(--purple)); }
+  50% { r: 10; fill: var(--rose); opacity: 1; filter: drop-shadow(0 0 12px var(--rose)); }
+  100% { r: 6; fill: var(--purple); opacity: 0.8; filter: drop-shadow(0 0 4px var(--purple)); }
+}
+
+@keyframes dashFlow {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-40px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(40px); opacity: 0; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(5px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(5px); }
+}
+
+@keyframes floatDown {
+  0% { transform: translateY(-5px); }
+  50% { transform: translateY(5px); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes drawLine {
+  0% { stroke-dasharray: 0 100; }
+  100% { stroke-dasharray: 100 0; }
+}
+
+@keyframes blinkAlert {
+  0%, 100% { fill: var(--rose); transform: scale(1); }
+  50% { fill: #dc2626; transform: scale(1.1); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes searchMove {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(15px, -15px); }
+  50% { transform: translate(-10px, -20px); }
+  75% { transform: translate(-15px, 10px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Classes to apply */
+.anim-pulse {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.anim-flow {
+  stroke-dasharray: 5;
+  animation: dashFlow 1.5s infinite linear;
+}
+
+.anim-scan {
+  animation: scanLine 2.5s infinite linear;
+}
+
+.anim-float-1 {
+  animation: floatUp 4s infinite ease-in-out;
+}
+
+.anim-float-2 {
+  animation: floatDown 3.5s infinite ease-in-out;
+}
+
+.anim-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawLine 2s forwards ease-out;
+}
+
+.anim-blink {
+  animation: blinkAlert 1.5s infinite ease-in-out;
+  transform-origin: center;
+}
+
+.anim-spin {
+  animation: spinSlow 8s infinite linear;
+  transform-origin: center;
+}
+
+.anim-search {
+  animation: searchMove 4s infinite ease-in-out;
+}

@@ -5,6 +5,7 @@ import VersionStrip from './components/VersionStrip';
 import PhaseNav from './components/PhaseNav';
 import Phase from './components/Phase';
 import QuestionsSection from './components/QuestionsSection';
+import MvpVisualJourney from './components/MvpVisualJourney';
 import Footer from './components/Footer';
 import Timeline from './components/Timeline';
 import VersionDashboard from './components/VersionDashboard';
@@ -47,15 +48,23 @@ export default function App() {
         </div>
       ) : (
         <>
-          <Hero lang={lang} />
-          <VersionStrip lang={lang} versionNumber={selectedVersion.versionNumber} />
-          <PhaseNav lang={lang} phases={activePhases} />
-          <main>
-            {activePhases.map(phase => (
-              <Phase key={phase.id} phase={phase} lang={lang} />
-            ))}
-            {selectedVersion.hasQuestions && <QuestionsSection lang={lang} questionGroups={selectedVersion.questionGroups} />}
-          </main>
+          {selectedVersion.id === 'v2_1' ? (
+            <main>
+              <MvpVisualJourney lang={lang} />
+            </main>
+          ) : (
+            <>
+              <Hero lang={lang} />
+              <VersionStrip lang={lang} versionNumber={selectedVersion.versionNumber} />
+              <PhaseNav lang={lang} phases={activePhases} />
+              <main>
+                {activePhases.map(phase => (
+                  <Phase key={phase.id} phase={phase} lang={lang} />
+                ))}
+                {selectedVersion.hasQuestions && <QuestionsSection lang={lang} questionGroups={selectedVersion.questionGroups} />}
+              </main>
+            </>
+          )}
         </>
       )}
       
