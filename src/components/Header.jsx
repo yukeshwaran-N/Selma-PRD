@@ -12,7 +12,7 @@ export default function Header({ lang, onToggleLang, viewMode, onBackToTimeline 
         <img src="/logo.png" alt="Praskla Technology Logo" className="header-logo-img" />
         <div className="header-brand-text">
           <span className="header-brand">Praskla Technology</span>
-          <span className="header-slogan">Quality assured softwares firm</span>
+          <span className="header-slogan">{t('Quality assured softwares firm', lang)}</span>
         </div>
       </div>
       <button className="lang-toggle ui" onClick={onToggleLang}>

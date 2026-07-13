@@ -2,25 +2,26 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { t } from '../data/translations';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Custom UI Components for the Flowchart
-const Node = ({ title, status, isException }) => (
+const Node = ({ title, status, statusClass, isException }) => (
   <div className={`vf-node ${isException ? 'exception' : ''}`}>
     <span className="vf-title">{title}</span>
-    {status && <span className={`vf-status ${status.toLowerCase().replace(' ', '-')}`}>{status}</span>}
+    {status && <span className={`vf-status ${(statusClass || status).toLowerCase().replace(' ', '-')}`}>{status}</span>}
   </div>
 );
 
-const FilterNode = () => (
+const FilterNode = ({ lang }) => (
   <div className="vf-node filter-node">
-    <span className="vf-title">Filter by:</span>
+    <span className="vf-title">{t('Filter by:', lang)}</span>
     <div className="vf-tags">
-      <span>• Specialization</span>
-      <span>• Availability</span>
-      <span>• Distance</span>
-      <span>• Rating</span>
+      <span>{t('• Specialization', lang)}</span>
+      <span>{t('• Availability', lang)}</span>
+      <span>{t('• Distance', lang)}</span>
+      <span>{t('• Rating', lang)}</span>
     </div>
   </div>
 );
@@ -50,7 +51,7 @@ const SplitBranch = ({ leftNode, rightNode, leftLabel, rightLabel }) => (
   </div>
 );
 
-export default function MvpVisualJourney() {
+export default function MvpVisualJourney({ lang }) {
   const containerRef = useRef(null);
 
   useGSAP(() => {
@@ -93,9 +94,9 @@ export default function MvpVisualJourney() {
   return (
     <div className="mvp-visual-journey" ref={containerRef}>
       <div className="journey-header">
-        <span className="ui-badge">COMPREHENSIVE WORKFLOW</span>
-        <h2>The complete lifecycle of a Selma shift</h2>
-        <p>From initial admin setup down to exception handling and automated invoicing.</p>
+        <span className="ui-badge">{t('COMPREHENSIVE WORKFLOW', lang)}</span>
+        <h2>{t('The complete lifecycle of a Selma shift', lang)}</h2>
+        <p>{t('From initial admin setup down to exception handling and automated invoicing.', lang)}</p>
       </div>
 
       <div className="zigzag-container">
@@ -103,18 +104,18 @@ export default function MvpVisualJourney() {
         {/* Section 1: Admin Setup */}
         <div className="z-section">
           <div className="z-text">
-            <h3>1. Selma Admin Setup</h3>
-            <p>The foundation of the platform starts with compliance and onboarding.</p>
+            <h3>{t('1. Selma Admin Setup', lang)}</h3>
+            <p>{t('The foundation of the platform starts with compliance and onboarding.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Create Hospital Account" />
+              <Node title={t('Create Hospital Account', lang)} />
               <Arrow />
-              <Node title="Create Leasing Company Account" />
+              <Node title={t('Create Leasing Company Account', lang)} />
               <Arrow />
-              <Node title="Verify Compliance Documents" />
+              <Node title={t('Verify Compliance Documents', lang)} />
               <Arrow />
-              <Node title="Leasing Company Adds Nurses" />
+              <Node title={t('Leasing Company Adds Nurses', lang)} />
               <Arrow />
-              <Node title="Nurse Completes Profile & Docs" />
+              <Node title={t('Nurse Completes Profile & Docs', lang)} />
             </div>
           </div>
           <div className="z-image">
@@ -125,18 +126,18 @@ export default function MvpVisualJourney() {
         {/* Section 2: Shift Request Flow */}
         <div className="z-section reverse">
           <div className="z-text">
-            <h3>2. Shift Request Flow</h3>
-            <p>The hospital specifies the requirements and the matching engine instantly finds the perfect candidates.</p>
+            <h3>{t('2. Shift Request Flow', lang)}</h3>
+            <p>{t('The hospital specifies the requirements and the matching engine instantly finds the perfect candidates.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Hospital Creates Shift Request (Ward/Date/Time/Spec)" status="APPLIED" />
+              <Node title={t('Hospital Creates Shift Request (Ward/Date/Time/Spec)', lang)} status={t('APPLIED', lang)} statusClass="APPLIED" />
               <Arrow />
-              <Node title="Matching Engine Executes" />
+              <Node title={t('Matching Engine Executes', lang)} />
               <Arrow />
-              <FilterNode />
+              <FilterNode lang={lang} />
               <Arrow />
-              <Node title="Top 3 Agencies Selected" />
+              <Node title={t('Top 3 Agencies Selected', lang)} />
               <Arrow />
-              <Node title="Email Notification Sent" />
+              <Node title={t('Email Notification Sent', lang)} />
             </div>
           </div>
           <div className="z-image">
@@ -147,24 +148,24 @@ export default function MvpVisualJourney() {
         {/* Section 3: Leasing Company Flow */}
         <div className="z-section">
           <div className="z-text">
-            <h3>3. Leasing Company Flow</h3>
-            <p>Agencies review incoming requests and assign available nurses.</p>
+            <h3>{t('3. Leasing Company Flow', lang)}</h3>
+            <p>{t('Agencies review incoming requests and assign available nurses.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Agency Reviews Request" />
+              <Node title={t('Agency Reviews Request', lang)} />
               <Arrow />
               <SplitBranch 
-                leftLabel="ACCEPT"
+                leftLabel={t('ACCEPT', lang)}
                 leftNode={
                   <>
-                    <Node title="Shift" status="ACCEPTED" />
+                    <Node title={t('Shift', lang)} status={t('ACCEPTED', lang)} statusClass="ACCEPTED" />
                     <Arrow />
-                    <Node title="Assign Nurse" />
+                    <Node title={t('Assign Nurse', lang)} />
                     <Arrow />
-                    <Node title="Shift" status="ASSIGNED" />
+                    <Node title={t('Shift', lang)} status={t('ASSIGNED', lang)} statusClass="ASSIGNED" />
                   </>
                 }
-                rightLabel="REJECT"
-                rightNode={<Node title="Next Agency Invited" />}
+                rightLabel={t('REJECT', lang)}
+                rightNode={<Node title={t('Next Agency Invited', lang)} />}
               />
             </div>
           </div>
@@ -176,26 +177,26 @@ export default function MvpVisualJourney() {
         {/* Section 4: Nurse Flow */}
         <div className="z-section reverse">
           <div className="z-text">
-            <h3>4. Nurse Flow</h3>
-            <p>Nurses receive, confirm, and receive automated secure access for the shift.</p>
+            <h3>{t('4. Nurse Flow', lang)}</h3>
+            <p>{t('Nurses receive, confirm, and receive automated secure access for the shift.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Nurse Receives Assignment" />
+              <Node title={t('Nurse Receives Assignment', lang)} />
               <Arrow />
               <SplitBranch 
-                leftLabel="ACCEPT"
+                leftLabel={t('ACCEPT', lang)}
                 leftNode={
                   <>
-                    <Node title="Shift" status="CONFIRMED" />
+                    <Node title={t('Shift', lang)} status={t('CONFIRMED', lang)} statusClass="CONFIRMED" />
                     <Arrow />
-                    <Node title="QR Code Generated" />
+                    <Node title={t('QR Code Generated', lang)} />
                     <Arrow />
-                    <Node title="QR Sent By Email" />
+                    <Node title={t('QR Sent By Email', lang)} />
                     <Arrow />
-                    <Node title="24 Hour Reminder" />
+                    <Node title={t('24 Hour Reminder', lang)} />
                   </>
                 }
-                rightLabel="REJECT"
-                rightNode={<Node title="Return To Agency" />}
+                rightLabel={t('REJECT', lang)}
+                rightNode={<Node title={t('Return To Agency', lang)} />}
               />
             </div>
           </div>
@@ -207,22 +208,22 @@ export default function MvpVisualJourney() {
         {/* Section 5: Shift Execution Flow */}
         <div className="z-section">
           <div className="z-text">
-            <h3>5. Shift Execution Flow</h3>
-            <p>Real-time attendance tracking via QR scans at the hospital ward.</p>
+            <h3>{t('5. Shift Execution Flow', lang)}</h3>
+            <p>{t('Real-time attendance tracking via QR scans at the hospital ward.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Nurse Arrives At Hospital" />
+              <Node title={t('Nurse Arrives At Hospital', lang)} />
               <Arrow />
-              <Node title="QR Scan (Check-In)" />
+              <Node title={t('QR Scan (Check-In)', lang)} />
               <Arrow />
-              <Node title="Timestamp Recorded" status="IN PROGRESS" />
+              <Node title={t('Timestamp Recorded', lang)} status={t('IN PROGRESS', lang)} statusClass="IN PROGRESS" />
               <Arrow />
-              <Node title="Shift Worked" />
+              <Node title={t('Shift Worked', lang)} />
               <Arrow />
-              <Node title="QR Scan (Check-Out)" />
+              <Node title={t('QR Scan (Check-Out)', lang)} />
               <Arrow />
-              <Node title="Hours Calculated" />
+              <Node title={t('Hours Calculated', lang)} />
               <Arrow />
-              <Node title="Shift" status="COMPLETED" />
+              <Node title={t('Shift', lang)} status={t('COMPLETED', lang)} statusClass="COMPLETED" />
             </div>
           </div>
           <div className="z-image">
@@ -233,22 +234,22 @@ export default function MvpVisualJourney() {
         {/* Section 6: Invoice Generation Flow */}
         <div className="z-section reverse">
           <div className="z-text">
-            <h3>6. Invoice Generation Flow</h3>
-            <p>Instant financial settlement based on the exact tracked time.</p>
+            <h3>{t('6. Invoice Generation Flow', lang)}</h3>
+            <p>{t('Instant financial settlement based on the exact tracked time.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Calculate Worked Hours" />
+              <Node title={t('Calculate Worked Hours', lang)} />
               <Arrow />
-              <Node title="Hours × Hourly Rate" />
+              <Node title={t('Hours × Hourly Rate', lang)} />
               <Arrow />
-              <Node title="Calculate Selma Commission" />
+              <Node title={t('Calculate Selma Commission', lang)} />
               <Arrow />
-              <Node title="Generate Hospital Invoice (Gross Amount)" />
+              <Node title={t('Generate Hospital Invoice (Gross Amount)', lang)} />
               <Arrow />
-              <Node title="Generate Agency Invoice (Net Amount After Commission)" />
+              <Node title={t('Generate Agency Invoice (Net Amount After Commission)', lang)} />
               <Arrow />
-              <Node title="PDF Generated" />
+              <Node title={t('PDF Generated', lang)} />
               <Arrow />
-              <Node title="Download Available (Hospital / Agency / Admin)" />
+              <Node title={t('Download Available (Hospital / Agency / Admin)', lang)} />
             </div>
           </div>
           <div className="z-image">
@@ -259,20 +260,20 @@ export default function MvpVisualJourney() {
         {/* Section 7: Admin Exception Flow */}
         <div className="z-section">
           <div className="z-text">
-            <h3>7. Admin Exception Flow</h3>
-            <p>Failsafe mechanisms for manual corrections and robust auditing.</p>
+            <h3>{t('7. Admin Exception Flow', lang)}</h3>
+            <p>{t('Failsafe mechanisms for manual corrections and robust auditing.', lang)}</p>
             <div className="visual-flowchart">
-              <Node title="Failed QR Scan" isException={true} />
+              <Node title={t('Failed QR Scan', lang)} isException={true} />
               <Arrow />
-              <Node title="Attendance Flagged" isException={true} />
+              <Node title={t('Attendance Flagged', lang)} isException={true} />
               <Arrow />
-              <Node title="Admin Review" isException={true} />
+              <Node title={t('Admin Review', lang)} isException={true} />
               <Arrow />
-              <Node title="Manual Correction" isException={true} />
+              <Node title={t('Manual Correction', lang)} isException={true} />
               <Arrow />
-              <Node title="Audit Log Created" />
+              <Node title={t('Audit Log Created', lang)} />
               <Arrow />
-              <Node title="Invoice Released" />
+              <Node title={t('Invoice Released', lang)} />
             </div>
           </div>
           <div className="z-image">
